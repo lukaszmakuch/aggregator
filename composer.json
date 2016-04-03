@@ -26,5 +26,6 @@
         "phpdocumentor/phpdocumentor": "2.*"
     },
     "require": {
+        "lukaszmakuch/class-based-registry": "^0.0.2"
     }
 }

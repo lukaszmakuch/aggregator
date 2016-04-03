@@ -10,11 +10,13 @@
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 
 use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvert;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
-use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvertToArray;
 
 /**
  * Checks aggregator type.
+ * 
+ * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 abstract class ScalarPresenterTpl implements ScalarPresenter
 {
@@ -45,7 +47,7 @@ abstract class ScalarPresenterTpl implements ScalarPresenter
     {
         $supportedClass = $this->getSupportedAggregatorClass();
         if (!($aggregator instanceof $supportedClass)) {
-            throw new UnableToConvertToArray(sprintf(
+            throw new UnableToConvert(sprintf(
                 "%s expects %s, but %s was given",
                     __CLASS__,
                     $supportedClass,

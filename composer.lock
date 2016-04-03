@@ -4,9 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9e20e6016c5fd12ac43171086a9c7b27",
-    "content-hash": "7a4d281c8661ce70a2031da2cd24ddc2",
-    "packages": [],
+    "hash": "e047a6c4a06c53c21f16d411ad5ca60a",
+    "content-hash": "380d23e47cb9478599d5ef3c45fd12e3",
+    "packages": [
+        {
+            "name": "lukaszmakuch/class-based-registry",
+            "version": "v0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lukaszmakuch/class-based-registry.git",
+                "reference": "55eee78e9b55cf1eec79639e9576cd6dd5af73ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lukaszmakuch/class-based-registry/zipball/55eee78e9b55cf1eec79639e9576cd6dd5af73ba",
+                "reference": "55eee78e9b55cf1eec79639e9576cd6dd5af73ba",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phpunit/phpunit": "4.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lukaszmakuch\\ClassBasedRegistry\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Łukasz Makuch",
+                    "email": "kontakt@lukaszmakuch.pl",
+                    "homepage": "http://lukaszmakuch.pl"
+                }
+            ],
+            "description": "Registry that allows to associate a value to one ore more classes and then fetch this value by passing objects that implements these classes",
+            "time": "2016-01-16 17:52:15"
+        }
+    ],
     "packages-dev": [
         {
             "name": "cilex/cilex",

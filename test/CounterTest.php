@@ -9,6 +9,9 @@
 
 namespace lukaszmakuch\Aggregator;
 
+use lukaszmakuch\Aggregator\Cat\Cat;
+use lukaszmakuch\Aggregator\Impl\Counter\Counter;
+
 /**
  * Tests the counter.
  * 
@@ -16,17 +19,22 @@ namespace lukaszmakuch\Aggregator;
  */
 class CounterTest extends AggregatorTest
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->aggregator = new Counter();
+    }
     public function testZeroIfNothingPassed()
     {
-        $this->assertAggregationResult("count", 0);
+        $this->assertAggregationResult(['label' => 'count', 'data' => 0]);
     }
 
     public function testCountingSubjects()
     {
-        $this->aggregator->aggregate(new \stdClass());
-        $this->aggregator->aggregate(new \stdClass());
-        $this->aggregator->aggregate(new \stdClass());
+        $this->aggregator->aggregate(new Cat());
+        $this->aggregator->aggregate(new Cat());
+        $this->aggregator->aggregate(new Cat());
 
-        $this->assertAggregationResult("count", 3);
+        $this->assertAggregationResult(['label' => 'count', 'data' => 3]);
     }
 }

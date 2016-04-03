@@ -7,24 +7,24 @@
  * @license MIT http://opensource.org/licenses/MIT
  */
 
-namespace lukaszmakuch\Aggregator\LabelGenerator\Impl;
+namespace lukaszmakuch\Aggregator\LabelGenerator;
 
-use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\Impl\Counter\Counter;
+use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter;
 
 /**
  * Generates labels for counters.
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class CounterLabelGenerator extends LabelGeneratorTpl
+class CounterLabelGenerator extends ObjectToTextConverter
 {
-    protected function getClassOfSupportedAggregators()
+    protected function getClassOfSupportedObjects()
     {
         return Counter::class;
     }
 
-    protected function getLabelForImpl(Aggregator $aggregator)
+    protected function getTextBasedOnObject($object)
     {
         return "count";
     }

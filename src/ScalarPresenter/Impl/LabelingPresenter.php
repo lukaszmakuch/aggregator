@@ -10,10 +10,11 @@
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 
 use lukaszmakuch\Aggregator\Aggregator;
-use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
-use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvert;
-use lukaszmakuch\Aggregator\LabelGenerator\Exception\UnableToGenerateLabel;
 use lukaszmakuch\Aggregator\LabelGenerator\LabelGenerator;
+use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvert;
+use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
+use lukaszmakuch\Aggregator\TextGenerator\Exception\UnableToGetText;
+use lukaszmakuch\Aggregator\TextGenerator\TextGenerator;
 
 /**
  * Adds a label describing the generated result.
@@ -31,9 +32,9 @@ class LabelingPresenter implements ScalarPresenter
      * a label generator which is reponsible for generating labels for aggregators.
      * 
      * @param ScalarPresenter $actualPresenter
-     * @param LabelGenerator $labelGenerator
+     * @param TextGenerator $labelGenerator
      */
-    public function __construct(ScalarPresenter $actualPresenter, LabelGenerator $labelGenerator)
+    public function __construct(ScalarPresenter $actualPresenter, TextGenerator $labelGenerator)
     {
         $this->actualPresenter = $actualPresenter;
         $this->labelGenerator = $labelGenerator;
@@ -54,11 +55,11 @@ class LabelingPresenter implements ScalarPresenter
     {
         try {
             return [
-                'label' => $this->labelGenerator->getLabelFor($aggregator),
+                'label' => $this->labelGenerator->getTextBasedOn($aggregator),
                 'data' => $this->actualPresenter->convertToScalar($aggregator),
             ];
-        } catch (UnableToGenerateLabel $e) {
-            throw new UnableToConvertToArray(
+        } catch (UnableToGetText $e) {
+            throw new UnableToConvert(
                 sprintf("unable to render a labeled for %s", get_class($aggregator)),
                 0,
                 $e

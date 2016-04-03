@@ -7,13 +7,22 @@
  * @license MIT http://opensource.org/licenses/MIT
  */
 
-namespace lukaszmakuch\Aggregator\LabelGenerator\Exception;
+namespace lukaszmakuch\Aggregator\Cat;
 
 /**
- * Thrown when it's impossible to generate a label for an aggregator.
+ * Age of a cat.
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class UnableToGenerateLabel extends \RuntimeException
+class Age
 {
+    /**
+     * @var int
+     */
+    public $years;
+    
+    public function __construct($years)
+    {
+        $this->years = $years;
+    }
 }
