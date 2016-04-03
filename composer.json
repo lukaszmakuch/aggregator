@@ -1,0 +1,30 @@
+{
+    "name": "lukaszmakuch/aggregator",
+    "description": "Makes generating statistics independent from the database and flexible.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Łukasz Makuch",
+            "email": "kontakt@lukaszmakuch.pl",
+            "homepage": "http://lukaszmakuch.pl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "lukaszmakuch\\Aggregator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "lukaszmakuch\\Aggregator\\": "test/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpunit/phpunit": "4.7.*",
+        "phpdocumentor/phpdocumentor": "2.*"
+    },
+    "require": {
+    }
+}
