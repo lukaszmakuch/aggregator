@@ -10,7 +10,6 @@
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 
 use lukaszmakuch\Aggregator\Aggregator;
-use lukaszmakuch\Aggregator\LabelGenerator\LabelGenerator;
 use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvert;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\Aggregator\TextGenerator\Exception\UnableToGetText;
@@ -24,8 +23,8 @@ use lukaszmakuch\Aggregator\TextGenerator\TextGenerator;
 class LabelingPresenter implements ScalarPresenter
 {
     private $actualPresenter;
-
     private $labelGenerator;
+    private $aggregatorTextualTypeObtainer;
 
     /**
      * Provides a presenter used to actually convert aggregators into scalars and
@@ -33,11 +32,16 @@ class LabelingPresenter implements ScalarPresenter
      * 
      * @param ScalarPresenter $actualPresenter
      * @param TextGenerator $labelGenerator
+     * @param TextGenerator $aggregatorTextualTypeObtainer
      */
-    public function __construct(ScalarPresenter $actualPresenter, TextGenerator $labelGenerator)
-    {
+    public function __construct(
+        ScalarPresenter $actualPresenter, 
+        TextGenerator $labelGenerator,
+        TextGenerator $aggregatorTextualTypeObtainer
+    ) {
         $this->actualPresenter = $actualPresenter;
         $this->labelGenerator = $labelGenerator;
+        $this->aggregatorTextualTypeObtainer = $aggregatorTextualTypeObtainer;
     }
 
     /**
@@ -45,8 +49,9 @@ class LabelingPresenter implements ScalarPresenter
      * @return array like
      * <pre>
      * [
+     *     'type' => String name of the aggregator family (like "filter")
      *     'data' => mixed result of actual mapping to array,
-     *     'label' => String describing the aggregated result
+     *     'label' => String describing the aggregated result (like "more than 4")
      * ]
      * </pre>
      * @throws UnableToConvert
@@ -55,6 +60,7 @@ class LabelingPresenter implements ScalarPresenter
     {
         try {
             return [
+                'type' => $this->aggregatorTextualTypeObtainer->getTextBasedOn($aggregator),
                 'label' => $this->labelGenerator->getTextBasedOn($aggregator),
                 'data' => $this->actualPresenter->convertToScalar($aggregator),
             ];

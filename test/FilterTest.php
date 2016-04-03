@@ -41,8 +41,13 @@ class FilterTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat(['name' => 'Michael', 'age' => new Age(4)]));
         
         $this->assertAggregationResult([
+            'type' => 'filter',
             'label' => "older than 3",
-            'data' => ["label" => "list", "data" => "Tom, Michael"],
+            'data' => [
+                "type" => "list", 
+                "label" => "list", 
+                "data" => "Tom, Michael",
+            ],
         ]);
     }
 }

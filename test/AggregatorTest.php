@@ -14,14 +14,16 @@ use lukaszmakuch\Aggregator\Impl\Counter\Counter;
 use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\LabelGenerator\CounterLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\FilterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\CounterPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\FilterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
-use lukaszmakuch\Aggregator\ScalarPresenter\Impl\FilterPresenter;
 use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverterProxy;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\AggregatorTextualTypeObtainer;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -55,12 +57,16 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
         );
         $labelGenerator->registerActualGenerator(
             Filter::class, 
-            new LabelGenerator\FilterLabelGenerator(new OlderThanRenderer())
+            new FilterLabelGenerator(new OlderThanRenderer())
         );
         
         //build scalar presenters
+        $aggregatorTextualTypeObtainer = new AggregatorTextualTypeObtainer();
+        $aggregatorTextualTypeObtainer->addNameFor(Counter::class, "counter");
+        $aggregatorTextualTypeObtainer->addNameFor(ListAggregator::class, "list");
+        $aggregatorTextualTypeObtainer->addNameFor(Filter::class, "filter");
         $presenter = new ScalarPresenterProxy();
-        $this->scalarPresenter = new LabelingPresenter($presenter, $labelGenerator);
+        $this->scalarPresenter = new LabelingPresenter($presenter, $labelGenerator, $aggregatorTextualTypeObtainer);
         $presenter->registerActualPresenter(
             Counter::class,
             new CounterPresenter()

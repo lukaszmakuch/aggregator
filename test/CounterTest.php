@@ -26,7 +26,11 @@ class CounterTest extends AggregatorTest
     }
     public function testZeroIfNothingPassed()
     {
-        $this->assertAggregationResult(['label' => 'count', 'data' => 0]);
+        $this->assertAggregationResult([
+            'type' => 'counter',
+            'label' => 'count', 
+            'data' => 0
+        ]);
     }
 
     public function testCountingSubjects()
@@ -35,6 +39,10 @@ class CounterTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat());
         $this->aggregator->aggregate(new Cat());
 
-        $this->assertAggregationResult(['label' => 'count', 'data' => 3]);
+        $this->assertAggregationResult([
+            'type' => 'counter',
+            'label' => 'count', 
+            'data' => 3
+        ]);
     }
 }

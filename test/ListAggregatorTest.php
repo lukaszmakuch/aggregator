@@ -31,7 +31,11 @@ class ListAggregatorTest extends AggregatorTest
     
     public function testEmptyStringIfNothingPassed()
     {
-        $this->assertAggregationResult(['label' => 'list', 'data' => '']);
+        $this->assertAggregationResult([
+            'type' => 'list', 
+            'label' => 'list', 
+            'data' => ''
+        ]);
     }
     
     public function testListOfValues()
@@ -39,6 +43,10 @@ class ListAggregatorTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat(['name' => 'Bob']));
         $this->aggregator->aggregate(new Cat(['name' => 'Tom']));
         
-        $this->assertAggregationResult(['label' => 'list', 'data' => 'Bob, Tom']);
+        $this->assertAggregationResult([
+            'type' => 'list', 
+            'label' => 'list', 
+            'data' => 'Bob, Tom'
+        ]);
     }
 }
