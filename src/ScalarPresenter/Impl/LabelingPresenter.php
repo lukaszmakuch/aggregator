@@ -66,7 +66,7 @@ class LabelingPresenter implements ScalarPresenter
             ];
         } catch (UnableToGetText $e) {
             throw new UnableToConvert(
-                sprintf("unable to render a labeled for %s", get_class($aggregator)),
+                sprintf("unable to render a label for %s", get_class($aggregator)),
                 0,
                 $e
             );

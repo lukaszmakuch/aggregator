@@ -9,7 +9,6 @@
 
 namespace lukaszmakuch\Aggregator;
 
-use lukaszmakuch\Aggregator\Cat\Age;
 use lukaszmakuch\Aggregator\Cat\Cat;
 use lukaszmakuch\Aggregator\Cat\NameReader;
 use lukaszmakuch\Aggregator\Cat\OlderThan;

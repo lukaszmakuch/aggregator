@@ -46,7 +46,7 @@ class ScalarPresenterProxy implements ScalarPresenter
             $actualPresenter = $this->actualPresenters->fetchValueByObjects([$aggregator]);
             return $actualPresenter->convertToScalar($aggregator);
         } catch (ValueNotFound $e) {
-            throw new UnableToConvert("no suitable converter found");
+            throw new UnableToConvert("no suitable converter found for " . get_class($aggregator));
         }
     }
     

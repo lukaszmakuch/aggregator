@@ -10,20 +10,16 @@
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 
 use lukaszmakuch\Aggregator\Aggregator;
-use lukaszmakuch\Aggregator\Impl\Filter\Filter;
+use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
+use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 
 /**
- * Reads values of filters.
- * 
- * Example output:
- * <pre>
- *     representation of actual aggregator hidden behind a filter
- * </pre>
+ * Presents grouping aggregators.
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class FilterPresenter extends ScalarPresenterTpl
+class GroupingAggregatorPresenter extends ScalarPresenterTpl
 {
     private $presenterOfActualAggregators;
     
@@ -34,12 +30,14 @@ class FilterPresenter extends ScalarPresenterTpl
     
     protected function getSupportedAggregatorClass()
     {
-        return Filter::class;
+        return GroupingAggregator::class;
     }
 
     protected function convertToScalarImpl(Aggregator $aggregator)
     {
-        /* @var $aggregator Filter */
-        return $this->presenterOfActualAggregators->convertToScalar($aggregator->getActualAggregator());
+        /* @var $aggregator GroupingAggregator */
+        return array_map(function (AggregatorOfSubjectsWithCommonProperties $subAggregator) {
+            return $this->presenterOfActualAggregators->convertToScalar($subAggregator);
+        }, $aggregator->getAggregatorsOfSubjectsWithCommonProperties());
     }
 }

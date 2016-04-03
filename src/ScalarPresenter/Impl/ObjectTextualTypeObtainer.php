@@ -16,33 +16,38 @@ use lukaszmakuch\ClassBasedRegistry\ClassBasedRegistry;
 use lukaszmakuch\ClassBasedRegistry\Exception\ValueNotFound;
 
 /**
- * Holds a map of textual representations of aggregators. 
+ * Holds a map of textual representations of classes. 
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class AggregatorTextualTypeObtainer extends ObjectToTextConverter
+class ObjectTextualTypeObtainer extends ObjectToTextConverter
 {
-    private $textualTypesOfAggregators;
+    private $textualTypesOfObjects;
+    private $classOfSupportedObjects;
     
-    public function __construct()
+    /**
+     * @param String $classOfSupportedObjects
+     */
+    public function __construct($classOfSupportedObjects)
     {
-        $this->textualTypesOfAggregators = new ClassBasedRegistry();
+        $this->classOfSupportedObjects = $classOfSupportedObjects;
+        $this->textualTypesOfObjects = new ClassBasedRegistry();
     }
     
-    public function addNameFor($aggregatorClass, $itsName)
+    public function addNameFor($class, $itsName)
     {
-        $this->textualTypesOfAggregators->associateValueWithClasses($itsName, [$aggregatorClass]);
+        $this->textualTypesOfObjects->associateValueWithClasses($itsName, [$class]);
     }
 
     protected function getClassOfSupportedObjects()
     {
-        return Aggregator::class;
+        return $this->classOfSupportedObjects;
     }
 
     protected function getTextBasedOnObject($object)
     {
         try {
-            return $this->textualTypesOfAggregators->fetchValueByObjects([$object]);
+            return $this->textualTypesOfObjects->fetchValueByObjects([$object]);
         } catch (ValueNotFound $e) {
             throw new UnableToGetText(get_class($object) . " not found within map", 0, $e);
         }
