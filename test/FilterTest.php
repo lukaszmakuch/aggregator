@@ -28,7 +28,7 @@ class FilterTest extends AggregatorTest
         parent::setUp();
         $this->aggregator = 
             new Filter(
-                new OlderThan(new Age(3)),
+                new OlderThan(3),
                 new ListAggregator(new NameReader(), ", ")
             )
         ;
@@ -36,9 +36,9 @@ class FilterTest extends AggregatorTest
 
     public function testFilteringSubjects()
     {
-        $this->aggregator->aggregate(new Cat(['name' => 'Tom', 'age' => new Age(5)]));
-        $this->aggregator->aggregate(new Cat(['name' => 'Emma', 'age' => new Age(2)]));
-        $this->aggregator->aggregate(new Cat(['name' => 'Michael', 'age' => new Age(4)]));
+        $this->aggregator->aggregate(new Cat(['name' => 'Tom', 'age' => 5]));
+        $this->aggregator->aggregate(new Cat(['name' => 'Emma', 'age' => 2]));
+        $this->aggregator->aggregate(new Cat(['name' => 'Michael', 'age' => 4]));
         
         $this->assertAggregationResult([
             'type' => 'filter',

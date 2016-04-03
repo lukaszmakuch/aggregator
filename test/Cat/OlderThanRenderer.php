@@ -24,7 +24,6 @@ class OlderThanRenderer extends \lukaszmakuch\Aggregator\TextGenerator\ObjectToT
     protected function getTextBasedOnObject($object)
     {
         /* @var $object OlderThan */
-        return "older than " . $object->mustBeOlderThan->years;
+        return "older than " . $object->mustBeOlderThan;
     }
-
 }

@@ -22,7 +22,7 @@ class Cat
     {
         $defaultParams = [
             'name' => "Anoncat",
-            'age' => new Age(2),
+            'age' => 2,
         ];
         $this->itsParams = array_merge($defaultParams, $itsParams);
     }
@@ -36,7 +36,7 @@ class Cat
     }
     
     /**
-     * @return Age
+     * @return int years
      */
     public function getAge()
     {

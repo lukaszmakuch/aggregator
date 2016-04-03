@@ -17,11 +17,11 @@ namespace lukaszmakuch\Aggregator\Cat;
 class OlderThan implements \lukaszmakuch\Aggregator\SubjectRequirement\SubjectRequirement
 {
     /**
-     * @var Age
+     * @var int
      */
     public $mustBeOlderThan;
     
-    public function __construct(Age $mustBeOlderThan)
+    public function __construct($mustBeOlderThan)
     {
         $this->mustBeOlderThan = $mustBeOlderThan;
     }
@@ -29,6 +29,6 @@ class OlderThan implements \lukaszmakuch\Aggregator\SubjectRequirement\SubjectRe
     public function isMetFor($subject)
     {
         /* @var $subject Cat */
-        return $subject->getAge()->years > $this->mustBeOlderThan->years;
+        return $subject->getAge() > $this->mustBeOlderThan;
     }
 }
