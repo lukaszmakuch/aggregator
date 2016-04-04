@@ -9,7 +9,6 @@
 
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 
-use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\TextGenerator\Exception\UnableToGetText;
 use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter;
 use lukaszmakuch\ClassBasedRegistry\ClassBasedRegistry;

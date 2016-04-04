@@ -14,6 +14,7 @@ use lukaszmakuch\Aggregator\Cat\AgeReader;
 use lukaszmakuch\Aggregator\Cat\AgeToTextConverter;
 use lukaszmakuch\Aggregator\Cat\OlderThanRenderer;
 use lukaszmakuch\Aggregator\Impl\Counter\Counter;
+use lukaszmakuch\Aggregator\Impl\Container\Container;
 use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
@@ -24,16 +25,18 @@ use lukaszmakuch\Aggregator\LabelGenerator\CounterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\FilterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\GroupingAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\AggregatorOfSubjectsWithCommonPropertiesPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\CounterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\FilterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\GroupingAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
-use lukaszmakuch\Aggregator\ScalarPresenter\Impl\AggregatorOfSubjectsWithCommonPropertiesPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ObjectTextualTypeObtainer;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
+use lukaszmakuch\Aggregator\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverterProxy;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ContainerPresenter;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -81,6 +84,10 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
             new FilterLabelGenerator(new OlderThanRenderer())
         );
         $labelGenerator->registerActualGenerator(
+            Container::class, 
+            NULLTextGenerator::getInstance()
+        );
+        $labelGenerator->registerActualGenerator(
             GroupingAggregator::class, 
             new GroupingAggregatorLabelGenerator($propertyReaderToTextConverter)
         );
@@ -94,6 +101,7 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
         $aggregatorTextualTypeObtainer->addNameFor(Counter::class, "counter");
         $aggregatorTextualTypeObtainer->addNameFor(ListAggregator::class, "list");
         $aggregatorTextualTypeObtainer->addNameFor(Filter::class, "filter");
+        $aggregatorTextualTypeObtainer->addNameFor(Container::class, "container");
         $aggregatorTextualTypeObtainer->addNameFor(GroupingAggregator::class, "group");
         $aggregatorTextualTypeObtainer->addNameFor(AggregatorOfSubjectsWithCommonProperties::class, "subjects_with_common_properties");
         $presenter = new ScalarPresenterProxy();
@@ -113,6 +121,10 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
         $presenter->registerActualPresenter(
             GroupingAggregator::class, 
             new GroupingAggregatorPresenter($this->scalarPresenter)
+        );
+        $presenter->registerActualPresenter(
+            Container::class, 
+            new ContainerPresenter($this->scalarPresenter)
         );
         $presenter->registerActualPresenter(
             AggregatorOfSubjectsWithCommonProperties::class, 
