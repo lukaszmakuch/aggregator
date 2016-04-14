@@ -10,7 +10,7 @@
 namespace lukaszmakuch\Aggregator\TextGenerator;
 
 /**
- * Returns an empty string for any object.
+ * Always returns an empty string.
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
