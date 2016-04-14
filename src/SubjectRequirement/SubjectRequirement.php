@@ -19,8 +19,7 @@ interface SubjectRequirement
     /**
      * @param mixed $subject
      * 
-     * @return boolean true if the given subjects meets this requirement
-     * 
+     * @return boolean true if the given subject meets this requirement
      */
     public function isMetFor($subject);
 }
