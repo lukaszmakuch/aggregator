@@ -23,6 +23,13 @@ class Container implements Aggregator
      */
     private $actualAggregators = [];
     
+    public function __clone()
+    {
+        array_walk($this->actualAggregators, function (Aggregator $aggregatorToClone, $itsKey) {
+            $this->actualAggregators[$itsKey] = clone $aggregatorToClone;
+        });
+    }
+    
     /**
      * Adds a new aggregator to the container.
      * 
