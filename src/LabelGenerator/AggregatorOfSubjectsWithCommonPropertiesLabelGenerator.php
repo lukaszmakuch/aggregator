@@ -10,8 +10,8 @@
 namespace lukaszmakuch\Aggregator\LabelGenerator;
 
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
-use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter;
-use lukaszmakuch\Aggregator\TextGenerator\TextGenerator;
+use lukaszmakuch\TextGenerator\ObjectToTextConverter;
+use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Provides a textual representation a comparable property.

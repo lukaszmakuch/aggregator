@@ -18,7 +18,6 @@ use lukaszmakuch\Aggregator\Impl\Container\Container;
 use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
-use lukaszmakuch\Aggregator\Impl\GroupingAggregator\PropertyReader;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\LabelGenerator\AggregatorOfSubjectsWithCommonPropertiesLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\CounterLabelGenerator;
@@ -31,11 +30,11 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Impl\FilterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\GroupingAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
-use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ObjectTextualTypeObtainer;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
-use lukaszmakuch\Aggregator\TextGenerator\NULLTextGenerator;
-use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverterProxy;
+use lukaszmakuch\TextGenerator\NULLTextGenerator;
+use lukaszmakuch\TextGenerator\ClassBasedTextGeneratorProxy;
+use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ContainerPresenter;
 use PHPUnit_Framework_TestCase;
 
@@ -59,18 +58,18 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         //property reader to text converter
-        $propertyReaderToTextConverter = new ObjectTextualTypeObtainer(PropertyReader::class);
-        $propertyReaderToTextConverter->addNameFor(AgeReader::class, "age");
+        $propertyReaderToTextConverter = new ClassBasedTextGenerator();
+        $propertyReaderToTextConverter->addTextualRepresentationOf(AgeReader::class, "age");
 
         //property to text converter
-        $propertyToTextConverter = new ObjectToTextConverterProxy();
+        $propertyToTextConverter = new ClassBasedTextGeneratorProxy();
         $propertyToTextConverter->registerActualGenerator(
             Age::class, 
             new AgeToTextConverter()
         );
         
         //build label generators
-        $labelGenerator = new ObjectToTextConverterProxy();
+        $labelGenerator = new ClassBasedTextGeneratorProxy();
         $labelGenerator->registerActualGenerator(
             Counter::class, 
             new CounterLabelGenerator()
@@ -97,13 +96,31 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
         );
         
         //build scalar presenters
-        $aggregatorTextualTypeObtainer = new ObjectTextualTypeObtainer(Aggregator::class);
-        $aggregatorTextualTypeObtainer->addNameFor(Counter::class, "counter");
-        $aggregatorTextualTypeObtainer->addNameFor(ListAggregator::class, "list");
-        $aggregatorTextualTypeObtainer->addNameFor(Filter::class, "filter");
-        $aggregatorTextualTypeObtainer->addNameFor(Container::class, "container");
-        $aggregatorTextualTypeObtainer->addNameFor(GroupingAggregator::class, "group");
-        $aggregatorTextualTypeObtainer->addNameFor(AggregatorOfSubjectsWithCommonProperties::class, "subjects_with_common_properties");
+        $aggregatorTextualTypeObtainer = new ClassBasedTextGenerator();
+        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
+            Counter::class, 
+            "counter"
+        );
+        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
+            ListAggregator::class, 
+            "list"
+        );
+        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
+            Filter::class, 
+            "filter"
+        );
+        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
+            Container::class, 
+            "container"
+        );
+        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
+            GroupingAggregator::class, 
+            "group"
+        );
+        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
+            AggregatorOfSubjectsWithCommonProperties::class, 
+            "subjects_with_common_properties"
+        );
         $presenter = new ScalarPresenterProxy();
         $this->scalarPresenter = new LabelingPresenter($presenter, $labelGenerator, $aggregatorTextualTypeObtainer);
         $presenter->registerActualPresenter(

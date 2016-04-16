@@ -9,12 +9,14 @@
 
 namespace lukaszmakuch\Aggregator\Cat;
 
+use lukaszmakuch\TextGenerator\ObjectToTextConverter;
+
 /**
  * Test subject.
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class OlderThanRenderer extends \lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter
+class OlderThanRenderer extends ObjectToTextConverter
 {
     protected function getClassOfSupportedObjects()
     {

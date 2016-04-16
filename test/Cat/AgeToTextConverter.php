@@ -9,12 +9,15 @@
 
 namespace lukaszmakuch\Aggregator\Cat;
 
+use lukaszmakuch\Aggregator\Cat\Age;
+use lukaszmakuch\TextGenerator\ObjectToTextConverter;
+
 /**
  * Renders age as a string.
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class AgeToTextConverter extends \lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter
+class AgeToTextConverter extends ObjectToTextConverter
 {
     protected function getClassOfSupportedObjects()
     {
@@ -26,5 +29,4 @@ class AgeToTextConverter extends \lukaszmakuch\Aggregator\TextGenerator\ObjectTo
         /* @var $object Age */
         return "age " . $object->years;
     }
-
 }

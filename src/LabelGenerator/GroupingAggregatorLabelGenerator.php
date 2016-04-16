@@ -10,8 +10,8 @@
 namespace lukaszmakuch\Aggregator\LabelGenerator;
 
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
-use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter;
-use lukaszmakuch\Aggregator\TextGenerator\TextGenerator;
+use lukaszmakuch\TextGenerator\ObjectToTextConverter;
+use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Generates labels for grouping aggregators.
@@ -21,7 +21,7 @@ use lukaszmakuch\Aggregator\TextGenerator\TextGenerator;
 class GroupingAggregatorLabelGenerator extends ObjectToTextConverter
 {
     private $propertyReaderToTextConverter;
-    
+
     public function __construct(TextGenerator $propertyReaderToTextConverter)
     {
         $this->propertyReaderToTextConverter = $propertyReaderToTextConverter;

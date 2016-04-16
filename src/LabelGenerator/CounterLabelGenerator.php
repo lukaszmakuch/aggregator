@@ -10,7 +10,7 @@
 namespace lukaszmakuch\Aggregator\LabelGenerator;
 
 use lukaszmakuch\Aggregator\Impl\Counter\Counter;
-use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter;
+use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 
 /**
  * Generates labels for counters.

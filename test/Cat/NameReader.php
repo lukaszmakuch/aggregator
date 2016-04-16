@@ -9,7 +9,7 @@
 
 namespace lukaszmakuch\Aggregator\Cat;
 
-use \lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter;
+use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 
 /**
  * Reads a cat's name.

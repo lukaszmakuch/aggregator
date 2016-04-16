@@ -11,8 +11,8 @@ namespace lukaszmakuch\Aggregator\Impl\ListAggregator;
 
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\Exception\UnableToAggregate;
-use lukaszmakuch\Aggregator\TextGenerator\Exception\UnableToGetText;
-use lukaszmakuch\Aggregator\TextGenerator\TextGenerator;
+use lukaszmakuch\TextGenerator\Exception\UnableToGetText;
+use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Generates a list of text representations of subjects separated with

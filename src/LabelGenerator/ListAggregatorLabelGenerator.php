@@ -10,7 +10,7 @@
 namespace lukaszmakuch\Aggregator\LabelGenerator;
 
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
-use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter;
+use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 
 /**
  * Generates labels for list aggregators.

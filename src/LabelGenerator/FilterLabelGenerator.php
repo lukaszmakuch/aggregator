@@ -10,8 +10,8 @@
 namespace lukaszmakuch\Aggregator\LabelGenerator;
 
 use lukaszmakuch\Aggregator\Impl\Filter\Filter;
-use lukaszmakuch\Aggregator\TextGenerator\ObjectToTextConverter;
-use lukaszmakuch\Aggregator\TextGenerator\TextGenerator;
+use lukaszmakuch\TextGenerator\ObjectToTextConverter;
+use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Generates labels for filters.
