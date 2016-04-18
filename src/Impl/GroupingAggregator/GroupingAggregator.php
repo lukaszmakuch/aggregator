@@ -11,7 +11,9 @@ namespace lukaszmakuch\Aggregator\Impl\GroupingAggregator;
 
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\Exception\UnableToAggregate;
-use lukaszmakuch\Aggregator\Impl\GroupingAggregator\Exception\UnableToReadProperty;
+use lukaszmakuch\Aggregator\SubjectProperty\Exception\UnableToReadProperty;
+use lukaszmakuch\Aggregator\SubjectProperty\PropertyReader;
+use lukaszmakuch\Aggregator\SubjectProperty\ComparableProperty;
 
 /**
  * Groups subjects by some property.

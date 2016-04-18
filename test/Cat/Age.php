@@ -9,7 +9,7 @@
 
 namespace lukaszmakuch\Aggregator\Cat;
 
-use lukaszmakuch\Aggregator\Impl\GroupingAggregator\ComparableProperty;
+use lukaszmakuch\Aggregator\SubjectProperty\ComparableProperty;
 
 /**
  * Represents comparable age of a cat.

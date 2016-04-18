@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\Impl\GroupingAggregator;
 
 use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\SubjectProperty\ComparableProperty;
 
 class AggregatorOfSubjectsWithCommonProperties implements Aggregator
 {

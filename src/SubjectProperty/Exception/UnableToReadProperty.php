@@ -7,8 +7,13 @@
  * @license MIT http://opensource.org/licenses/MIT
  */
 
-namespace lukaszmakuch\Aggregator\Impl\GroupingAggregator\Exception;
+namespace lukaszmakuch\Aggregator\SubjectProperty\Exception;
 
+/**
+ * Thrown when it's impossible to read property of a subject.
+ * 
+ * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
+ */
 class UnableToReadProperty extends \RuntimeException
 {
 }

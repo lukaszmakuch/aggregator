@@ -7,7 +7,7 @@
  * @license MIT http://opensource.org/licenses/MIT
  */
 
-namespace lukaszmakuch\Aggregator\Impl\GroupingAggregator;
+namespace lukaszmakuch\Aggregator\SubjectProperty;
 
 /**
  * A property that may be compared for equality with another property.

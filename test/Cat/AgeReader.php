@@ -9,8 +9,8 @@
 
 namespace lukaszmakuch\Aggregator\Cat;
 
-use lukaszmakuch\Aggregator\Impl\GroupingAggregator\Exception\UnableToReadProperty;
-use lukaszmakuch\Aggregator\Impl\GroupingAggregator\PropertyReader;
+use lukaszmakuch\Aggregator\SubjectProperty\Exception\UnableToReadProperty;
+use lukaszmakuch\Aggregator\SubjectProperty\PropertyReader;
 
 /**
  * Reads age of a cat.

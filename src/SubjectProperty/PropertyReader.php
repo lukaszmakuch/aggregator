@@ -7,9 +7,9 @@
  * @license MIT http://opensource.org/licenses/MIT
  */
 
-namespace lukaszmakuch\Aggregator\Impl\GroupingAggregator;
+namespace lukaszmakuch\Aggregator\SubjectProperty;
 
-use lukaszmakuch\Aggregator\Impl\GroupingAggregator\Exception\UnableToReadProperty;
+use lukaszmakuch\Aggregator\SubjectProperty\Exception\UnableToReadProperty;
 
 /**
  * Reads a property of the given subject.
