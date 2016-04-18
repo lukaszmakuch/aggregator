@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\LabelGenerator;
 
 use lukaszmakuch\Aggregator\Impl\Filter\Filter;
+use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 use lukaszmakuch\TextGenerator\TextGenerator;
 
@@ -18,13 +19,18 @@ use lukaszmakuch\TextGenerator\TextGenerator;
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class FilterLabelGenerator extends ObjectToTextConverter
+class FilterLabelGenerator extends ObjectToTextConverter implements RequirementToTextConverterUser
 {
     private $requirementToTextConverter;
 
-    public function __construct(TextGenerator $requirementToTextConverter)
+    public function __construct()
     {
-        $this->requirementToTextConverter = $requirementToTextConverter;
+        $this->requirementToTextConverter = NULLTextGenerator::getInstance();
+    }
+    
+    public function setRequirementToTextConverter(TextGenerator $converter)
+    {
+        $this->requirementToTextConverter = $converter;
     }
 
     protected function getClassOfSupportedObjects()

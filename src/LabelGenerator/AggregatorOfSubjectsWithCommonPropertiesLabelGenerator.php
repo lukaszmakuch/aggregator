@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\LabelGenerator;
 
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
+use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 use lukaszmakuch\TextGenerator\TextGenerator;
 
@@ -18,15 +19,22 @@ use lukaszmakuch\TextGenerator\TextGenerator;
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class AggregatorOfSubjectsWithCommonPropertiesLabelGenerator extends ObjectToTextConverter
+class AggregatorOfSubjectsWithCommonPropertiesLabelGenerator 
+    extends ObjectToTextConverter 
+    implements PropertyToTextConverterUser
 {
     private $propertyToTextConverter;
     
-    public function __construct(TextGenerator $propertyToTextConverter)
+    public function __construct()
     {
-        $this->propertyToTextConverter = $propertyToTextConverter;
+        $this->propertyToTextConverter = NULLTextGenerator::getInstance();
     }
-    
+
+    public function setPropertyToTextConverter(TextGenerator $converter)
+    {
+        $this->propertyToTextConverter = $converter;
+    }
+
     protected function getClassOfSupportedObjects()
     {
         return AggregatorOfSubjectsWithCommonProperties::class;
@@ -36,4 +44,7 @@ class AggregatorOfSubjectsWithCommonPropertiesLabelGenerator extends ObjectToTex
     {
         return $this->propertyToTextConverter->getTextBasedOn($object->getCommonProperty());
     }
+
+
+
 }

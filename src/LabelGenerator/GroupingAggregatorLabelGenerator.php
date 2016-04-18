@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\LabelGenerator;
 
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
+use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 use lukaszmakuch\TextGenerator\TextGenerator;
 
@@ -18,15 +19,21 @@ use lukaszmakuch\TextGenerator\TextGenerator;
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class GroupingAggregatorLabelGenerator extends ObjectToTextConverter
+class GroupingAggregatorLabelGenerator extends ObjectToTextConverter implements PropertyReaderToTextConverterUser
 {
+    
     private $propertyReaderToTextConverter;
 
-    public function __construct(TextGenerator $propertyReaderToTextConverter)
+    public function __construct()
     {
-        $this->propertyReaderToTextConverter = $propertyReaderToTextConverter;
+        $this->propertyReaderToTextConverter = NULLTextGenerator::getInstance();
     }
 
+    public function setPropertyReaderToTextConverter(TextGenerator $converter) 
+    {
+        $this->propertyReaderToTextConverter = $converter;
+    }
+    
     protected function getClassOfSupportedObjects()
     {
         return GroupingAggregator::class;
@@ -37,4 +44,7 @@ class GroupingAggregatorLabelGenerator extends ObjectToTextConverter
         /* @var $object GroupingAggregator */
         return "grouped by " . $this->propertyReaderToTextConverter->getTextBasedOn($object->getPropertyReader());
     }
+
+
+
 }

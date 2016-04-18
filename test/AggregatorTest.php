@@ -13,18 +13,20 @@ use lukaszmakuch\Aggregator\Cat\Age;
 use lukaszmakuch\Aggregator\Cat\AgeReader;
 use lukaszmakuch\Aggregator\Cat\AgeToTextConverter;
 use lukaszmakuch\Aggregator\Cat\OlderThanRenderer;
-use lukaszmakuch\Aggregator\Impl\Counter\Counter;
 use lukaszmakuch\Aggregator\Impl\Container\Container;
+use lukaszmakuch\Aggregator\Impl\Counter\Counter;
 use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\LabelGenerator\AggregatorOfSubjectsWithCommonPropertiesLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\Builder\LabelGeneratorBuilder;
 use lukaszmakuch\Aggregator\LabelGenerator\CounterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\FilterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\GroupingAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\AggregatorOfSubjectsWithCommonPropertiesPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ContainerPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\CounterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\FilterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\GroupingAggregatorPresenter;
@@ -32,11 +34,11 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
-use lukaszmakuch\TextGenerator\NULLTextGenerator;
-use lukaszmakuch\TextGenerator\ClassBasedTextGeneratorProxy;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
-use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ContainerPresenter;
+use lukaszmakuch\TextGenerator\ClassBasedTextGeneratorProxy;
+use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use PHPUnit_Framework_TestCase;
+use lukaszmakuch\Aggregator\LabelGenerator\PropertyReaderToTextConverterUser;
 
 /**
  * Contains common part of aggregators tests.
@@ -69,31 +71,50 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
         );
         
         //build label generators
-        $labelGenerator = new ClassBasedTextGeneratorProxy();
-        $labelGenerator->registerActualGenerator(
-            Counter::class, 
-            new CounterLabelGenerator()
-        );
-        $labelGenerator->registerActualGenerator(
-            ListAggregator::class, 
-            new ListAggregatorLabelGenerator()
-        );
-        $labelGenerator->registerActualGenerator(
-            Filter::class, 
-            new FilterLabelGenerator(new OlderThanRenderer())
-        );
-        $labelGenerator->registerActualGenerator(
-            Container::class, 
-            NULLTextGenerator::getInstance()
-        );
-        $labelGenerator->registerActualGenerator(
-            GroupingAggregator::class, 
-            new GroupingAggregatorLabelGenerator($propertyReaderToTextConverter)
-        );
-        $labelGenerator->registerActualGenerator(
-            AggregatorOfSubjectsWithCommonProperties::class, 
-            new AggregatorOfSubjectsWithCommonPropertiesLabelGenerator($propertyToTextConverter)
-        );
+        //new way of building the label generator
+        $labelGenerator = (new LabelGeneratorBuilder())
+            ->registerLabelGeneratorPrototype(
+                Counter::class, 
+                new CounterLabelGenerator()
+            )
+            ->registerLabelGeneratorPrototype(
+                ListAggregator::class, 
+                new ListAggregatorLabelGenerator()
+            )
+            ->registerLabelGeneratorPrototype(
+                Filter::class, 
+                new FilterLabelGenerator()
+            )
+            ->registerLabelGeneratorPrototype(
+                Container::class, 
+                NULLTextGenerator::getInstance()
+            )
+            ->registerLabelGeneratorPrototype(
+                GroupingAggregator::class, 
+                new GroupingAggregatorLabelGenerator()
+            )
+            ->registerLabelGeneratorPrototype(
+                AggregatorOfSubjectsWithCommonProperties::class, 
+                new AggregatorOfSubjectsWithCommonPropertiesLabelGenerator()
+            )
+            ->registerDependency(
+                PropertyReaderToTextConverterUser::class,
+                "setPropertyReaderToTextConverter",
+                $propertyReaderToTextConverter
+            )
+            ->registerDependency(
+                LabelGenerator\RequirementToTextConverterUser::class,
+                "setRequirementToTextConverter",
+                new OlderThanRenderer()
+            )
+            ->registerDependency(
+                LabelGenerator\PropertyToTextConverterUser::class,
+                "setPropertyToTextConverter",
+                $propertyToTextConverter
+            )
+            ->build()
+        ;
+        
         
         //build scalar presenters
         $aggregatorTextualTypeObtainer = new ClassBasedTextGenerator();

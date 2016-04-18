@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e525c9eddc230d443561fb3b64e590c8",
-    "content-hash": "2e2d11e9dd07646b4781f0a6b9381d67",
+    "hash": "25a1ebaff4743499e187f9f5f56d07ea",
+    "content-hash": "fd5a231ec57237fd43fed598940cf2c2",
     "packages": [
         {
             "name": "lukaszmakuch/class-based-registry",
@@ -44,6 +44,43 @@
             ],
             "description": "Registry that allows to associate a value to one ore more classes and then fetch this value by passing objects that implements these classes",
             "time": "2016-01-16 17:52:15"
+        },
+        {
+            "name": "lukaszmakuch/property-setter",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lukaszmakuch/property-setter.git",
+                "reference": "c60eea5152d047698f259385ba483ec206d05182"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lukaszmakuch/property-setter/zipball/c60eea5152d047698f259385ba483ec206d05182",
+                "reference": "c60eea5152d047698f259385ba483ec206d05182",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lukaszmakuch\\PropertySetter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Łukasz Makuch",
+                    "email": "kontakt@lukaszmakuch.pl",
+                    "homepage": "http://lukaszmakuch.pl"
+                }
+            ],
+            "description": "Sets properties of already existing objects.",
+            "time": "2016-04-17 17:36:42"
         },
         {
             "name": "lukaszmakuch/text-generator",
