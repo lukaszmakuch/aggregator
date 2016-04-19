@@ -99,17 +99,14 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
             )
             ->registerDependency(
                 PropertyReaderToTextConverterUser::class,
-                "setPropertyReaderToTextConverter",
                 $propertyReaderToTextConverter
             )
             ->registerDependency(
                 LabelGenerator\RequirementToTextConverterUser::class,
-                "setRequirementToTextConverter",
                 new OlderThanRenderer()
             )
             ->registerDependency(
                 LabelGenerator\PropertyToTextConverterUser::class,
-                "setPropertyToTextConverter",
                 $propertyToTextConverter
             )
             ->build()

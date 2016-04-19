@@ -28,6 +28,6 @@
     "require": {
         "lukaszmakuch/class-based-registry": "^0.0.2",
         "lukaszmakuch/text-generator": "^0.2.0",
-        "lukaszmakuch/property-setter": "^0.1.0"
+        "lukaszmakuch/property-setter": "^0.2.0"
     }
 }

@@ -9,7 +9,7 @@
 
 namespace lukaszmakuch\Aggregator\LabelGenerator\Builder;
 
-use lukaszmakuch\PropertySetter\SettingStrategy\CallSetterMethod;
+use lukaszmakuch\PropertySetter\SettingStrategy\CallOnlyMethodAsSetter;
 use lukaszmakuch\PropertySetter\SilentChainOfPropertySetters;
 use lukaszmakuch\PropertySetter\SimpleChainOfPropertySetters;
 use lukaszmakuch\PropertySetter\SimplePropertySetter;
@@ -33,12 +33,8 @@ class LabelGeneratorBuilder
     private $genProtoByClassOfSupportedAgg = [];
     
     /**
-     *
      * @var array like [
-     *   String (clsas of dependent generator) => [
-     *     String (setter method), 
-     *     mixed (dependency)
-     *   ]
+     *   String (class of dependent generator) => mixed (dependency), ...
      * ]
      */
     private $dependencies = [];
@@ -59,20 +55,15 @@ class LabelGeneratorBuilder
 
     /**
      * @param String $classOfDependentLabelGenerator
-     * @param String $setterMethod
      * @param String $dependency
      * 
      * @return LabelGeneratorBuilder self
      */
     public function registerDependency(
         $classOfDependentLabelGenerator,
-        $setterMethod,
         $dependency
     ) {
-        $this->dependencies[$classOfDependentLabelGenerator] = [
-            $setterMethod,
-            $dependency
-        ];
+        $this->dependencies[$classOfDependentLabelGenerator] = $dependency;
         return $this;
     }
 
@@ -84,11 +75,11 @@ class LabelGeneratorBuilder
         $dependencySetterChain = new SilentChainOfPropertySetters(
             new SimpleChainOfPropertySetters()
         );
-        foreach ($this->dependencies as $classOfDependentObject => $setterAndDependency) {
+        foreach ($this->dependencies as $classOfDependentObject => $dependency) {
             $dependencySetterChain->add(new SimplePropertySetter(
                 new PickByClass($classOfDependentObject), 
-                new CallSetterMethod($setterAndDependency[0]), 
-                new UseDirectly($setterAndDependency[1])
+                new CallOnlyMethodAsSetter($classOfDependentObject), 
+                new UseDirectly($dependency)
             ));
         }
         
