@@ -19,15 +19,20 @@ use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class GroupingAggregatorPresenter extends ScalarPresenterTpl
+class GroupingAggregatorPresenter extends ScalarPresenterTpl implements \lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser
 {
     private $presenterOfActualAggregators;
     
-    public function __construct(ScalarPresenter $presenterOfActualAggregators)
+    public function __construct()
     {
-        $this->presenterOfActualAggregators = $presenterOfActualAggregators;
+        $this->presenterOfActualAggregators = new PresenterReturningStaticValue("");
     }
-    
+
+    public function setScalarPresenter(ScalarPresenter $presenter)
+    {
+        $this->presenterOfActualAggregators = $presenter;
+    }
+
     protected function getSupportedAggregatorClass()
     {
         return GroupingAggregator::class;

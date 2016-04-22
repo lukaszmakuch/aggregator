@@ -12,6 +12,7 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 
 /**
  * Reads values of filters.
@@ -23,15 +24,20 @@ use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class FilterPresenter extends ScalarPresenterTpl
+class FilterPresenter extends ScalarPresenterTpl implements ScalarPresenterUser
 {
     private $presenterOfActualAggregators;
-    
-    public function __construct(ScalarPresenter $presenterOfActualAggregators)
+
+    public function __construct()
     {
-        $this->presenterOfActualAggregators = $presenterOfActualAggregators;
+        $this->presenterOfActualAggregators = new PresenterReturningStaticValue("");
     }
-    
+
+    public function setScalarPresenter(ScalarPresenter $presenter)
+    {
+        $this->presenterOfActualAggregators = $presenter;
+    }
+
     protected function getSupportedAggregatorClass()
     {
         return Filter::class;

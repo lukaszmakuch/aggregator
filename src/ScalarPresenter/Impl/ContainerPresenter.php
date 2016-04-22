@@ -11,6 +11,8 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\Impl\Container\Container;
+use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 
 
 /**
@@ -23,18 +25,23 @@ use lukaszmakuch\Aggregator\Impl\Container\Container;
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class ContainerPresenter extends ScalarPresenterTpl
+class ContainerPresenter extends ScalarPresenterTpl implements ScalarPresenterUser
 {
     /**
-     * @var \lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter 
+     * @var ScalarPresenter 
      */
     private $presenterOfElements;
-    
-    public function __construct(\lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter $presenterOfElements)
+
+    public function __construct()
     {
-        $this->presenterOfElements = $presenterOfElements;
+        $this->presenterOfElements = new PresenterReturningStaticValue("");
     }
-    
+
+    public function setScalarPresenter(ScalarPresenter $presenter)
+    {
+        $this->presenterOfElements = $presenter;
+    }
+
     protected function convertToScalarImpl(Aggregator $aggregator)
     {
         /* @var $aggregator Container */

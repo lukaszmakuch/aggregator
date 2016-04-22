@@ -25,20 +25,19 @@ use lukaszmakuch\Aggregator\LabelGenerator\CounterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\FilterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\GroupingAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\PropertyReaderToTextConverterUser;
+use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ScalarPresenterBuilder;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\AggregatorOfSubjectsWithCommonPropertiesPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ContainerPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\CounterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\FilterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\GroupingAggregatorPresenter;
-use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
-use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
 use lukaszmakuch\TextGenerator\ClassBasedTextGeneratorProxy;
 use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use PHPUnit_Framework_TestCase;
-use lukaszmakuch\Aggregator\LabelGenerator\PropertyReaderToTextConverterUser;
 
 /**
  * Contains common part of aggregators tests.
@@ -69,33 +68,44 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
             Age::class, 
             new AgeToTextConverter()
         );
-        
-        //build label generators
-        //new way of building the label generator
-        $labelGenerator = (new LabelGeneratorBuilder())
-            ->registerLabelGeneratorPrototype(
-                Counter::class, 
-                new CounterLabelGenerator()
+
+        //build the scalar presenter
+        $this->scalarPresenter = (new ScalarPresenterBuilder())
+            ->registerPresenter(
+                Counter::class,
+                new CounterPresenter(),
+                new CounterLabelGenerator(),
+                "counter"
             )
-            ->registerLabelGeneratorPrototype(
+            ->registerPresenter(
                 ListAggregator::class, 
-                new ListAggregatorLabelGenerator()
+                new ListAggregatorPresenter(),
+                new ListAggregatorLabelGenerator(),
+                "list"
             )
-            ->registerLabelGeneratorPrototype(
+            ->registerPresenter(
                 Filter::class, 
-                new FilterLabelGenerator()
+                new FilterPresenter(),
+                new FilterLabelGenerator(),
+                "filter"
             )
-            ->registerLabelGeneratorPrototype(
-                Container::class, 
-                NULLTextGenerator::getInstance()
-            )
-            ->registerLabelGeneratorPrototype(
+            ->registerPresenter(
                 GroupingAggregator::class, 
-                new GroupingAggregatorLabelGenerator()
+                new GroupingAggregatorPresenter(),
+                new GroupingAggregatorLabelGenerator(),
+                "group"
             )
-            ->registerLabelGeneratorPrototype(
+            ->registerPresenter(
+                Container::class, 
+                new ContainerPresenter(),
+                NULLTextGenerator::getInstance(),
+                "container"
+            )
+            ->registerPresenter(
                 AggregatorOfSubjectsWithCommonProperties::class, 
-                new AggregatorOfSubjectsWithCommonPropertiesLabelGenerator()
+                new AggregatorOfSubjectsWithCommonPropertiesPresenter(),
+                new AggregatorOfSubjectsWithCommonPropertiesLabelGenerator(),
+                "subjects_with_common_properties"
             )
             ->registerDependency(
                 PropertyReaderToTextConverterUser::class,
@@ -109,62 +119,8 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
                 LabelGenerator\PropertyToTextConverterUser::class,
                 $propertyToTextConverter
             )
-            ->build()
+            ->build();
         ;
-        
-        
-        //build scalar presenters
-        $aggregatorTextualTypeObtainer = new ClassBasedTextGenerator();
-        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
-            Counter::class, 
-            "counter"
-        );
-        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
-            ListAggregator::class, 
-            "list"
-        );
-        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
-            Filter::class, 
-            "filter"
-        );
-        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
-            Container::class, 
-            "container"
-        );
-        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
-            GroupingAggregator::class, 
-            "group"
-        );
-        $aggregatorTextualTypeObtainer->addTextualRepresentationOf(
-            AggregatorOfSubjectsWithCommonProperties::class, 
-            "subjects_with_common_properties"
-        );
-        $presenter = new ScalarPresenterProxy();
-        $this->scalarPresenter = new LabelingPresenter($presenter, $labelGenerator, $aggregatorTextualTypeObtainer);
-        $presenter->registerActualPresenter(
-            Counter::class,
-            new CounterPresenter()
-        );
-        $presenter->registerActualPresenter(
-            ListAggregator::class, 
-            new ListAggregatorPresenter()
-        );
-        $presenter->registerActualPresenter(
-            Filter::class, 
-            new FilterPresenter($this->scalarPresenter)
-        );
-        $presenter->registerActualPresenter(
-            GroupingAggregator::class, 
-            new GroupingAggregatorPresenter($this->scalarPresenter)
-        );
-        $presenter->registerActualPresenter(
-            Container::class, 
-            new ContainerPresenter($this->scalarPresenter)
-        );
-        $presenter->registerActualPresenter(
-            AggregatorOfSubjectsWithCommonProperties::class, 
-            new AggregatorOfSubjectsWithCommonPropertiesPresenter($this->scalarPresenter)
-        );
     }
 
     /**

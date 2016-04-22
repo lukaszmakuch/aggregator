@@ -12,6 +12,7 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvert;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 use lukaszmakuch\TextGenerator\Exception\UnableToGetText;
 use lukaszmakuch\TextGenerator\TextGenerator;
 

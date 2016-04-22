@@ -41,15 +41,15 @@ class LabelGeneratorBuilder
     
     /**
      * @param String $classOfSupportedAggregators
-     * @param TextGenerator $labelGeneratorBuilderPrototype
+     * @param TextGenerator $labelGeneratorPrototype
      * 
      * @return LabelGeneratorBuilder self
      */
     public function registerLabelGeneratorPrototype(
         $classOfSupportedAggregators,
-        TextGenerator $labelGeneratorBuilderPrototype
+        TextGenerator $labelGeneratorPrototype
     ) {
-        $this->genProtoByClassOfSupportedAgg[$classOfSupportedAggregators] = $labelGeneratorBuilderPrototype;
+        $this->genProtoByClassOfSupportedAgg[$classOfSupportedAggregators] = $labelGeneratorPrototype;
         return $this;
     }
 
