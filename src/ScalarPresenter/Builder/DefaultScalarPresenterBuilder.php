@@ -25,9 +25,7 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Impl\CounterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\FilterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\GroupingAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
-use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\TextGenerator\NULLTextGenerator;
-use lukaszmakuch\TextGenerator\TextGenerator;
 use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 
 /**
