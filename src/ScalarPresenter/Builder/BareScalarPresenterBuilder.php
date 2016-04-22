@@ -13,7 +13,6 @@ use lukaszmakuch\Aggregator\LabelGenerator\Builder\LabelGeneratorBuilder;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\Exception\UnableToBuild;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
-use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 use lukaszmakuch\PropertySetter\Exception\UnableToSetProperty;
 use lukaszmakuch\PropertySetter\SettingStrategy\CallOnlyMethodAsSetter;
@@ -23,7 +22,6 @@ use lukaszmakuch\PropertySetter\SimplePropertySetter;
 use lukaszmakuch\PropertySetter\TargetSpecifier\PickByClass;
 use lukaszmakuch\PropertySetter\ValueSource\UseDirectly;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
-use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Without any additional method calls,
@@ -60,21 +58,17 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
         $this->aggregatorTextualTypeGenerator = new ClassBasedTextGenerator();
     }
 
-    public function registerPresenter(
-        $classOfSupportedAggregators,
-        ScalarPresenter $presenter,
-        TextGenerator $labelGeneratorPrototype,
-        $presenterTypeAsText
-    ) {
+    public function registerExtension(ScalarPresenterExtension $ext)
+    {
         $this->labelGeneratorBuilder->registerLabelGeneratorPrototype(
-            $classOfSupportedAggregators,
-            $labelGeneratorPrototype
+            $ext->getClassOfSupportedAggregators(),
+            $ext->getPrototypeOfLabelGenerator()
         );
         $this->aggregatorTextualTypeGenerator->addTextualRepresentationOf(
-            $classOfSupportedAggregators,
-            $presenterTypeAsText
+            $ext->getClassOfSupportedAggregators(),
+            $ext->getPresenterTypeAsText()
         );
-        $this->presenterProtoByAggregatorClass[$classOfSupportedAggregators] = $presenter;
+        $this->presenterProtoByAggregatorClass[$ext->getClassOfSupportedAggregators()] = $ext->getScalarPresenter();
         return $this;
     }
     
@@ -125,6 +119,5 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
         } catch (UnableToSetProperty $e) {
             throw new UnableToBuild();
         }
-
     }
 }

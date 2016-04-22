@@ -45,58 +45,48 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
     public function __construct()
     {
         $this->bareBuilder = (new BareScalarPresenterBuilder())
-            ->registerPresenter(
+            ->registerExtension(new ExtensionImpl(
                 Counter::class,
-                new CounterPresenter(),
                 new CounterLabelGenerator(),
+                new CounterPresenter(),
                 "counter"
-            )
-            ->registerPresenter(
+            ))
+            ->registerExtension(new ExtensionImpl(
                 ListAggregator::class, 
-                new ListAggregatorPresenter(),
                 new ListAggregatorLabelGenerator(),
+                new ListAggregatorPresenter(),
                 "list"
-            )
-            ->registerPresenter(
+            ))
+            ->registerExtension(new ExtensionImpl(
                 Filter::class, 
-                new FilterPresenter(),
                 new FilterLabelGenerator(),
+                new FilterPresenter(),
                 "filter"
-            )
-            ->registerPresenter(
+            ))
+            ->registerExtension(new ExtensionImpl(
                 GroupingAggregator::class, 
-                new GroupingAggregatorPresenter(),
                 new GroupingAggregatorLabelGenerator(),
+                new GroupingAggregatorPresenter(),
                 "group"
-            )
-            ->registerPresenter(
+            ))
+            ->registerExtension(new ExtensionImpl(
                 Container::class, 
-                new ContainerPresenter(),
                 NULLTextGenerator::getInstance(),
+                new ContainerPresenter(),
                 "container"
-            )
-            ->registerPresenter(
+            ))
+            ->registerExtension(new ExtensionImpl(
                 AggregatorOfSubjectsWithCommonProperties::class, 
-                new AggregatorOfSubjectsWithCommonPropertiesPresenter(),
                 new AggregatorOfSubjectsWithCommonPropertiesLabelGenerator(),
+                new AggregatorOfSubjectsWithCommonPropertiesPresenter(),
                 "subjects_with_common_properties"
-            )
+            ))
         ;
     }
 
-    public function registerPresenter(
-        $classOfSupportedAggregators,
-        ScalarPresenter $presenter,
-        TextGenerator $labelGeneratorPrototype,
-        $presenterTypeAsText
-    ) {
-        $this->bareBuilder->registerPresenter(
-            $classOfSupportedAggregators,
-            $presenter,
-            $labelGeneratorPrototype,
-            $presenterTypeAsText
-        );
-
+    public function registerExtension(ScalarPresenterExtension $ext)
+    {
+        $this->bareBuilder->registerExtension($ext);
         return $this;
     }
     
