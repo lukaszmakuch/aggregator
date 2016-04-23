@@ -31,14 +31,14 @@ class Container implements Aggregator
     }
     
     /**
-     * Adds a new aggregator to the container.
+     * Adds a prototype of a new aggregator to the container.
      * 
-     * @param Aggregator $aggregator
+     * @param Aggregator $aggregatorPrototype
      * @return \lukaszmakuch\Aggregator\Impl\Filter\Container self
      */
-    public function add(Aggregator $aggregator)
+    public function add(Aggregator $aggregatorPrototype)
     {
-        $this->actualAggregators[] = $aggregator;
+        $this->actualAggregators[] = clone $aggregatorPrototype;
         return $this;
     }
     

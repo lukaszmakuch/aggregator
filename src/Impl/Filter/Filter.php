@@ -24,12 +24,18 @@ class Filter implements Aggregator
     private $requirement;
     private $aggregator;
     
+    /**
+     * @param SubjectRequirement $requirement used to determine whether
+     * a subject should be taken into account
+     * @param Aggregator $prototypeOfAggregatorOfSubjectsThatMeetTheRequirement
+     * used to aggregate desired subjects
+     */
     public function __construct(
         SubjectRequirement $requirement,
-        Aggregator $aggregatorOfSubjectsThatMeetTheRequirement
+        Aggregator $prototypeOfAggregatorOfSubjectsThatMeetTheRequirement
     ) {
         $this->requirement = $requirement;
-        $this->aggregator = $aggregatorOfSubjectsThatMeetTheRequirement;
+        $this->aggregator = clone $prototypeOfAggregatorOfSubjectsThatMeetTheRequirement;
     }
     
     public function __clone()
@@ -50,7 +56,7 @@ class Filter implements Aggregator
             );
         }
     }
-    
+
     /**
      * @return SubjectRequirement
      */
@@ -58,7 +64,7 @@ class Filter implements Aggregator
     {
         return $this->requirement;
     }
-    
+
     /**
      * @return Aggregator
      */

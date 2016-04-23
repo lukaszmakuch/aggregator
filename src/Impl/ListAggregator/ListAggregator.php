@@ -44,7 +44,7 @@ class ListAggregator implements Aggregator
             );
         }
     }
-    
+
     /**
      * @return String
      */

@@ -19,7 +19,9 @@ use lukaszmakuch\TextGenerator\TextGenerator;
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class FilterLabelGenerator extends ObjectToTextConverter implements RequirementToTextConverterUser
+class FilterLabelGenerator 
+    extends ObjectToTextConverter 
+    implements RequirementToTextConverterUser
 {
     private $requirementToTextConverter;
 

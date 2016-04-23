@@ -30,18 +30,24 @@ class GroupingAggregator implements Aggregator
     /**
      * @var Aggregator 
      */
-    private $aggregatorOfAllGroupsPrototype;
+    private $prototypeOfAggregatorOfEachGroup;
     
     /**
      * @var PropertyReader
      */
     private $propertyReader;
     
+    /**
+     * @param PropertyReader $propertyReader reads properties that may be
+     * common among some subjects
+     * @param Aggregator $prototypeOfAggregatorOfEachGroup used to aggregate
+     * subjects of each group
+     */
     public function __construct(
         PropertyReader $propertyReader,
-        Aggregator $aggregatorOfAllGroupsPrototype
+        Aggregator $prototypeOfAggregatorOfEachGroup
     ) {
-        $this->aggregatorOfAllGroupsPrototype = $aggregatorOfAllGroupsPrototype;
+        $this->prototypeOfAggregatorOfEachGroup = clone $prototypeOfAggregatorOfEachGroup;
         $this->propertyReader = $propertyReader;
     }
     
@@ -52,7 +58,7 @@ class GroupingAggregator implements Aggregator
             $this->aggregatorsOfSubjectsWithCommonProperties
         );
     }
-    
+
     /**
      * @return AggregatorOfSubjectsWithCommonProperties[]
      */
@@ -107,7 +113,6 @@ class GroupingAggregator implements Aggregator
         }
     }
 
-
     /**
      * @param ComparableProperty $property
      * @return Aggregator|null 
@@ -132,7 +137,7 @@ class GroupingAggregator implements Aggregator
     {
         return new AggregatorOfSubjectsWithCommonProperties(
             $property, 
-            clone $this->aggregatorOfAllGroupsPrototype
+            clone $this->prototypeOfAggregatorOfEachGroup
         );
     }
 }

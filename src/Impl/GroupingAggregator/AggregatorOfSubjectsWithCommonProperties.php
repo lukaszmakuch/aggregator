@@ -17,12 +17,23 @@ class AggregatorOfSubjectsWithCommonProperties implements Aggregator
     private $commonProperty;
     private $actualAggregator;
     
+    /**
+     * @param ComparableProperty $commonProperty represents what's common
+     * for every of aggregated subjects 
+     * @param Aggregator $actualAggregatorPrototype used to actually aggregate
+     * subjects
+     */
     public function __construct(
         ComparableProperty $commonProperty,
-        Aggregator $actualAggregator
+        Aggregator $actualAggregatorPrototype
     ) {
         $this->commonProperty = $commonProperty;
-        $this->actualAggregator = $actualAggregator;
+        $this->actualAggregator = clone $actualAggregatorPrototype;
+    }
+    
+    public function __clone()
+    {
+        $this->actualAggregator = clone $this->actualAggregator;
     }
 
     public function aggregate($subject)

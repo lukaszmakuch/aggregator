@@ -19,7 +19,9 @@ use lukaszmakuch\TextGenerator\TextGenerator;
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class GroupingAggregatorLabelGenerator extends ObjectToTextConverter implements PropertyReaderToTextConverterUser
+class GroupingAggregatorLabelGenerator 
+    extends ObjectToTextConverter 
+    implements PropertyReaderToTextConverterUser
 {
     
     private $propertyReaderToTextConverter;
