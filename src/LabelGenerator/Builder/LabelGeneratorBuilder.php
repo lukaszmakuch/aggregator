@@ -9,13 +9,6 @@
 
 namespace lukaszmakuch\Aggregator\LabelGenerator\Builder;
 
-use lukaszmakuch\PropertySetter\SettingStrategy\CallOnlyMethodAsSetter;
-use lukaszmakuch\PropertySetter\SilentChainOfPropertySetters;
-use lukaszmakuch\PropertySetter\SimpleChainOfPropertySetters;
-use lukaszmakuch\PropertySetter\SimplePropertySetter;
-use lukaszmakuch\PropertySetter\TargetSpecifier\PickByClass;
-use lukaszmakuch\PropertySetter\ValueSource\UseDirectly;
-use lukaszmakuch\TextGenerator\ClassBasedTextGeneratorProxy;
 use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
@@ -23,22 +16,8 @@ use lukaszmakuch\TextGenerator\TextGenerator;
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class LabelGeneratorBuilder
+interface LabelGeneratorBuilder
 {
-    /**
-     * Prototypes of generators by classes of aggregators they support.
-     * 
-     * @var array like [String (class of supported aggregators) => TextGenerator (prototype)]
-     */
-    private $genProtoByClassOfSupportedAgg = [];
-    
-    /**
-     * @var array like [
-     *   String (class of dependent generator) => mixed (dependency), ...
-     * ]
-     */
-    private $dependencies = [];
-    
     /**
      * @param String $classOfSupportedAggregators
      * @param TextGenerator $labelGeneratorPrototype
@@ -48,10 +27,7 @@ class LabelGeneratorBuilder
     public function registerLabelGeneratorPrototype(
         $classOfSupportedAggregators,
         TextGenerator $labelGeneratorPrototype
-    ) {
-        $this->genProtoByClassOfSupportedAgg[$classOfSupportedAggregators] = $labelGeneratorPrototype;
-        return $this;
-    }
+    );
 
     /**
      * @param String $classOfDependentLabelGenerator
@@ -62,37 +38,11 @@ class LabelGeneratorBuilder
     public function registerDependency(
         $classOfDependentLabelGenerator,
         $dependency
-    ) {
-        $this->dependencies[$classOfDependentLabelGenerator] = $dependency;
-        return $this;
-    }
+    );
 
     /**
      * @return TextGenerator label generator
+     * @throws Exception\UnableToBuild
      */
-    public function build()
-    {
-        $dependencySetterChain = new SilentChainOfPropertySetters(
-            new SimpleChainOfPropertySetters()
-        );
-        foreach ($this->dependencies as $classOfDependentObject => $dependency) {
-            $dependencySetterChain->add(new SimplePropertySetter(
-                new PickByClass($classOfDependentObject), 
-                new CallOnlyMethodAsSetter($classOfDependentObject), 
-                new UseDirectly($dependency)
-            ));
-        }
-        
-        $labelGenerator = new ClassBasedTextGeneratorProxy();
-        foreach ($this->genProtoByClassOfSupportedAgg as $supportedAggClass => $generatorProto) {
-            $actualGenerator = clone $generatorProto;
-            $dependencySetterChain->setPropertiesOf($actualGenerator);
-            $labelGenerator->registerActualGenerator(
-                $supportedAggClass, 
-                $actualGenerator
-            );
-        }
-        
-        return $labelGenerator;
-    }
+    public function build();
 }

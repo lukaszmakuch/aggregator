@@ -14,17 +14,6 @@ use lukaszmakuch\Aggregator\Cat\AgeReader;
 use lukaszmakuch\Aggregator\Cat\AgeToTextConverter;
 use lukaszmakuch\Aggregator\Cat\OlderThan;
 use lukaszmakuch\Aggregator\Cat\OlderThanRenderer;
-use lukaszmakuch\Aggregator\Impl\Container\Container;
-use lukaszmakuch\Aggregator\Impl\Counter\Counter;
-use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
-use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
-use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
-use lukaszmakuch\Aggregator\LabelGenerator\AggregatorOfSubjectsWithCommonPropertiesLabelGenerator;
-use lukaszmakuch\Aggregator\LabelGenerator\Builder\LabelGeneratorBuilder;
-use lukaszmakuch\Aggregator\LabelGenerator\CounterLabelGenerator;
-use lukaszmakuch\Aggregator\LabelGenerator\FilterLabelGenerator;
-use lukaszmakuch\Aggregator\LabelGenerator\GroupingAggregatorLabelGenerator;
-use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\PropertyReaderToTextConverterUser;
 use lukaszmakuch\Aggregator\LabelGenerator\PropertyToTextConverterUser;
 use lukaszmakuch\Aggregator\LabelGenerator\RequirementToTextConverterUser;
@@ -32,9 +21,7 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Builder\DefaultScalarPresenterBuilde
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
 use lukaszmakuch\TextGenerator\ClassBasedTextGeneratorProxy;
-use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\TextGenerator\TextGenerator;
-use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -97,7 +84,7 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
             new OlderThanRenderer()
         );
 
-        return (new LabelGeneratorBuilder())
+        return (new LabelGenerator\Builder\DefaultLabelGeneratorBuilder())
             ->registerDependency(
                 PropertyReaderToTextConverterUser::class,
                 $propertyReaderToTextConverter
@@ -109,30 +96,6 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
             ->registerDependency(
                 PropertyToTextConverterUser::class,
                 $propertyToTextConverter
-            )
-            ->registerLabelGeneratorPrototype(
-                Counter::class,
-                new CounterLabelGenerator()
-            )
-            ->registerLabelGeneratorPrototype(
-                ListAggregator::class,
-                new ListAggregatorLabelGenerator()
-            )
-            ->registerLabelGeneratorPrototype(
-                Filter::class,
-                new FilterLabelGenerator()
-            )
-            ->registerLabelGeneratorPrototype(
-                GroupingAggregator::class,
-                new GroupingAggregatorLabelGenerator()
-            )
-            ->registerLabelGeneratorPrototype(
-                Container::class,
-                NULLTextGenerator::getInstance()
-            )
-            ->registerLabelGeneratorPrototype(
-                AggregatorOfSubjectsWithCommonProperties::class,
-                new AggregatorOfSubjectsWithCommonPropertiesLabelGenerator()
             )
             ->build()
         ;
