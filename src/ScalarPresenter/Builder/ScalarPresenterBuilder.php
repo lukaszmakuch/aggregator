@@ -10,8 +10,9 @@
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder;
 
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\Exception\UnableToBuild;
-use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ScalarPresenterExtension;
+use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
+use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Allows to build a scalar presenter.
@@ -28,15 +29,11 @@ interface ScalarPresenterBuilder
     public function registerExtension(ScalarPresenterExtension $ext);
     
     /**
-     * @param String $classOfDependentObjects
-     * @param String $valueToInject
+     * @param TextGenerator $labelGenerator
      * 
      * @return ScalarPresenterBuilder self
      */
-    public function registerDependency(
-        $classOfDependentObjects,
-        $valueToInject
-    );
+    public function setLabelGenerator(TextGenerator $labelGenerator);
 
     /**
      * @return ScalarPresenter

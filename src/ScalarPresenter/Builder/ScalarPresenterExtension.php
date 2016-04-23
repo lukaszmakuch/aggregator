@@ -10,7 +10,6 @@
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder;
 
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
-use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Holds together all what's needed in order to add support of a new aggregator.
@@ -33,10 +32,4 @@ interface ScalarPresenterExtension
      * @return String
      */
     public function getPresenterTypeAsText();
-    
-    /**
-     * @return TextGenerator prototype of the generator used to generate labels
-     * for aggregators
-     */
-    public function getPrototypeOfLabelGenerator();
 }

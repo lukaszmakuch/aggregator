@@ -9,19 +9,19 @@
 
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder;
 
-use lukaszmakuch\Aggregator\LabelGenerator\Builder\LabelGeneratorBuilder;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\Exception\UnableToBuild;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 use lukaszmakuch\PropertySetter\Exception\UnableToSetProperty;
 use lukaszmakuch\PropertySetter\SettingStrategy\CallOnlyMethodAsSetter;
-use lukaszmakuch\PropertySetter\SilentChainOfPropertySetters;
-use lukaszmakuch\PropertySetter\SimpleChainOfPropertySetters;
+use lukaszmakuch\PropertySetter\SilentPropertySetter;
 use lukaszmakuch\PropertySetter\SimplePropertySetter;
 use lukaszmakuch\PropertySetter\TargetSpecifier\PickByClass;
 use lukaszmakuch\PropertySetter\ValueSource\UseDirectly;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
+use lukaszmakuch\TextGenerator\NULLTextGenerator;
+use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Without any additional method calls,
@@ -32,9 +32,9 @@ use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
 class BareScalarPresenterBuilder implements ScalarPresenterBuilder
 {
     /**
-     * @var LabelGeneratorBuilder
+     * @var LabelGenerator
      */
-    private $labelGeneratorBuilder;
+    private $labelGenerator;
 
     /**
      * @var ClassBasedTextGenerator
@@ -46,24 +46,14 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
      */
     private $presenterProtoByAggregatorClass = [];
     
-    /**
-     *
-     * @var array like String (dependent object class) => mixed dependency
-     */
-    private $dependencies = [];
-
     public function __construct()
     {
-        $this->labelGeneratorBuilder = new LabelGeneratorBuilder();
+        $this->labelGenerator = NULLTextGenerator::getInstance();
         $this->aggregatorTextualTypeGenerator = new ClassBasedTextGenerator();
     }
 
     public function registerExtension(ScalarPresenterExtension $ext)
     {
-        $this->labelGeneratorBuilder->registerLabelGeneratorPrototype(
-            $ext->getClassOfSupportedAggregators(),
-            $ext->getPrototypeOfLabelGenerator()
-        );
         $this->aggregatorTextualTypeGenerator->addTextualRepresentationOf(
             $ext->getClassOfSupportedAggregators(),
             $ext->getPresenterTypeAsText()
@@ -72,47 +62,32 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
         return $this;
     }
     
-    public function registerDependency(
-        $classOfDependentObjects,
-        $valueToInject
-    ) {
-        $this->labelGeneratorBuilder->registerDependency(
-            $classOfDependentObjects,
-            $valueToInject
-        );
-        return $this;
+    public function setLabelGenerator(TextGenerator $labelGenerator)
+    {
+        $this->labelGenerator = $labelGenerator;
     }
 
     public function build()
     {
-        $dependencySetter = new SilentChainOfPropertySetters(
-            new SimpleChainOfPropertySetters()
-        );
-        foreach ($this->dependencies as $dependentClass => $dependency) {
-            $dependencySetter->add(new SimplePropertySetter(
-                new PickByClass($dependentClass), 
-                new CallOnlyMethodAsSetter($dependentClass), 
-                new UseDirectly($dependency)
-            ));
-        }
-
         $presenter = new ScalarPresenterProxy();
         $labeledPresenter = new LabelingPresenter(
             $presenter,
-            $this->labelGeneratorBuilder->build(),
+            $this->labelGenerator,
             $this->aggregatorTextualTypeGenerator
         );
-        $dependencySetter->add(new SimplePropertySetter(
-            new PickByClass(ScalarPresenterUser::class), 
-            new CallOnlyMethodAsSetter(ScalarPresenterUser::class), 
-            new UseDirectly($labeledPresenter)
+        $dependencySetter = new SilentPropertySetter(new SimplePropertySetter(
+                new PickByClass(ScalarPresenterUser::class), 
+                new CallOnlyMethodAsSetter(ScalarPresenterUser::class), 
+                new UseDirectly($labeledPresenter)
         ));
-
         try {
-            foreach ($this->presenterProtoByAggregatorClass as $supportedAggClass => $presenterProxy) {
-                $actualPresenter = clone $presenterProxy;
+            foreach ($this->presenterProtoByAggregatorClass as $supportedAggClass => $presenterPrototype) {
+                $actualPresenter = clone $presenterPrototype;
                 $dependencySetter->setPropertiesOf($actualPresenter);
-                $presenter->registerActualPresenter($supportedAggClass, $actualPresenter);
+                $presenter->registerActualPresenter(
+                    $supportedAggClass,
+                    $actualPresenter
+                );
             }
             
             return $labeledPresenter;
