@@ -1,6 +1,6 @@
 {
     "name": "lukaszmakuch/aggregator",
-    "description": "Makes generating statistics independent from the database and flexible.",
+    "description": "Makes generating statistics database agnostic and flexible.",
     "type": "library",
     "license": "MIT",
     "authors": [
