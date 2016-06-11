@@ -11,7 +11,7 @@ namespace lukaszmakuch\Aggregator\SubjectProperty;
 
 /**
  * A property that may be compared for equality with another property.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 interface ComparableProperty

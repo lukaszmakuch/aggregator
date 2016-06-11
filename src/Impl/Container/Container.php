@@ -13,7 +13,7 @@ use lukaszmakuch\Aggregator\Aggregator;
 
 /**
  * Holds many actual aggregators and passes to them all what's passed to it.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class Container implements Aggregator
@@ -32,7 +32,7 @@ class Container implements Aggregator
     
     /**
      * Adds a prototype of a new aggregator to the container.
-     * 
+     *
      * @param Aggregator $aggregatorPrototype
      * @return \lukaszmakuch\Aggregator\Impl\Filter\Container self
      */

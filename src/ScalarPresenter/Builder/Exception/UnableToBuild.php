@@ -11,7 +11,7 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder\Exception;
 
 /**
  * Thrown when for some reason it's impossible to build a scalar presenter.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class UnableToBuild extends \RuntimeException

@@ -25,12 +25,14 @@ use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 /**
  * Adds support of built-in aggregators.
  * 
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
 {
     /**
-     * @var ScalarPresenterBuilder 
+     * @var ScalarPresenterBuilder
      */
     private $bareBuilder;
     
@@ -43,27 +45,27 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
                 "counter"
             ))
             ->registerExtension(new ExtensionImpl(
-                ListAggregator::class, 
+                ListAggregator::class,
                 new ListAggregatorPresenter(),
                 "list"
             ))
             ->registerExtension(new ExtensionImpl(
-                Filter::class, 
+                Filter::class,
                 new FilterPresenter(),
                 "filter"
             ))
             ->registerExtension(new ExtensionImpl(
-                GroupingAggregator::class, 
+                GroupingAggregator::class,
                 new GroupingAggregatorPresenter(),
                 "group"
             ))
             ->registerExtension(new ExtensionImpl(
-                Container::class, 
+                Container::class,
                 new ContainerPresenter(),
                 "container"
             ))
             ->registerExtension(new ExtensionImpl(
-                AggregatorOfSubjectsWithCommonProperties::class, 
+                AggregatorOfSubjectsWithCommonProperties::class,
                 new AggregatorOfSubjectsWithCommonPropertiesPresenter(),
                 "subjects_with_common_properties"
             ))

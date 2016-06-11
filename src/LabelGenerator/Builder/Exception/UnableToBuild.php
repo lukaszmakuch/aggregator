@@ -11,7 +11,7 @@ namespace lukaszmakuch\Aggregator\LabelGenerator\Builder\Exception;
 
 /**
  * Thrown when it's impossible to build a label generator.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class UnableToBuild extends \RuntimeException

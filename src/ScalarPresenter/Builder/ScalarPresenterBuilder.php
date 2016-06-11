@@ -16,21 +16,21 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Allows to build a scalar presenter.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 interface ScalarPresenterBuilder
 {
     /**
      * @param ScalarPresenterExtension
-     * 
+     *
      * @return ScalarPresenterBuilder self
      */
     public function registerExtension(ScalarPresenterExtension $ext);
     
     /**
      * @param TextGenerator $labelGenerator
-     * 
+     *
      * @return ScalarPresenterBuilder self
      */
     public function setLabelGenerator(TextGenerator $labelGenerator);

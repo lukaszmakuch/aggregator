@@ -13,7 +13,7 @@ use lukaszmakuch\Aggregator\SubjectProperty\ComparableProperty;
 
 /**
  * Represents comparable age of a cat.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class Age implements ComparableProperty

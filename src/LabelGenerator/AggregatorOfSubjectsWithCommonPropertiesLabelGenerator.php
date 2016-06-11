@@ -16,15 +16,17 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Provides a textual representation a comparable property.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class AggregatorOfSubjectsWithCommonPropertiesLabelGenerator 
-    extends ObjectToTextConverter 
-    implements PropertyToTextConverterUser
+class AggregatorOfSubjectsWithCommonPropertiesLabelGenerator extends ObjectToTextConverter implements
+    PropertyToTextConverterUser
 {
     private $propertyToTextConverter;
     
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function __construct()
     {
         $this->propertyToTextConverter = NULLTextGenerator::getInstance();
@@ -44,7 +46,4 @@ class AggregatorOfSubjectsWithCommonPropertiesLabelGenerator
     {
         return $this->propertyToTextConverter->getTextBasedOn($object->getCommonProperty());
     }
-
-
-
 }

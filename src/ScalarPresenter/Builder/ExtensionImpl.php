@@ -13,7 +13,7 @@ use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 
 /**
  * Builds an extension by composition.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class ExtensionImpl implements ScalarPresenterExtension

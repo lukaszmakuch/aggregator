@@ -10,15 +10,15 @@
 namespace lukaszmakuch\Aggregator\SubjectRequirement;
 
 /**
- * Checks whether a subjects meets some requirement. 
- * 
+ * Checks whether a subjects meets some requirement.
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 interface SubjectRequirement
 {
     /**
      * @param mixed $subject
-     * 
+     *
      * @return boolean true if the given subject meets this requirement
      */
     public function isMetFor($subject);

@@ -14,7 +14,7 @@ use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 
 /**
  * Generates labels for counters.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class CounterLabelGenerator extends ObjectToTextConverter

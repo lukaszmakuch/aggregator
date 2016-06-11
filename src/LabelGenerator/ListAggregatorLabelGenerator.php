@@ -14,7 +14,7 @@ use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 
 /**
  * Generates labels for list aggregators.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class ListAggregatorLabelGenerator extends ObjectToTextConverter

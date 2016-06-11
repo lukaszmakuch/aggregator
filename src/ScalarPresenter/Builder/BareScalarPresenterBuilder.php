@@ -26,6 +26,8 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 /**
  * Without any additional method calls,
  * it build a scalar presenter that supports nothing.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
@@ -46,6 +48,9 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
      */
     private $presenterProtoByAggregatorClass = [];
     
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function __construct()
     {
         $this->labelGenerator = NULLTextGenerator::getInstance();
@@ -76,9 +81,9 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
             $this->aggregatorTextualTypeGenerator
         );
         $dependencySetter = new SilentPropertySetter(new SimplePropertySetter(
-                new PickByClass(ScalarPresenterUser::class), 
-                new CallOnlyMethodAsSetter(ScalarPresenterUser::class), 
-                new UseDirectly($labeledPresenter)
+            new PickByClass(ScalarPresenterUser::class),
+            new CallOnlyMethodAsSetter(ScalarPresenterUser::class),
+            new UseDirectly($labeledPresenter)
         ));
         try {
             foreach ($this->presenterProtoByAggregatorClass as $supportedAggClass => $presenterPrototype) {

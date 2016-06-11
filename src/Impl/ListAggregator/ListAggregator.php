@@ -17,7 +17,7 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 /**
  * Generates a list of text representations of subjects separated with
  * some given delimiter.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class ListAggregator implements Aggregator

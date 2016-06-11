@@ -13,14 +13,14 @@ use lukaszmakuch\Aggregator\SubjectProperty\Exception\UnableToReadProperty;
 
 /**
  * Reads a property of the given subject.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 interface PropertyReader
 {
     /**
      * @param mixed $subject
-     * 
+     *
      * @return ComparableProperty
      * @throws UnableToReadProperty
      */

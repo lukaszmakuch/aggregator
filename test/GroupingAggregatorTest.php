@@ -17,10 +17,10 @@ use lukaszmakuch\Aggregator\Cat\NameReader;
 
 /**
  * Tests grouping by some property.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class GroupingAggregatorTest  extends AggregatorTest
+class GroupingAggregatorTest extends AggregatorTest
 {
     protected function setUp()
     {

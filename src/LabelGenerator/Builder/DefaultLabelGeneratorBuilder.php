@@ -25,16 +25,21 @@ use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 
 /**
  * Supports built-in aggregators.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class DefaultLabelGeneratorBuilder implements LabelGeneratorBuilder
 {
     /**
-     * @var LabelGeneratorBuilder actual builder 
+     * @var LabelGeneratorBuilder actual builder
      */
     private $builder;
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function __construct()
     {
         $this->builder = (new BareLabelGeneratorBuilder())
@@ -70,9 +75,14 @@ class DefaultLabelGeneratorBuilder implements LabelGeneratorBuilder
         return $this->builder->registerDependency($classOfDependentLabelGenerator, $dependency);
     }
 
-    public function registerLabelGeneratorPrototype($classOfSupportedAggregators, TextGenerator $labelGeneratorPrototype)
-    {
-        return $this->builder->registerLabelGeneratorPrototype($classOfSupportedAggregators, $labelGeneratorPrototype);
+    public function registerLabelGeneratorPrototype(
+        $classOfSupportedAggregators,
+        TextGenerator $labelGeneratorPrototype
+    ) {
+        return $this->builder->registerLabelGeneratorPrototype(
+            $classOfSupportedAggregators,
+            $labelGeneratorPrototype
+        );
     }
 
     public function build()

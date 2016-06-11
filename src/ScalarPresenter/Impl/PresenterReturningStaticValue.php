@@ -14,7 +14,7 @@ use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 
 /**
  * Always returns the value set in the constructor.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class PresenterReturningStaticValue implements ScalarPresenter

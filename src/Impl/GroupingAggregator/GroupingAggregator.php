@@ -17,7 +17,7 @@ use lukaszmakuch\Aggregator\SubjectProperty\ComparableProperty;
 
 /**
  * Groups subjects by some property.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class GroupingAggregator implements Aggregator
@@ -28,7 +28,7 @@ class GroupingAggregator implements Aggregator
     private $aggregatorsOfSubjectsWithCommonProperties = [];
     
     /**
-     * @var Aggregator 
+     * @var Aggregator
      */
     private $prototypeOfAggregatorOfEachGroup;
     
@@ -54,7 +54,9 @@ class GroupingAggregator implements Aggregator
     public function __clone()
     {
         $this->aggregatorsOfSubjectsWithCommonProperties = array_map(
-            function ($agg) { return clone $agg; },
+            function ($agg) {
+                return clone $agg;
+            },
             $this->aggregatorsOfSubjectsWithCommonProperties
         );
     }
@@ -115,7 +117,7 @@ class GroupingAggregator implements Aggregator
 
     /**
      * @param ComparableProperty $property
-     * @return Aggregator|null 
+     * @return Aggregator|null
      */
     private function findExistingAggregatorBy(ComparableProperty $property)
     {
@@ -130,13 +132,13 @@ class GroupingAggregator implements Aggregator
     
     /**
      * @param ComparableProperty $property
-     * 
+     *
      * @return AggregatorOfSubjectsWithCommonProperties
      */
     private function buildAggregatorFor(ComparableProperty $property)
     {
         return new AggregatorOfSubjectsWithCommonProperties(
-            $property, 
+            $property,
             clone $this->prototypeOfAggregatorOfEachGroup
         );
     }

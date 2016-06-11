@@ -11,14 +11,14 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter;
 
 /**
  * Represents an object that uses the scalar presenter.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 interface ScalarPresenterUser
 {
     /**
      * @param ScalarPresenter $presenter
-     * 
+     *
      * @return null
      */
     public function setScalarPresenter(ScalarPresenter $presenter);

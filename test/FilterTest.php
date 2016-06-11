@@ -17,7 +17,7 @@ use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 
 /**
  * Tests the filter.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class FilterTest extends AggregatorTest
@@ -25,7 +25,7 @@ class FilterTest extends AggregatorTest
     protected function setUp()
     {
         parent::setUp();
-        $this->aggregator = 
+        $this->aggregator =
             new Filter(
                 new OlderThan(3),
                 new ListAggregator(new NameReader(), ", ")
@@ -43,8 +43,8 @@ class FilterTest extends AggregatorTest
             'type' => 'filter',
             'label' => "older than 3",
             'data' => [
-                "type" => "list", 
-                "label" => "list", 
+                "type" => "list",
+                "label" => "list",
                 "data" => "Tom, Michael",
             ],
         ]);

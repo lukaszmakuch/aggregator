@@ -14,12 +14,12 @@ use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 
 /**
  * Reads values of list aggregators.
- * 
+ *
  * Example output:
  * <pre>
  *     Bob, Tom
  * </pre>
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class ListAggregatorPresenter extends ScalarPresenterTpl

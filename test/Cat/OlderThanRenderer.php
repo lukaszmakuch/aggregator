@@ -13,7 +13,7 @@ use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 
 /**
  * Test subject.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class OlderThanRenderer extends ObjectToTextConverter

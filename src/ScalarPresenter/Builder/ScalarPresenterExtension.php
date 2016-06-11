@@ -13,7 +13,7 @@ use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 
 /**
  * Holds together all what's needed in order to add support of a new aggregator.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 interface ScalarPresenterExtension

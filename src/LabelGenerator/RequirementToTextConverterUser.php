@@ -14,7 +14,7 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 /**
  * Describes a label generator which uses a text generator converting
  * a requirement to text.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 interface RequirementToTextConverterUser

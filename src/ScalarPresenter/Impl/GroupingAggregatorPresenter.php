@@ -13,13 +13,14 @@ use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 
 /**
  * Presents grouping aggregators.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class GroupingAggregatorPresenter extends ScalarPresenterTpl implements \lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser
+class GroupingAggregatorPresenter extends ScalarPresenterTpl implements ScalarPresenterUser
 {
     private $presenterOfActualAggregators;
     

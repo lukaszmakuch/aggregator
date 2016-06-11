@@ -15,8 +15,8 @@ use lukaszmakuch\Aggregator\SubjectRequirement\Exception\UnableToCheckRequiremen
 use lukaszmakuch\Aggregator\SubjectRequirement\SubjectRequirement;
 
 /**
- * Takes into account only those subjects that meet the given requirement. 
- * 
+ * Takes into account only those subjects that meet the given requirement.
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class Filter implements Aggregator
@@ -27,15 +27,15 @@ class Filter implements Aggregator
     /**
      * @param SubjectRequirement $requirement used to determine whether
      * a subject should be taken into account
-     * @param Aggregator $prototypeOfAggregatorOfSubjectsThatMeetTheRequirement
+     * @param Aggregator $subjectsThatMeetTheRequirement
      * used to aggregate desired subjects
      */
     public function __construct(
         SubjectRequirement $requirement,
-        Aggregator $prototypeOfAggregatorOfSubjectsThatMeetTheRequirement
+        Aggregator $subjectsThatMeetTheRequirement
     ) {
         $this->requirement = $requirement;
-        $this->aggregator = clone $prototypeOfAggregatorOfSubjectsThatMeetTheRequirement;
+        $this->aggregator = clone $subjectsThatMeetTheRequirement;
     }
     
     public function __clone()
@@ -47,7 +47,7 @@ class Filter implements Aggregator
     public function aggregate($subject)
     {
         try {
-            if ($this->requirement->isMetFor($subject)) { 
+            if ($this->requirement->isMetFor($subject)) {
                 $this->aggregator->aggregate($subject);
             }
         } catch (UnableToCheckRequirement $e) {

@@ -22,12 +22,20 @@
     },
     "minimum-stability": "stable",
     "require-dev": {
-        "phpunit/phpunit": "4.7.*",
-        "phpdocumentor/phpdocumentor": "2.*"
+        "phpunit/phpunit": "5.4.*",
+        "phpdocumentor/phpdocumentor": "2.*",
+        "squizlabs/php_codesniffer": "2.*",
+        "phpmd/phpmd" : "@stable"
     },
     "require": {
         "lukaszmakuch/class-based-registry": "^0.0.2",
         "lukaszmakuch/text-generator": "^0.2.0",
         "lukaszmakuch/property-setter": "^0.2.0"
+    },
+    "scripts" : {
+        "check-syntax": "./vendor/bin/phpcs --standard=PSR2 src test",
+        "fix-syntax": "./vendor/bin/phpcbf --standard=PSR2 src test",
+        "check-for-mess": "./vendor/bin/phpmd src/ text  phpmd_rules.xml",
+        "test": "./vendor/bin/phpunit --bootstrap vendor/autoload.php test"
     }
 }

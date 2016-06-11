@@ -12,15 +12,15 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 
 /**
  * Presents aggregators of subjects with common properties.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class AggregatorOfSubjectsWithCommonPropertiesPresenter 
-    extends ScalarPresenterTpl 
-    implements \lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser
+class AggregatorOfSubjectsWithCommonPropertiesPresenter extends ScalarPresenterTpl implements
+    ScalarPresenterUser
 {
     private $presenterOfActualAggregators;
     

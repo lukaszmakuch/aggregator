@@ -17,7 +17,7 @@ use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 
 /**
  * Tests the container.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class ContainerTest extends AggregatorTest
@@ -43,13 +43,13 @@ class ContainerTest extends AggregatorTest
             'label' => '',
             'data' => [
                 [
-                    "type" => "list", 
-                    "label" => "list", 
+                    "type" => "list",
+                    "label" => "list",
                     "data" => "Tom, Emma, Michael",
                 ],
                 [
-                    "type" => "counter", 
-                    "label" => "count", 
+                    "type" => "counter",
+                    "label" => "count",
                     "data" => 3,
                 ],
             ],
@@ -67,13 +67,13 @@ class ContainerTest extends AggregatorTest
             'label' => '',
             'data' => [
                 [
-                    "type" => "list", 
-                    "label" => "list", 
+                    "type" => "list",
+                    "label" => "list",
                     "data" => "Tom, Emma",
                 ],
                 [
-                    "type" => "counter", 
-                    "label" => "count", 
+                    "type" => "counter",
+                    "label" => "count",
                     "data" => 2,
                 ],
             ],

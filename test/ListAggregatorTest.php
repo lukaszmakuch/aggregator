@@ -15,7 +15,7 @@ use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 
 /**
  * Tests the list aggregator.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class ListAggregatorTest extends AggregatorTest
@@ -32,8 +32,8 @@ class ListAggregatorTest extends AggregatorTest
     public function testEmptyStringIfNothingPassed()
     {
         $this->assertAggregationResult([
-            'type' => 'list', 
-            'label' => 'list', 
+            'type' => 'list',
+            'label' => 'list',
             'data' => ''
         ]);
     }
@@ -44,8 +44,8 @@ class ListAggregatorTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat(['name' => 'Tom']));
         
         $this->assertAggregationResult([
-            'type' => 'list', 
-            'label' => 'list', 
+            'type' => 'list',
+            'label' => 'list',
             'data' => 'Bob, Tom'
         ]);
     }

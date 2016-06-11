@@ -14,7 +14,7 @@ use lukaszmakuch\Aggregator\Impl\Counter\Counter;
 
 /**
  * Tests the counter.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class CounterTest extends AggregatorTest
@@ -28,7 +28,7 @@ class CounterTest extends AggregatorTest
     {
         $this->assertAggregationResult([
             'type' => 'counter',
-            'label' => 'count', 
+            'label' => 'count',
             'data' => 0
         ]);
     }
@@ -41,7 +41,7 @@ class CounterTest extends AggregatorTest
 
         $this->assertAggregationResult([
             'type' => 'counter',
-            'label' => 'count', 
+            'label' => 'count',
             'data' => 3
         ]);
     }

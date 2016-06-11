@@ -16,12 +16,12 @@ use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 
 /**
  * Reads values of filters.
- * 
+ *
  * Example output:
  * <pre>
  *     representation of actual aggregator hidden behind a filter
  * </pre>
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class FilterPresenter extends ScalarPresenterTpl implements ScalarPresenterUser

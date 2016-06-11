@@ -14,7 +14,7 @@ use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 
 /**
  * Renders age as a string.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class AgeToTextConverter extends ObjectToTextConverter

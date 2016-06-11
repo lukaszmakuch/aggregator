@@ -11,7 +11,7 @@ namespace lukaszmakuch\Aggregator\SubjectRequirement\Exception;
 
 /**
  * Thrown when it's impossible to check some requirement.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class UnableToCheckRequirement extends \RuntimeException

@@ -14,21 +14,20 @@ use lukaszmakuch\Aggregator\Impl\Container\Container;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 
-
 /**
  * Presents value of each of container's elements.
- * 
+ *
  * Example output:
  * <pre>
  *     [output of thefirst of its elements, output of the second, ...]
  * </pre>
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class ContainerPresenter extends ScalarPresenterTpl implements ScalarPresenterUser
 {
     /**
-     * @var ScalarPresenter 
+     * @var ScalarPresenter
      */
     private $presenterOfElements;
 

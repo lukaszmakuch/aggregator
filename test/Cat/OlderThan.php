@@ -11,7 +11,7 @@ namespace lukaszmakuch\Aggregator\Cat;
 
 /**
  * Test subject.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class OlderThan implements \lukaszmakuch\Aggregator\SubjectRequirement\SubjectRequirement

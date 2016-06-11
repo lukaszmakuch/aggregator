@@ -21,6 +21,8 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 /**
  * Without any additional method calls,
  * it build a label generator that supports nothing.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * 
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
@@ -28,7 +30,7 @@ class BareLabelGeneratorBuilder implements LabelGeneratorBuilder
 {
     /**
      * Prototypes of generators by classes of aggregators they support.
-     * 
+     *
      * @var array like [String (class of supported aggregators) => TextGenerator (prototype)]
      */
     private $genProtoByClassOfSupportedAgg = [];
@@ -58,8 +60,8 @@ class BareLabelGeneratorBuilder implements LabelGeneratorBuilder
         $dependency
     ) {
         $this->dependencySetter->add(new SimplePropertySetter(
-            new PickByClass($classOfDependentLabelGenerator), 
-            new CallOnlyMethodAsSetter($classOfDependentLabelGenerator), 
+            new PickByClass($classOfDependentLabelGenerator),
+            new CallOnlyMethodAsSetter($classOfDependentLabelGenerator),
             new UseDirectly($dependency)
         ));
         return $this;
@@ -72,7 +74,7 @@ class BareLabelGeneratorBuilder implements LabelGeneratorBuilder
             $actualGenerator = clone $genProto;
             $this->dependencySetter->setPropertiesOf($actualGenerator);
             $labelGenerator->registerActualGenerator(
-                $supportedAggClass, 
+                $supportedAggClass,
                 $actualGenerator
             );
         }

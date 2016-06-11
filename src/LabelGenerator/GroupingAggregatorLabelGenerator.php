@@ -16,22 +16,23 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Generates labels for grouping aggregators.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class GroupingAggregatorLabelGenerator 
-    extends ObjectToTextConverter 
-    implements PropertyReaderToTextConverterUser
+class GroupingAggregatorLabelGenerator extends ObjectToTextConverter implements
+    PropertyReaderToTextConverterUser
 {
-    
     private $propertyReaderToTextConverter;
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function __construct()
     {
         $this->propertyReaderToTextConverter = NULLTextGenerator::getInstance();
     }
 
-    public function setPropertyReaderToTextConverter(TextGenerator $converter) 
+    public function setPropertyReaderToTextConverter(TextGenerator $converter)
     {
         $this->propertyReaderToTextConverter = $converter;
     }
@@ -46,7 +47,4 @@ class GroupingAggregatorLabelGenerator
         /* @var $object GroupingAggregator */
         return "grouped by " . $this->propertyReaderToTextConverter->getTextBasedOn($object->getPropertyReader());
     }
-
-
-
 }

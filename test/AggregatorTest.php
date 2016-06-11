@@ -26,7 +26,7 @@ use PHPUnit_Framework_TestCase;
 
 /**
  * Contains common part of aggregators tests.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 abstract class AggregatorTest extends PHPUnit_Framework_TestCase
@@ -50,7 +50,7 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
 
     /**
      * Asserts that the aggregation result as JSON matches the given array.
-     * 
+     *
      * @param mixed $expectedResultOfAggregation
      */
     protected function assertAggregationResult($expectedResultOfAggregation)
@@ -74,7 +74,7 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
 
         $propertyToTextConverter = new ClassBasedTextGeneratorProxy();
         $propertyToTextConverter->registerActualGenerator(
-            Age::class, 
+            Age::class,
             new AgeToTextConverter()
         );
 

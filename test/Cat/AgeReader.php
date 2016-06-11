@@ -14,7 +14,7 @@ use lukaszmakuch\Aggregator\SubjectProperty\PropertyReader;
 
 /**
  * Reads age of a cat.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class AgeReader implements PropertyReader

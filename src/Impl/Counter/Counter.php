@@ -10,8 +10,8 @@
 namespace lukaszmakuch\Aggregator\Impl\Counter;
 
 /**
- * Counts all given subjects. 
- * 
+ * Counts all given subjects.
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class Counter implements \lukaszmakuch\Aggregator\Aggregator

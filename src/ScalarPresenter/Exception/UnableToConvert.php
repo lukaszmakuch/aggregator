@@ -14,7 +14,7 @@ use RuntimeException;
 /**
  * Thrown when it's impossible to convert an aggregator to a scalar value
  * or an array of scalar values.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class UnableToConvert extends RuntimeException

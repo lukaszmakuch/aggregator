@@ -12,13 +12,12 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvert;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
-use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 use lukaszmakuch\TextGenerator\Exception\UnableToGetText;
 use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Adds a label describing the generated result.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class LabelingPresenter implements ScalarPresenter
@@ -30,13 +29,13 @@ class LabelingPresenter implements ScalarPresenter
     /**
      * Provides a presenter used to actually convert aggregators into scalars and
      * a label generator which is reponsible for generating labels for aggregators.
-     * 
+     *
      * @param ScalarPresenter $actualPresenter
      * @param TextGenerator $labelGenerator
      * @param TextGenerator $aggregatorTextualTypeObtainer
      */
     public function __construct(
-        ScalarPresenter $actualPresenter, 
+        ScalarPresenter $actualPresenter,
         TextGenerator $labelGenerator,
         TextGenerator $aggregatorTextualTypeObtainer
     ) {
@@ -57,7 +56,7 @@ class LabelingPresenter implements ScalarPresenter
      * </pre>
      * @throws UnableToConvert
      */
-    public function convertToScalar(Aggregator $aggregator) 
+    public function convertToScalar(Aggregator $aggregator)
     {
         try {
             return [

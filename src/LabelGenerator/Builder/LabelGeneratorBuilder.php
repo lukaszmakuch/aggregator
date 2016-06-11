@@ -13,7 +13,7 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Allows to build a complex label generator.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 interface LabelGeneratorBuilder
@@ -21,7 +21,7 @@ interface LabelGeneratorBuilder
     /**
      * @param String $classOfSupportedAggregators
      * @param TextGenerator $labelGeneratorPrototype
-     * 
+     *
      * @return LabelGeneratorBuilder self
      */
     public function registerLabelGeneratorPrototype(
@@ -32,7 +32,7 @@ interface LabelGeneratorBuilder
     /**
      * @param String $classOfDependentLabelGenerator
      * @param String $dependency
-     * 
+     *
      * @return LabelGeneratorBuilder self
      */
     public function registerDependency(

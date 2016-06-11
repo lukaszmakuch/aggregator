@@ -14,12 +14,12 @@ use lukaszmakuch\Aggregator\Impl\Counter\Counter;
 
 /**
  * Reads values of counters.
- * 
+ *
  * Example output:
  * <pre>
  *     4
  * </pre>
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class CounterPresenter extends ScalarPresenterTpl

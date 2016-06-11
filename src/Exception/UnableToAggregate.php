@@ -11,7 +11,7 @@ namespace lukaszmakuch\Aggregator\Exception;
 
 /**
  * Thrown when it's impossible to aggregate some subject.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class UnableToAggregate extends \RuntimeException

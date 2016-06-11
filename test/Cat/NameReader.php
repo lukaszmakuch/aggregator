@@ -13,7 +13,7 @@ use lukaszmakuch\TextGenerator\ObjectToTextConverter;
 
 /**
  * Reads a cat's name.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class NameReader extends ObjectToTextConverter

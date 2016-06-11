@@ -19,7 +19,7 @@ class AggregatorOfSubjectsWithCommonProperties implements Aggregator
     
     /**
      * @param ComparableProperty $commonProperty represents what's common
-     * for every of aggregated subjects 
+     * for every of aggregated subjects
      * @param Aggregator $actualAggregatorPrototype used to actually aggregate
      * subjects
      */

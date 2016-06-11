@@ -17,7 +17,7 @@ use lukaszmakuch\ClassBasedRegistry\Exception\ValueNotFound;
 
 /**
  * Hides many actual implementation behind a common interface.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class ScalarPresenterProxy implements ScalarPresenter
@@ -30,11 +30,11 @@ class ScalarPresenterProxy implements ScalarPresenter
     }
     
     public function registerActualPresenter(
-        $classOfSupportedAggregators, 
+        $classOfSupportedAggregators,
         ScalarPresenter $actualPresenter
     ) {
         $this->actualPresenters->associateValueWithClasses(
-            $actualPresenter, 
+            $actualPresenter,
             [$classOfSupportedAggregators]
         );
     }
@@ -49,5 +49,4 @@ class ScalarPresenterProxy implements ScalarPresenter
             throw new UnableToConvert("no suitable converter found for " . get_class($aggregator));
         }
     }
-    
 }

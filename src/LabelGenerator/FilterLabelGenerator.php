@@ -16,15 +16,16 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Generates labels for filters.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class FilterLabelGenerator 
-    extends ObjectToTextConverter 
-    implements RequirementToTextConverterUser
+class FilterLabelGenerator extends ObjectToTextConverter implements RequirementToTextConverterUser
 {
     private $requirementToTextConverter;
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function __construct()
     {
         $this->requirementToTextConverter = NULLTextGenerator::getInstance();

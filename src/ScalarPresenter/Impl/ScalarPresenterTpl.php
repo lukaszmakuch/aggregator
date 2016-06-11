@@ -15,7 +15,7 @@ use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 
 /**
  * Checks aggregator type.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 abstract class ScalarPresenterTpl implements ScalarPresenter
@@ -23,7 +23,7 @@ abstract class ScalarPresenterTpl implements ScalarPresenter
     /**
      * @return String class of supported aggregators
      */
-    protected abstract function getSupportedAggregatorClass();
+    abstract protected function getSupportedAggregatorClass();
     
     public function convertToScalar(Aggregator $aggregator)
     {
@@ -33,11 +33,11 @@ abstract class ScalarPresenterTpl implements ScalarPresenter
     
     /**
      * Can assume that the given aggregator is of the supported type.
-     * 
+     *
      * @return mixed the given aggregator converted to a scalar or an array
      * of scalars
      */
-    protected abstract function convertToScalarImpl(Aggregator $aggregator);
+    abstract protected function convertToScalarImpl(Aggregator $aggregator);
     
     /**
      * @param Aggregator $aggregator
@@ -49,9 +49,9 @@ abstract class ScalarPresenterTpl implements ScalarPresenter
         if (!($aggregator instanceof $supportedClass)) {
             throw new UnableToConvert(sprintf(
                 "%s expects %s, but %s was given",
-                    __CLASS__,
-                    $supportedClass,
-                    get_class($aggregator)
+                __CLASS__,
+                $supportedClass,
+                get_class($aggregator)
             ));
         }
     }
