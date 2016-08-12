@@ -11,23 +11,27 @@ namespace lukaszmakuch\Aggregator\LabelGenerator\Builder;
 
 use lukaszmakuch\Aggregator\Impl\Container\Container;
 use lukaszmakuch\Aggregator\Impl\Counter\Counter;
+use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
+use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
+use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\NodeAggregator;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\LabelGenerator\AggregatorOfSubjectsWithCommonPropertiesLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\CounterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\FilterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\GroupingAggregatorLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\HierarchicalAggregatorLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\HierarchyNodeAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
 use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\TextGenerator\TextGenerator;
-use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 
 /**
  * Supports built-in aggregators.
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class DefaultLabelGeneratorBuilder implements LabelGeneratorBuilder
@@ -66,6 +70,14 @@ class DefaultLabelGeneratorBuilder implements LabelGeneratorBuilder
             ->registerLabelGeneratorPrototype(
                 AggregatorOfSubjectsWithCommonProperties::class,
                 new AggregatorOfSubjectsWithCommonPropertiesLabelGenerator()
+            )
+            ->registerLabelGeneratorPrototype(
+                NodeAggregator::class,
+                new HierarchyNodeAggregatorLabelGenerator()
+            )
+            ->registerLabelGeneratorPrototype(
+                HierarchicalAggregator::class,
+                new HierarchicalAggregatorLabelGenerator()
             )
         ;
     }

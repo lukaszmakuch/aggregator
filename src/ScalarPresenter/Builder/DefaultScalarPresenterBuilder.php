@@ -11,20 +11,28 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder;
 
 use lukaszmakuch\Aggregator\Impl\Container\Container;
 use lukaszmakuch\Aggregator\Impl\Counter\Counter;
+use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
+use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
+use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\NodeAggregator;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
+use lukaszmakuch\Aggregator\ScalarPresenter\Builder\BareScalarPresenterBuilder;
+use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ExtensionImpl;
+use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ScalarPresenterBuilder;
+use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ScalarPresenterExtension;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\AggregatorOfSubjectsWithCommonPropertiesPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ContainerPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\CounterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\FilterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\GroupingAggregatorPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchicalAggregatorPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchyNodeAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
-use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 
 /**
  * Adds support of built-in aggregators.
- * 
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
@@ -68,6 +76,16 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
                 AggregatorOfSubjectsWithCommonProperties::class,
                 new AggregatorOfSubjectsWithCommonPropertiesPresenter(),
                 "subjects_with_common_properties"
+            ))
+            ->registerExtension(new ExtensionImpl(
+                HierarchicalAggregator::class,
+                new HierarchicalAggregatorPresenter(),
+                "hierarchy"
+            ))
+            ->registerExtension(new ExtensionImpl(
+                NodeAggregator::class,
+                new HierarchyNodeAggregatorPresenter(),
+                "hierarchy_node"
             ))
         ;
     }

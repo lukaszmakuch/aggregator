@@ -23,6 +23,7 @@ class Cat
         $defaultParams = [
             'name' => "Anoncat",
             'age' => 2,
+            'color' => 'transparent',
         ];
         $this->itsParams = array_merge($defaultParams, $itsParams);
     }
@@ -41,5 +42,13 @@ class Cat
     public function getAge()
     {
         return $this->itsParams['age'];
+    }
+    
+    /**
+     * @return String color name
+     */
+    public function getColor()
+    {
+        return $this->itsParams['color'];
     }
 }

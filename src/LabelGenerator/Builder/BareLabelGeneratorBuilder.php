@@ -23,7 +23,7 @@ use lukaszmakuch\TextGenerator\TextGenerator;
  * it build a label generator that supports nothing.
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class BareLabelGeneratorBuilder implements LabelGeneratorBuilder

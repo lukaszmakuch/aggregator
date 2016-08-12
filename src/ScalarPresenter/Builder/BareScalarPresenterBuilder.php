@@ -28,7 +28,7 @@ use lukaszmakuch\TextGenerator\TextGenerator;
  * it build a scalar presenter that supports nothing.
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class BareScalarPresenterBuilder implements ScalarPresenterBuilder
