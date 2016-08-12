@@ -67,6 +67,11 @@ Takes into account only those subjects that meet the given requirement.
 
 Groups subjects by some property.
 
+#### HierarchicalAggregator
+*lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator*
+
+Supports parent-children relationships.
+
 #### Container
 *lukaszmakuch\Aggregator\Impl\Container\Container*
 
