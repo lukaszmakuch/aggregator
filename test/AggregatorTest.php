@@ -12,11 +12,14 @@ namespace lukaszmakuch\Aggregator;
 use lukaszmakuch\Aggregator\Cat\Age;
 use lukaszmakuch\Aggregator\Cat\AgeReader;
 use lukaszmakuch\Aggregator\Cat\AgeToTextConverter;
+use lukaszmakuch\Aggregator\Cat\NameLetterByLetter;
 use lukaszmakuch\Aggregator\Cat\OlderThan;
 use lukaszmakuch\Aggregator\Cat\OlderThanRenderer;
+use lukaszmakuch\Aggregator\LabelGenerator\Builder\DefaultLabelGeneratorBuilder;
 use lukaszmakuch\Aggregator\LabelGenerator\PropertyReaderToTextConverterUser;
 use lukaszmakuch\Aggregator\LabelGenerator\PropertyToTextConverterUser;
 use lukaszmakuch\Aggregator\LabelGenerator\RequirementToTextConverterUser;
+use lukaszmakuch\Aggregator\LabelGenerator\SubjectProjectorToTextConverterUser;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\DefaultScalarPresenterBuilder;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
@@ -83,8 +86,14 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
             OlderThan::class,
             new OlderThanRenderer()
         );
+        
+        $subjectProjectorToTextConverter = new ClassBasedTextGenerator();
+        $subjectProjectorToTextConverter->addTextualRepresentationOf(
+            NameLetterByLetter::class,
+            "name-letter-by-letter"
+        );
 
-        return (new LabelGenerator\Builder\DefaultLabelGeneratorBuilder())
+        return (new DefaultLabelGeneratorBuilder())
             ->registerDependency(
                 PropertyReaderToTextConverterUser::class,
                 $propertyReaderToTextConverter
@@ -96,6 +105,10 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
             ->registerDependency(
                 PropertyToTextConverterUser::class,
                 $propertyToTextConverter
+            )
+            ->registerDependency(
+                SubjectProjectorToTextConverterUser::class,
+                $subjectProjectorToTextConverter
             )
             ->build()
         ;
