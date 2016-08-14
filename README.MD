@@ -72,7 +72,7 @@ Groups subjects by some property.
 
 Supports parent-children relationships.
 
-### ProjectionAggregator
+#### ProjectionAggregator
 *lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator*
 
 Before passing subjects to some other aggregator, gets a a different of them.
