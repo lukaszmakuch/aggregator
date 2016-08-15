@@ -9,7 +9,10 @@
 
 namespace lukaszmakuch\Aggregator\LabelGenerator\Builder;
 
+use lukaszmakuch\Aggregator\Impl\Container\Container;
 use lukaszmakuch\Aggregator\Impl\Counter\Counter;
+use lukaszmakuch\Aggregator\Impl\Counter\MoreThan;
+use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
@@ -25,11 +28,10 @@ use lukaszmakuch\Aggregator\LabelGenerator\GroupingAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\HierarchicalAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\HierarchyNodeAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\MoreThanLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ProjectionLabelGenerator;
 use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\TextGenerator\TextGenerator;
-use lukaszmakuch\Aggregator\Impl\Container\Container;
-use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 
 /**
  * Supports built-in aggregators.
@@ -86,6 +88,10 @@ class DefaultLabelGeneratorBuilder implements LabelGeneratorBuilder
             ->registerLabelGeneratorPrototype(
                 ProjectionAggregator::class,
                 new ProjectionLabelGenerator()
+            )
+            ->registerLabelGeneratorPrototype(
+                MoreThan::class,
+                new MoreThanLabelGenerator()
             )
         ;
     }

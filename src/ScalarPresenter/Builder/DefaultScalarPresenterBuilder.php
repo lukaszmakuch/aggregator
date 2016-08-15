@@ -11,6 +11,7 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder;
 
 use lukaszmakuch\Aggregator\Impl\Container\Container;
 use lukaszmakuch\Aggregator\Impl\Counter\Counter;
+use lukaszmakuch\Aggregator\Impl\Counter\MoreThan;
 use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
@@ -31,6 +32,7 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Impl\GroupingAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchicalAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchyNodeAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\MoreThanPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ProjectionPresenter;
 
 /**
@@ -94,6 +96,11 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
                 ProjectionAggregator::class,
                 new ProjectionPresenter(),
                 "projection"
+            ))
+            ->registerExtension(new ExtensionImpl(
+                MoreThan::class,
+                new MoreThanPresenter(),
+                "more_than_predicate"
             ))
         ;
     }

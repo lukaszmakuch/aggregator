@@ -9,12 +9,15 @@
 
 namespace lukaszmakuch\Aggregator\Impl\Counter;
 
+use lukaszmakuch\Aggregator\AggregatorVisitor;
+use lukaszmakuch\Aggregator\PredicateAggregator;
+
 /**
  * Predicate that gives true only if some number of subjects have been aggregated.
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class MoreThan implements \lukaszmakuch\Aggregator\PredicateAggregator
+class MoreThan implements PredicateAggregator
 {
     private $numberOfSubjects;
     private $counter;
@@ -34,8 +37,17 @@ class MoreThan implements \lukaszmakuch\Aggregator\PredicateAggregator
     {
         $this->counter->aggregate($subject);
     }
+    
+    /**
+     * @return int this predicate evaluates to true 
+     * when more subjects than this value are taken into account
+     */
+    public function getThreshold()
+    {
+        return $this->numberOfSubjects;
+    }
 
-    public function accept(\lukaszmakuch\Aggregator\AggregatorVisitor $v)
+    public function accept(AggregatorVisitor $v)
     {
         return $v->visit($this);
     }
