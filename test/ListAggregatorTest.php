@@ -49,4 +49,23 @@ class ListAggregatorTest extends AggregatorTest
             'data' => 'Bob, Tom'
         ]);
     }
+    
+    public function testCloning()
+    {
+        $this->cloneAggregator();
+        $this->aggregator->aggregate(new Cat(['name' => 'Bob']));
+        $this->aggregatorClone->aggregate(new Cat(['name' => 'Tom']));
+        
+        $this->assertAggregationResult([
+            'type' => 'list',
+            'label' => 'list',
+            'data' => 'Bob'
+        ]);
+        
+        $this->assertAggregationResultForClone([
+            'type' => 'list',
+            'label' => 'list',
+            'data' => 'Tom'
+        ]);
+    }
 }

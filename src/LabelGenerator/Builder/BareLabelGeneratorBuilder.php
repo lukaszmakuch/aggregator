@@ -9,6 +9,8 @@
 
 namespace lukaszmakuch\Aggregator\LabelGenerator\Builder;
 
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
+use lukaszmakuch\PropertySetter\PropertySetter;
 use lukaszmakuch\PropertySetter\SettingStrategy\CallOnlyMethodAsSetter;
 use lukaszmakuch\PropertySetter\SilentChainOfPropertySetters;
 use lukaszmakuch\PropertySetter\SimpleChainOfPropertySetters;
@@ -36,7 +38,7 @@ class BareLabelGeneratorBuilder implements LabelGeneratorBuilder
     private $genProtoByClassOfSupportedAgg = [];
     
     /**
-     * @var \lukaszmakuch\PropertySetter\PropertySetter
+     * @var PropertySetter
      */
     private $dependencySetter;
     
@@ -79,6 +81,6 @@ class BareLabelGeneratorBuilder implements LabelGeneratorBuilder
             );
         }
 
-        return $labelGenerator;
+        return new LabelingVisitor($labelGenerator);
     }
 }

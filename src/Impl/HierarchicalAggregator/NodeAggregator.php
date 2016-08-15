@@ -9,12 +9,15 @@
 
 namespace lukaszmakuch\Aggregator\Impl\HierarchicalAggregator;
 
+use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\AggregatorVisitor;
+
 /**
  * Represents one node in the hierarchy.
  *
  * @author Łukasz Makuch <lukasz.makuch@librus.pl>
  */
-class NodeAggregator implements \lukaszmakuch\Aggregator\Aggregator
+class NodeAggregator implements Aggregator
 {
     private $nodeName;
     private $actualAggregator;
@@ -23,17 +26,26 @@ class NodeAggregator implements \lukaszmakuch\Aggregator\Aggregator
     /**
      * @param String $nodeName
      * @param NodeAggregator[] $children
-     * @param \lukaszmakuch\Aggregator\Aggregator $actualAggregator
+     * @param Aggregator $actualAggregator
      */
     public function __construct(
         $nodeName,
         array $children,
-        \lukaszmakuch\Aggregator\Aggregator $actualAggregator
+        Aggregator $actualAggregator
     ) {
         $this->nodeName = $nodeName;
         $this->children = $children;
         $this->actualAggregator = $actualAggregator;
     }
+    
+    public function __clone()
+    {
+        $this->children = array_map(function (Aggregator $a) {
+            return clone $a;
+        }, $this->children);
+        $this->actualAggregator = clone $this->actualAggregator;
+    }
+
     
     public function aggregate($subject)
     {
@@ -49,7 +61,7 @@ class NodeAggregator implements \lukaszmakuch\Aggregator\Aggregator
     }
     
     /**
-     * @return \lukaszmakuch\Aggregator\Aggregator used to aggregate all subjects of that node
+     * @return Aggregator used to aggregate all subjects of that node
      */
     public function getActualAggregator()
     {
@@ -62,5 +74,10 @@ class NodeAggregator implements \lukaszmakuch\Aggregator\Aggregator
     public function getNodeName()
     {
         return $this->nodeName;
+    }
+    
+    public function accept(AggregatorVisitor $v)
+    {
+        return $v->visit($this);
     }
 }

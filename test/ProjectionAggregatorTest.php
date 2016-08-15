@@ -52,7 +52,7 @@ class ProjectionAggregatorTest extends AggregatorTest
     public function testExceptionIfUnableToProject()
     {
         $projectorThrowingException = $this->getMockBuilder(SubjectProjector::class)
-                ->getMock();
+            ->getMock();
         $projectorThrowingException
             ->method('getDifferentRepresentationOf')
             ->will($this->throwException(new UnableToProject()));
@@ -62,5 +62,33 @@ class ProjectionAggregatorTest extends AggregatorTest
         );
         $this->setExpectedExceptionRegExp(UnableToAggregate::class);
         $this->aggregator->aggregate(new Cat());
+    }
+    
+    public function testCloning()
+    {
+        $this->cloneAggregator();
+        $this->aggregator->aggregate(new Cat(['name' => 'Henry']));
+        $this->aggregatorClone->aggregate(new Cat(['name' => 'Jim']));
+        
+        $this->assertAggregationResult([
+            'type' => 'projection',
+            'label' => 'name-letter-by-letter',
+            'data' => [
+                'type' => 'list',
+                'label' => 'list',
+                'data' => "H-e-n-r-y",
+            ]
+        ]);
+        
+        $this->assertAggregationResultForClone([
+            'type' => 'projection',
+            'label' => 'name-letter-by-letter',
+            'data' => [
+                'type' => 'list',
+                'label' => 'list',
+                'data' => "J-i-m",
+            ]
+        ]);
+        
     }
 }

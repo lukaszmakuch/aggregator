@@ -66,4 +66,44 @@ class GroupingAggregatorTest extends AggregatorTest
             ],
         ]);
     }
+    
+    public function testCloning()
+    {
+        $this->cloneAggregator();
+        $this->aggregator->aggregate(new Cat(['name' => 'Henry', 'age' => 5]));
+        $this->aggregatorClone->aggregate(new Cat(['name' => 'Jim', 'age' => 1]));
+        
+        $this->assertAggregationResult([
+            'type' => 'group',
+            'label' => "grouped by age",
+            'data' => [
+                [
+                    'type' => 'subjects_with_common_properties',
+                    'label' => 'age 5',
+                    'data' => [
+                        'type' => 'list',
+                        'label' => 'list',
+                        'data' => 'Henry'
+                        
+                    ]
+                ],
+            ],
+        ]);
+        $this->assertAggregationResultForClone([
+            'type' => 'group',
+            'label' => "grouped by age",
+            'data' => [
+                [
+                    'type' => 'subjects_with_common_properties',
+                    'label' => 'age 1',
+                    'data' => [
+                        'type' => 'list',
+                        'label' => 'list',
+                        'data' => 'Jim'
+                        
+                    ]
+                ],
+            ],
+        ]);
+    }
 }

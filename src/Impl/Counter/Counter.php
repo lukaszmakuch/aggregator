@@ -9,12 +9,15 @@
 
 namespace lukaszmakuch\Aggregator\Impl\Counter;
 
+use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\AggregatorVisitor;
+
 /**
  * Counts all given subjects.
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class Counter implements \lukaszmakuch\Aggregator\Aggregator
+class Counter implements Aggregator
 {
     private $numberOfAggregatedSubjects = 0;
     
@@ -29,5 +32,15 @@ class Counter implements \lukaszmakuch\Aggregator\Aggregator
     public function aggregate($subject)
     {
         $this->numberOfAggregatedSubjects++;
+    }
+
+    public function accept(AggregatorVisitor $v)
+    {
+        return $v->visit($this);
+    }
+
+    public function __clone()
+    {
+        $this->numberOfAggregatedSubjects = $this->numberOfAggregatedSubjects;
     }
 }

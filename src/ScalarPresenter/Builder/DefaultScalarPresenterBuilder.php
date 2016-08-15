@@ -18,6 +18,7 @@ use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\NodeAggregator;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator;
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\BareScalarPresenterBuilder;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ExtensionImpl;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ScalarPresenterBuilder;
@@ -31,7 +32,6 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchicalAggregatorPresenter
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchyNodeAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ProjectionPresenter;
-use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Adds support of built-in aggregators.
@@ -104,9 +104,9 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
         return $this;
     }
 
-    public function setLabelGenerator(TextGenerator $labelGenerator)
+    public function setLabelingVisitor(LabelingVisitor $labelGenerator)
     {
-        $this->bareBuilder->setLabelGenerator($labelGenerator);
+        $this->bareBuilder->setLabelingVisitor($labelGenerator);
         return $this;
     }
 

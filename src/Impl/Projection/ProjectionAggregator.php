@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\Impl\Projection;
 
 use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\AggregatorVisitor;
 use lukaszmakuch\Aggregator\Exception\UnableToAggregate;
 use lukaszmakuch\Aggregator\SubjectProjector\Exception\UnableToProject;
 use lukaszmakuch\Aggregator\SubjectProjector\SubjectProjector;
@@ -25,6 +26,11 @@ class ProjectionAggregator implements Aggregator
     ) {
         $this->projector = $usedProjector;
         $this->aggregator = $actualAggregator;
+    }
+    
+    public function __clone()
+    {
+        $this->aggregator = clone $this->aggregator;
     }
     
     public function aggregate($subject)
@@ -50,5 +56,10 @@ class ProjectionAggregator implements Aggregator
     public function getActualAggregator()
     {
         return $this->aggregator;
+    }
+    
+    public function accept(AggregatorVisitor $v)
+    {
+        return $v->visit($this);
     }
 }

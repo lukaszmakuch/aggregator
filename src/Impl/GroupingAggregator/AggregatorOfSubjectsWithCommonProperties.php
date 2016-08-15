@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\Impl\GroupingAggregator;
 
 use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\AggregatorVisitor;
 use lukaszmakuch\Aggregator\SubjectProperty\ComparableProperty;
 
 class AggregatorOfSubjectsWithCommonProperties implements Aggregator
@@ -55,5 +56,10 @@ class AggregatorOfSubjectsWithCommonProperties implements Aggregator
     public function getActualAggregator()
     {
         return $this->actualAggregator;
+    }
+    
+    public function accept(AggregatorVisitor $v)
+    {
+        return $v->visit($this);
     }
 }

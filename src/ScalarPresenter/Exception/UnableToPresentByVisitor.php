@@ -9,14 +9,14 @@
 
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Exception;
 
-use RuntimeException;
+use lukaszmakuch\Aggregator\Exception\VisitorException;
 
 /**
- * Thrown when it's impossible to convert an aggregator to a scalar value
+ * Thrown when the PresentingVisitor is unable to convert an aggregator to a scalar value
  * or an array of scalar values.
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class UnableToConvert extends RuntimeException
+class UnableToPresentByVisitor extends VisitorException
 {
 }

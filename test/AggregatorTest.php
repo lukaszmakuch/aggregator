@@ -15,6 +15,7 @@ use lukaszmakuch\Aggregator\Cat\AgeToTextConverter;
 use lukaszmakuch\Aggregator\Cat\NameLetterByLetter;
 use lukaszmakuch\Aggregator\Cat\OlderThan;
 use lukaszmakuch\Aggregator\Cat\OlderThanRenderer;
+use lukaszmakuch\Aggregator\Exception\VisitorException;
 use lukaszmakuch\Aggregator\LabelGenerator\Builder\DefaultLabelGeneratorBuilder;
 use lukaszmakuch\Aggregator\LabelGenerator\PropertyReaderToTextConverterUser;
 use lukaszmakuch\Aggregator\LabelGenerator\PropertyToTextConverterUser;
@@ -24,7 +25,6 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Builder\DefaultScalarPresenterBuilde
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
 use lukaszmakuch\TextGenerator\ClassBasedTextGeneratorProxy;
-use lukaszmakuch\TextGenerator\TextGenerator;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -38,35 +38,68 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
      * @var Aggregator
      */
     protected $aggregator;
+    
+    /**
+     * @var Aggregator
+     */
+    protected $aggregatorClone;
 
     /**
-     * @var ScalarPresenter
+     * @var ScalarPresenter\PresentingVisitor
      */
-    private $scalarPresenter;
+    private $presentingVisitor;
 
     protected function setUp()
     {
-        $this->scalarPresenter = (new DefaultScalarPresenterBuilder())
-            ->setLabelGenerator($this->buildLabelGenerator())
+        $this->presentingVisitor = (new DefaultScalarPresenterBuilder())
+            ->setLabelingVisitor($this->buildLabelGenerator())
             ->build();
     }
-
+    
     /**
-     * Asserts that the aggregation result as JSON matches the given array.
+     * Clones aggregator and keeps the clone as aggregatorClone.
+     */
+    protected function cloneAggregator()
+    {
+        $this->aggregatorClone = clone $this->aggregator;
+    }
+    
+    /**
+     * Asserts that the aggregation result for the main aggregator matches the given result.
      *
      * @param mixed $expectedResultOfAggregation
+     * @throws VisitorException
      */
     protected function assertAggregationResult($expectedResultOfAggregation)
     {
+        $this->assertAggregationResultImpl($expectedResultOfAggregation, $this->aggregator);
+    }
+    
+    /**
+     * Asserts that the aggregation result for the cloned aggregator matches the given result.
+     *
+     * @param mixed $expectedResultOfAggregation
+     * @throws VisitorException
+     */
+    protected function assertAggregationResultForClone($expectedResultOfAggregation)
+    {
+        $this->assertAggregationResultImpl($expectedResultOfAggregation, $this->aggregatorClone);
+    }
+    
+    /**
+     * Asserts that the aggregation result for the given aggregator matches the given result.
+     *
+     * @param mixed $expectedResultOfAggregation
+     * @throws VisitorException
+     */
+    private function assertAggregationResultImpl($expectedResultOfAggregation, Aggregator $a)
+    {
         $this->assertSame(
             $expectedResultOfAggregation,
-            $this->scalarPresenter->convertToScalar($this->aggregator)
+            $a->accept($this->presentingVisitor)
         );
     }
 
-    /**
-     * @return TextGenerator
-     */
     private function buildLabelGenerator()
     {
         $propertyReaderToTextConverter = new ClassBasedTextGenerator();

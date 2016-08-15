@@ -38,7 +38,7 @@ class FilterTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat(['name' => 'Tom', 'age' => 5]));
         $this->aggregator->aggregate(new Cat(['name' => 'Emma', 'age' => 2]));
         $this->aggregator->aggregate(new Cat(['name' => 'Michael', 'age' => 4]));
-        
+
         $this->assertAggregationResult([
             'type' => 'filter',
             'label' => "older than 3",
@@ -48,5 +48,33 @@ class FilterTest extends AggregatorTest
                 "data" => "Tom, Michael",
             ],
         ]);
+    }
+    
+    public function testCloning()
+    {
+        $this->cloneAggregator();
+        $this->aggregator->aggregate(new Cat(['name' => 'Tom', 'age' => 5]));
+        $this->aggregatorClone->aggregate(new Cat(['name' => 'Jim', 'age' => 5]));
+        
+        $this->assertAggregationResult([
+            'type' => 'filter',
+            'label' => "older than 3",
+            'data' => [
+                "type" => "list",
+                "label" => "list",
+                "data" => "Tom",
+            ],
+        ]);
+        
+        $this->assertAggregationResultForClone([
+            'type' => 'filter',
+            'label' => "older than 3",
+            'data' => [
+                "type" => "list",
+                "label" => "list",
+                "data" => "Jim",
+            ],
+        ]);
+        
     }
 }

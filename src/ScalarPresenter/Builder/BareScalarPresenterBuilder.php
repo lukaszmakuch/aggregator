@@ -9,9 +9,11 @@
 
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder;
 
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\Exception\UnableToBuild;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
+use lukaszmakuch\Aggregator\ScalarPresenter\PresentingVisitor;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
 use lukaszmakuch\PropertySetter\Exception\UnableToSetProperty;
 use lukaszmakuch\PropertySetter\SettingStrategy\CallOnlyMethodAsSetter;
@@ -21,7 +23,6 @@ use lukaszmakuch\PropertySetter\TargetSpecifier\PickByClass;
 use lukaszmakuch\PropertySetter\ValueSource\UseDirectly;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
 use lukaszmakuch\TextGenerator\NULLTextGenerator;
-use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
  * Without any additional method calls,
@@ -34,9 +35,9 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 class BareScalarPresenterBuilder implements ScalarPresenterBuilder
 {
     /**
-     * @var LabelGenerator
+     * @var LabelingVisitor
      */
-    private $labelGenerator;
+    private $labelingVisitor;
 
     /**
      * @var ClassBasedTextGenerator
@@ -53,7 +54,7 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
      */
     public function __construct()
     {
-        $this->labelGenerator = NULLTextGenerator::getInstance();
+        $this->labelingVisitor = new LabelingVisitor(NULLTextGenerator::getInstance());
         $this->aggregatorTextualTypeGenerator = new ClassBasedTextGenerator();
     }
 
@@ -67,9 +68,9 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
         return $this;
     }
     
-    public function setLabelGenerator(TextGenerator $labelGenerator)
+    public function setLabelingVisitor(LabelingVisitor $labelingVisitor)
     {
-        $this->labelGenerator = $labelGenerator;
+        $this->labelingVisitor = $labelingVisitor;
     }
 
     public function build()
@@ -77,7 +78,7 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
         $presenter = new ScalarPresenterProxy();
         $labeledPresenter = new LabelingPresenter(
             $presenter,
-            $this->labelGenerator,
+            $this->labelingVisitor,
             $this->aggregatorTextualTypeGenerator
         );
         $dependencySetter = new SilentPropertySetter(new SimplePropertySetter(
@@ -95,7 +96,7 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
                 );
             }
             
-            return $labeledPresenter;
+            return new PresentingVisitor($labeledPresenter);
         } catch (UnableToSetProperty $e) {
             throw new UnableToBuild();
         }

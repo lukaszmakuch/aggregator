@@ -77,19 +77,24 @@ Supports parent-children relationships.
 
 Before passing subjects to some other aggregator, gets a a different of them.
 
+#### ConditionalAggregator
+*lukaszmakuch\Aggregator\Impl\ConditionalAggregator\ConditionalAggregator*
+
+Equals one of two given aggregators, depending on the given PredicateAggregator.
+
 #### Container
 *lukaszmakuch\Aggregator\Impl\Container\Container*
 
 Holds many actual aggregators and passes to them all what's passed to it.
 
 ### LabelGenerator
-An instance of [*lukaszmakuch\TextGenerator\TextGenerator*](https://github.com/lukaszmakuch/text-generator) is used to generate labels for aggregators.
+An instance of [*lukaszmakuch\TextGenerator\TextGenerator*](https://github.com/lukaszmakuch/text-generator) is used by an AggregatorVisitor to generate labels for aggregators.
 
 #### LabelGeneratorBuilder
 Because of the complex nature of possible labels, there's a builder that makes it easier to get a generator that fits your needs.
 
 ```php
-$labelGenerator = (new DefaultLabelGeneratorBuilder())
+$labelGeneratingVisitor = (new DefaultLabelGeneratorBuilder())
     ->registerDependency(
         PropertyToTextConverterUser::class,
         (new ClassBasedTextGeneratorProxy())->registerActualGenerator(
@@ -109,7 +114,7 @@ Generates a representation of the given aggregator as a scalar value or an array
 #### ScalarPresenterBuilder
 Because of the complex nature of possible aggregator composites, there's a builder that makes it easier to get a scalar presenter that fits your needs.
 ```php
-$scalarPresenter = (new DefaultScalarPresenterBuilder())
+$presentingVisitor = (new DefaultScalarPresenterBuilder())
     ->setLabelGenerator($labelGenerator)
     ->registerExtension(new ExtensionImpl(
         CustomAggregator::class,

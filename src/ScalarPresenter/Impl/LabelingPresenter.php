@@ -10,7 +10,9 @@
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 
 use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
 use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvert;
+use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToPresent;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\TextGenerator\Exception\UnableToGetText;
 use lukaszmakuch\TextGenerator\TextGenerator;
@@ -23,7 +25,7 @@ use lukaszmakuch\TextGenerator\TextGenerator;
 class LabelingPresenter implements ScalarPresenter
 {
     private $actualPresenter;
-    private $labelGenerator;
+    private $labelingVisitor;
     private $aggregatorTextualTypeObtainer;
 
     /**
@@ -31,16 +33,16 @@ class LabelingPresenter implements ScalarPresenter
      * a label generator which is reponsible for generating labels for aggregators.
      *
      * @param ScalarPresenter $actualPresenter
-     * @param TextGenerator $labelGenerator
+     * @param LabelingVisitor $labelingVisitor
      * @param TextGenerator $aggregatorTextualTypeObtainer
      */
     public function __construct(
         ScalarPresenter $actualPresenter,
-        TextGenerator $labelGenerator,
+        LabelingVisitor $labelingVisitor,
         TextGenerator $aggregatorTextualTypeObtainer
     ) {
         $this->actualPresenter = $actualPresenter;
-        $this->labelGenerator = $labelGenerator;
+        $this->labelingVisitor = $labelingVisitor;
         $this->aggregatorTextualTypeObtainer = $aggregatorTextualTypeObtainer;
     }
 
@@ -61,12 +63,12 @@ class LabelingPresenter implements ScalarPresenter
         try {
             return [
                 'type' => $this->aggregatorTextualTypeObtainer->getTextBasedOn($aggregator),
-                'label' => $this->labelGenerator->getTextBasedOn($aggregator),
+                'label' => $this->labelingVisitor->visit($aggregator),
                 'data' => $this->actualPresenter->convertToScalar($aggregator),
             ];
         } catch (UnableToGetText $e) {
-            throw new UnableToConvert(
-                sprintf("unable to render a label for %s", get_class($aggregator)),
+            throw new UnableToPresent(
+                sprintf("unable to render a label or a textual type representation for %s", get_class($aggregator)),
                 0,
                 $e
             );

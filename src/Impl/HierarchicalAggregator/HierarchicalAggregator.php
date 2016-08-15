@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\Impl\HierarchicalAggregator;
 
 use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\AggregatorVisitor;
 use lukaszmakuch\Aggregator\Exception\UnableToAggregate;
 
 /**
@@ -70,6 +71,23 @@ class HierarchicalAggregator implements Aggregator
     public function getAggregatorOfNodes()
     {
         return $this->nodeAggregator;
+    }
+    
+    public function accept(AggregatorVisitor $v)
+    {
+        return $v->visit($this);
+    }
+    
+    public function __clone()
+    {
+        $this->nodeAggregator = clone $this->nodeAggregator;
+        $this->aggregatorsByNode = [];
+        $this->groupAggregatorsByPathEndpoint(
+            $this->nodeAggregator->getNodeName(),
+            [],
+            $this->nodeAggregator
+        );
+        $this->leaveOnlyUniqueAggregatorsInEachGroup();
     }
     
     /**

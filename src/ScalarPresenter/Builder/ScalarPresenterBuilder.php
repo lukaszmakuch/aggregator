@@ -9,10 +9,10 @@
 
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder;
 
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\Exception\UnableToBuild;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ScalarPresenterExtension;
-use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
-use lukaszmakuch\TextGenerator\TextGenerator;
+use lukaszmakuch\Aggregator\ScalarPresenter\PresentingVisitor;
 
 /**
  * Allows to build a scalar presenter.
@@ -29,14 +29,14 @@ interface ScalarPresenterBuilder
     public function registerExtension(ScalarPresenterExtension $ext);
     
     /**
-     * @param TextGenerator $labelGenerator
+     * @param LabelingVisitor $labelingVisitor
      *
      * @return ScalarPresenterBuilder self
      */
-    public function setLabelGenerator(TextGenerator $labelGenerator);
+    public function setLabelingVisitor(LabelingVisitor $labelingVisitor);
 
     /**
-     * @return ScalarPresenter
+     * @return PresentingVisitor scalar presenter as a visitor
      * @throws UnableToBuild
      */
     public function build();

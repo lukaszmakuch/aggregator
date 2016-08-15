@@ -45,4 +45,23 @@ class CounterTest extends AggregatorTest
             'data' => 3
         ]);
     }
+    
+    public function testCloning()
+    {
+        $this->aggregator->aggregate(new Cat());
+        $this->cloneAggregator();
+        $this->aggregatorClone->aggregate(new Cat());
+        
+        $this->assertAggregationResult([
+            'type' => 'counter',
+            'label' => 'count',
+            'data' => 1
+        ]);
+        
+        $this->assertAggregationResultForClone([
+            'type' => 'counter',
+            'label' => 'count',
+            'data' => 2
+        ]);
+    }
 }

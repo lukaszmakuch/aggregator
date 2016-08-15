@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\Impl\Container;
 
 use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\AggregatorVisitor;
 
 /**
  * Holds many actual aggregators and passes to them all what's passed to it.
@@ -55,5 +56,10 @@ class Container implements Aggregator
     public function getAllActualAggregators()
     {
         return $this->actualAggregators;
+    }
+
+    public function accept(AggregatorVisitor $v)
+    {
+        return $v->visit($this);
     }
 }

@@ -9,9 +9,7 @@
 
 namespace lukaszmakuch\Aggregator\LabelGenerator\Builder;
 
-use lukaszmakuch\Aggregator\Impl\Container\Container;
 use lukaszmakuch\Aggregator\Impl\Counter\Counter;
-use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithCommonProperties;
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
@@ -19,6 +17,8 @@ use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\NodeAggregator;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator;
 use lukaszmakuch\Aggregator\LabelGenerator\AggregatorOfSubjectsWithCommonPropertiesLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\Builder\BareLabelGeneratorBuilder;
+use lukaszmakuch\Aggregator\LabelGenerator\Builder\LabelGeneratorBuilder;
 use lukaszmakuch\Aggregator\LabelGenerator\CounterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\FilterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\GroupingAggregatorLabelGenerator;
@@ -28,6 +28,8 @@ use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ProjectionLabelGenerator;
 use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\TextGenerator\TextGenerator;
+use lukaszmakuch\Aggregator\Impl\Container\Container;
+use lukaszmakuch\Aggregator\Impl\Filter\Filter;
 
 /**
  * Supports built-in aggregators.

@@ -58,10 +58,10 @@ class ContainerTest extends AggregatorTest
     
     public function testClonning()
     {
-        $clonedAggregator = clone $this->aggregator;
+        $this->cloneAggregator();
         $this->aggregator->aggregate(new Cat(['name' => 'Tom']));
         $this->aggregator->aggregate(new Cat(['name' => 'Emma']));
-        $clonedAggregator->aggregate(new Cat(['name' => 'The One Who Should Not Appear']));
+        $this->aggregatorClone->aggregate(new Cat(['name' => 'The One Who Should Not Appear']));
         $this->assertAggregationResult([
             'type' => 'container',
             'label' => '',

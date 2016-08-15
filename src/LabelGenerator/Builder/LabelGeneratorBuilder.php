@@ -9,6 +9,9 @@
 
 namespace lukaszmakuch\Aggregator\LabelGenerator\Builder;
 
+use lukaszmakuch\Aggregator\LabelGenerator\Builder\LabelGeneratorBuilder;
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
+use lukaszmakuch\Aggregator\ScalarPresenter\Builder\Exception\UnableToBuild;
 use lukaszmakuch\TextGenerator\TextGenerator;
 
 /**
@@ -41,8 +44,8 @@ interface LabelGeneratorBuilder
     );
 
     /**
-     * @return TextGenerator label generator
-     * @throws Exception\UnableToBuild
+     * @return LabelingVisitor label generator as a visitor
+     * @throws UnableToBuild
      */
     public function build();
 }

@@ -153,6 +153,55 @@ class HierarchicalAggregatorTest extends AggregatorTest
         ]);
     }
 
+    public function testCloning()
+    {
+        $this->aggregator = new HierarchicalAggregator(
+            new ColorReader(),
+            new Node("black"),
+            new ListAggregator(
+                new NameReader(),
+                ", "
+            )
+        );
+        $this->cloneAggregator();
+        $this->aggregator->aggregate(new Cat(['color' => 'black', 'name' => 'Jim']));
+        $this->aggregatorClone->aggregate(new Cat(['color' => 'black', 'name' => 'Tim']));
+
+        $this->assertAggregationResult([
+            'type' => 'hierarchy',
+            'label' => "hierarchy",
+            'data' => [
+                'type' => 'hierarchy_node',
+                'label' => 'node:black',
+                'data' => [
+                    'own' => [
+                        'type' => 'list',
+                        'label' => 'list',
+                        'data' => 'Jim',
+                    ],
+                    'children' => [],
+                ],
+            ],
+        ]);
+
+        $this->assertAggregationResultForClone([
+            'type' => 'hierarchy',
+            'label' => "hierarchy",
+            'data' => [
+                'type' => 'hierarchy_node',
+                'label' => 'node:black',
+                'data' => [
+                    'own' => [
+                        'type' => 'list',
+                        'label' => 'list',
+                        'data' => 'Tim',
+                    ],
+                    'children' => [],
+                ],
+            ],
+        ]);
+    }
+    
     public function testExceptionIfSubjectsBelongsToUnknownNode()
     {
         $this->setExpectedExceptionRegExp(UnableToAggregate::class);

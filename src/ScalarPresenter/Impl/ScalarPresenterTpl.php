@@ -10,7 +10,7 @@
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 
 use lukaszmakuch\Aggregator\Aggregator;
-use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvert;
+use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToPresent;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 
 /**
@@ -41,13 +41,13 @@ abstract class ScalarPresenterTpl implements ScalarPresenter
     
     /**
      * @param Aggregator $aggregator
-     * @throws UnableToConvertToArray if the given aggregator is not supported
+     * @throws UnableToPresent if the given aggregator is not supported
      */
     private function throwExceptionIfUnsupported(Aggregator $aggregator)
     {
         $supportedClass = $this->getSupportedAggregatorClass();
         if (!($aggregator instanceof $supportedClass)) {
-            throw new UnableToConvert(sprintf(
+            throw new UnableToPresent(sprintf(
                 "%s expects %s, but %s was given",
                 __CLASS__,
                 $supportedClass,

@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\Impl\Filter;
 
 use lukaszmakuch\Aggregator\Aggregator;
+use lukaszmakuch\Aggregator\AggregatorVisitor;
 use lukaszmakuch\Aggregator\Exception\UnableToAggregate;
 use lukaszmakuch\Aggregator\SubjectRequirement\Exception\UnableToCheckRequirement;
 use lukaszmakuch\Aggregator\SubjectRequirement\SubjectRequirement;
@@ -71,5 +72,10 @@ class Filter implements Aggregator
     public function getActualAggregator()
     {
         return $this->aggregator;
+    }
+    
+    public function accept(AggregatorVisitor $v)
+    {
+        return $v->visit($this);
     }
 }
