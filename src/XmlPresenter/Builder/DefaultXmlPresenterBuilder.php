@@ -26,7 +26,7 @@ use lukaszmakuch\Aggregator\XmlPresenter\Impl\GroupPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\HierarchyNodePresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\HierarchyPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\ListPresenter;
-use lukaszmakuch\Aggregator\XmlPresenter\Impl\MoreThanPresenter;
+use lukaszmakuch\Aggregator\XmlPresenter\Impl\PredicatePresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\ProjectionPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\SubjectsWithCommonPropertiesPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\XmlPresenter;
@@ -82,7 +82,7 @@ class DefaultXmlPresenterBuilder implements XmlPresenterBuilder
             )
             ->registerActualPresenter(
                 MoreThan::class,
-                new MoreThanPresenter()
+                new PredicatePresenter("more_than_predicate")
             )
             ->registerActualPresenter(
                 ProjectionAggregator::class,
