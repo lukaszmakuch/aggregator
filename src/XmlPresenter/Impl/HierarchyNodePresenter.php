@@ -18,7 +18,7 @@ use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\NodeAggregator;
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class HierarchyNodePresenter extends PresenterUsingPresenterTpl
+class HierarchyNodePresenter extends PresenterTpl
 {
     protected function getClassOfSupportedAggregators()
     {
@@ -33,8 +33,9 @@ class HierarchyNodePresenter extends PresenterUsingPresenterTpl
     protected function putDataHeldByAggregator(Aggregator $a, DOMElement $destination)
     {
         /* @var $a NodeAggregator */
+        $this->setLabelAttribute($destination, $a);
         $ownValueTag = $destination->ownerDocument->createElement("value");
-        ;
+        
         $ownValueTag->appendChild($this->getDOMNodeOf($a->getActualAggregator(), $destination));
         $destination->appendChild($ownValueTag);
         

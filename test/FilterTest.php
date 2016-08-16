@@ -83,7 +83,7 @@ class FilterTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat(['name' => 'Tom', 'age' => 5]));
         $this->assertAggregationResultXml("
             <filter label=\"older than 3\">
-                <list label=\"list\">Tom</list>
+                <list>Tom</list>
             </filter>
         ");
     }

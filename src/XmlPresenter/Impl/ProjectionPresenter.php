@@ -18,7 +18,7 @@ use lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator;
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class ProjectionPresenter extends PresenterUsingPresenterTpl
+class ProjectionPresenter extends PresenterTpl
 {
     protected function getClassOfSupportedAggregators()
     {
@@ -33,6 +33,7 @@ class ProjectionPresenter extends PresenterUsingPresenterTpl
     protected function putDataHeldByAggregator(Aggregator $a, DOMElement $destination)
     {
         /* @var $a ProjectionAggregator */
+        $this->setLabelAttribute($destination, $a);
         $destination->appendChild($this->getDOMNodeOf($a->getActualAggregator(), $destination));
     }
 }

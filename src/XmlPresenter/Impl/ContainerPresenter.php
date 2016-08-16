@@ -18,7 +18,7 @@ use lukaszmakuch\Aggregator\Impl\Container\Container;
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class ContainerPresenter extends PresenterUsingPresenterTpl
+class ContainerPresenter extends PresenterTpl
 {
     protected function getClassOfSupportedAggregators()
     {

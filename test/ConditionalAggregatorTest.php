@@ -77,7 +77,7 @@ class ConditionalAggregatorTest extends AggregatorTest
     {
         $this->aggregator->aggregate(new Cat(['name' => 'Tom']));
         $this->assertAggregationResultXml("
-            <list label=\"list\">Tom</list>
+            <list>Tom</list>
         ");
     }
 }

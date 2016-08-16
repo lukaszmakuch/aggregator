@@ -18,7 +18,7 @@ use DOMElement;
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class SubjectsWithCommonPropertiesPresenter extends PresenterUsingPresenterTpl
+class SubjectsWithCommonPropertiesPresenter extends PresenterTpl
 {
     protected function getClassOfSupportedAggregators()
     {
@@ -33,6 +33,7 @@ class SubjectsWithCommonPropertiesPresenter extends PresenterUsingPresenterTpl
     protected function putDataHeldByAggregator(Aggregator $a, DOMElement $destination)
     {
         /* @var $a AggregatorOfSubjectsWithCommonProperties */
+        $this->setLabelAttribute($destination, $a);
         $destination->appendChild($this->getDOMNodeOf($a->getActualAggregator(), $destination));
     }
 }

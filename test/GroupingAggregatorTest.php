@@ -115,10 +115,10 @@ class GroupingAggregatorTest extends AggregatorTest
         $this->assertAggregationResultXml("
             <group label=\"grouped by age\">
                 <subjects_with_common_properties label=\"age 5\">
-                    <list label=\"list\">Henry</list>
+                    <list>Henry</list>
                 </subjects_with_common_properties>
                 <subjects_with_common_properties label=\"age 1\">
-                    <list label=\"list\">Jim</list>
+                    <list>Jim</list>
                 </subjects_with_common_properties>
             </group>
         ");

@@ -34,6 +34,7 @@ class MoreThanPresenter extends PresenterTpl
     protected function putDataHeldByAggregator(Aggregator $a, DOMElement $destination)
     {
         /* @var $a MoreThan */
+        $this->setLabelAttribute($destination, $a);
         $destination->appendChild(new DOMText((int)$a->isTrue()));
     }
 }

@@ -219,15 +219,15 @@ class HierarchicalAggregatorTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat(['color' => 'dark blue', 'name' => 'Tim']));
         
         $this->assertAggregationResultXml('
-            <hierarchy label="hierarchy">
+            <hierarchy>
                 <hierarchy_node label="blue">
                     <value>
-                        <list label="list">Jim, Tim</list>
+                        <list>Jim, Tim</list>
                     </value>
                     <children>
                         <hierarchy_node label="dark blue">
                             <value>
-                                <list label="list">Tim</list>
+                                <list>Tim</list>
                             </value>
                             <children/>
                         </hierarchy_node>
@@ -239,10 +239,10 @@ class HierarchicalAggregatorTest extends AggregatorTest
         $this->assertFlatHierarchy('
             <hierarchy>
                 <node label="blue" parent_label="" depth="0">
-                    <list label="list">Jim, Tim</list>
+                    <list>Jim, Tim</list>
                 </node>
                 <node label="dark blue" parent_label="blue" depth="1">
-                    <list label="list">Tim</list>
+                    <list>Tim</list>
                 </node>
             </hierarchy>
         ');

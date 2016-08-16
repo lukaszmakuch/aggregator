@@ -18,7 +18,7 @@ use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class GroupPresenter extends PresenterUsingPresenterTpl
+class GroupPresenter extends PresenterTpl
 {
     protected function getClassOfSupportedAggregators()
     {
@@ -32,6 +32,7 @@ class GroupPresenter extends PresenterUsingPresenterTpl
 
     protected function putDataHeldByAggregator(Aggregator $a, DOMElement $destination)
     {
+        $this->setLabelAttribute($destination, $a);
         /* @var $a GroupingAggregator */
         foreach ($a->getAggregatorsOfSubjectsWithCommonProperties() as $aggregatorToAdd) {
             $destination->appendChild($this->getDOMNodeOf($aggregatorToAdd, $destination));

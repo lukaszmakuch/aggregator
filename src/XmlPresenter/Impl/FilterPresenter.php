@@ -18,7 +18,7 @@ use lukaszmakuch\Aggregator\Impl\Filter\Filter;
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class FilterPresenter extends PresenterUsingPresenterTpl
+class FilterPresenter extends PresenterTpl
 {
     protected function getClassOfSupportedAggregators()
     {
@@ -33,6 +33,7 @@ class FilterPresenter extends PresenterUsingPresenterTpl
     protected function putDataHeldByAggregator(Aggregator $a, DOMElement $destination)
     {
         /* @var $a Filter */
+        $this->setLabelAttribute($destination, $a);
         $destination->appendChild($this->getDOMNodeOf($a->getActualAggregator(), $destination));
     }
 }

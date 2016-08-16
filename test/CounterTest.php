@@ -51,7 +51,7 @@ class CounterTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat());
         
         $this->assertAggregationResultXml("
-            <counter label=\"count\">1</counter>
+            <counter>1</counter>
         ");
     }
     

@@ -18,7 +18,7 @@ use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class HierarchyPresenter extends PresenterUsingPresenterTpl
+class HierarchyPresenter extends PresenterTpl
 {
     protected function getClassOfSupportedAggregators()
     {
