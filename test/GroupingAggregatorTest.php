@@ -112,15 +112,15 @@ class GroupingAggregatorTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat(['name' => 'Henry', 'age' => 5]));
         $this->aggregator->aggregate(new Cat(['name' => 'Jim', 'age' => 1]));
         
-        $this->assertAggregationResultXml("
-            <group label=\"grouped by age\">
-                <subjects_with_common_properties label=\"age 5\">
+        $this->assertAggregationResultXml('
+            <group label="grouped by age">
+                <subjects_with_common_properties label="age 5">
                     <list>Henry</list>
                 </subjects_with_common_properties>
-                <subjects_with_common_properties label=\"age 1\">
+                <subjects_with_common_properties label="age 1">
                     <list>Jim</list>
                 </subjects_with_common_properties>
             </group>
-        ");
+        ');
     }
 }

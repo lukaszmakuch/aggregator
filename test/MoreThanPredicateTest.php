@@ -65,8 +65,8 @@ class MoreThanPredicateTest extends AggregatorTest
     
     public function testPresentingAsXml()
     {
-        $this->assertAggregationResultXml("
-            <more_than_predicate label=\"more subjects than 2\">0</more_than_predicate>
-        ");
+        $this->assertAggregationResultXml('
+            <more_than_predicate label="more subjects than 2">0</more_than_predicate>
+        ');
     }
 }

@@ -95,10 +95,10 @@ class ProjectionAggregatorTest extends AggregatorTest
     public function testPresentingAsXml()
     {
         $this->aggregator->aggregate(new Cat(['name' => 'Henry']));
-        $this->assertAggregationResultXml("
-            <projection label=\"name-letter-by-letter\">
+        $this->assertAggregationResultXml('
+            <projection label="name-letter-by-letter">
                 <list>H-e-n-r-y</list>
             </projection>
-        ");
+        ');
     }
 }
