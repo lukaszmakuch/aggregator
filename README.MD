@@ -123,6 +123,23 @@ $presentingVisitor = (new DefaultScalarPresenterBuilder())
     ))
     ->build();
 ```
+### XmlPresenter
+Generates an XML representation of a given aggregator as a String.
+#### XmlPresenterBuilder
+Because of the complex nature of possible aggregator composites, there's a builder that makes it easier to get an xml presenter that fits your needs.
+```php
+$xmlPresenter =
+    (new DefaultXmlPresenterBuilder())
+    ->registerDependency(
+        LabelingVisitorUser::class,
+        $labelingVisitor
+    )
+    ->registerActualPresenter(
+        CustomAggregator::class,
+        new CustomAggregatorXmlPresenter(),
+    )
+    ->build();
+```
 ## How to install
 ```
 $ composer require lukaszmakuch/aggregator
