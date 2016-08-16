@@ -16,7 +16,7 @@ use lukaszmakuch\Aggregator\PredicateAggregator;
 
 /**
  * Presents predicates.
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class PredicatePresenter extends PresenterTpl
@@ -25,7 +25,7 @@ class PredicatePresenter extends PresenterTpl
     private $addLabel;
     
     /**
-     * 
+     *
      * @param String $tagName
      * @param boolean $addLabel if true, then a label attribute is added to the tag
      */

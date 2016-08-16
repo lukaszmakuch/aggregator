@@ -265,7 +265,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
         $this->xmlPresenter =
             (new XmlPresenter\Builder\DefaultXmlPresenterBuilder())
             ->registerActualPresenter(
-                HierarchicalAggregator::class, 
+                HierarchicalAggregator::class,
                 new XmlPresenter\Impl\FlatHierarchyPresenter()
             )
             ->registerDependency(

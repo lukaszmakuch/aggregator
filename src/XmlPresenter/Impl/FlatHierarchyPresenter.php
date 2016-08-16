@@ -38,9 +38,9 @@ class FlatHierarchyPresenter extends PresenterTpl
     {
         /* @var $a HierarchicalAggregator */
         $this->addHierarchyNodeTags(
-            $a->getAggregatorOfNodes(), 
-            $destination, 
-            self::ROOT_NODE_LEVEL, 
+            $a->getAggregatorOfNodes(),
+            $destination,
+            self::ROOT_NODE_LEVEL,
             self::ROOT_NODE_PARENT_LABEL
         );
     }
@@ -54,8 +54,8 @@ class FlatHierarchyPresenter extends PresenterTpl
      */
     private function addHierarchyNodeTags(
         NodeAggregator $nodeAggregator,
-        DOMElement $destination, 
-        $depth, 
+        DOMElement $destination,
+        $depth,
         $parentHierarchyNodeLabel
     ) {
         $node = $destination->ownerDocument->createElement("node");
@@ -66,9 +66,9 @@ class FlatHierarchyPresenter extends PresenterTpl
         $destination->appendChild($node);
         foreach ($nodeAggregator->getChildren() as $childNode) {
             $this->addHierarchyNodeTags(
-                $childNode, 
-                $destination, 
-                $depth + 1, 
+                $childNode,
+                $destination,
+                $depth + 1,
                 $this->getLabelFor($nodeAggregator, $destination)
             );
         }
