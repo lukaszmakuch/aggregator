@@ -11,6 +11,7 @@ namespace lukaszmakuch\Aggregator\XmlPresenter\Impl;
 
 use DOMDocument;
 use DOMElement;
+use DOMNode;
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\LabelGenerator\Exception\UnableToGenerateLabel;
 use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
@@ -64,30 +65,6 @@ abstract class PresenterTpl implements XmlPresenter, XmlPresenterUser, LabelingV
     }
     
     /**
-     * @param DOMElement $target
-     * @param Aggregator $labelSource
-     * @throws UnableToCreateXml
-     */
-    protected function setLabelAttribute(\DOMElement $target, Aggregator $labelSource)
-    {
-        $target->setAttribute("label", $this->getLabelFor($labelSource, $target));
-    }
-    
-    /**
-     * @param Aggregator $a
-     * @param DOMElement $where
-     * @throws UnableToCreateXml
-     */
-    protected function getLabelFor(Aggregator $a, \DOMElement $where)
-    {
-        try {
-            return $a->accept($this->labelingVisitor);
-        } catch (UnableToGenerateLabel $e) {
-            throw new UnableToCreateXml("it was impossible to generate a label for " . get_class($a));
-        }
-    }
-    
-    /**
      * @return String class that is supported by this presenter
      */
     abstract protected function getClassOfSupportedAggregators();
@@ -104,6 +81,30 @@ abstract class PresenterTpl implements XmlPresenter, XmlPresenterUser, LabelingV
      * @return String root XML tag of this aggregator representation, like "counter"
      */
     abstract protected function getRootTagName();
+    
+    /**
+     * @param DOMElement $target
+     * @param Aggregator $labelSource
+     * @throws UnableToCreateXml
+     */
+    protected function setLabelAttribute(DOMElement $target, Aggregator $labelSource)
+    {
+        $target->setAttribute("label", $this->getLabelFor($labelSource, $target));
+    }
+    
+    /**
+     * @param Aggregator $a
+     * @param DOMElement $where
+     * @throws UnableToCreateXml
+     */
+    protected function getLabelFor(Aggregator $a)
+    {
+        try {
+            return $a->accept($this->labelingVisitor);
+        } catch (UnableToGenerateLabel $e) {
+            throw new UnableToCreateXml("it was impossible to generate a label for " . get_class($a));
+        }
+    }
     
     /**
      * @param Aggregator $a
