@@ -70,10 +70,20 @@ abstract class PresenterTpl implements XmlPresenter, XmlPresenterUser, LabelingV
      */
     protected function setLabelAttribute(\DOMElement $target, Aggregator $labelSource)
     {
+        $target->setAttribute("label", $this->getLabelFor($labelSource, $target));
+    }
+    
+    /**
+     * @param Aggregator $a
+     * @param DOMElement $where
+     * @throws UnableToCreateXml
+     */
+    protected function getLabelFor(Aggregator $a, \DOMElement $where)
+    {
         try {
-            $target->setAttribute("label", $labelSource->accept($this->labelingVisitor));
+            return $a->accept($this->labelingVisitor);
         } catch (UnableToGenerateLabel $e) {
-            throw new UnableToCreateXml("it was impossible to generate a label for " . get_class($labelSource));
+            throw new UnableToCreateXml("it was impossible to generate a label for " . get_class($a));
         }
     }
     
