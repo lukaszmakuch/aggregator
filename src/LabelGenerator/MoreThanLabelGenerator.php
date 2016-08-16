@@ -27,6 +27,6 @@ class MoreThanLabelGenerator extends ObjectToTextConverter
     protected function getTextBasedOnObject($object)
     {
         /* @var $object MoreThan */
-        return "more subjects than " . $object->getThreshold();
+        return "more than " . $object->getThreshold();
     }
 }

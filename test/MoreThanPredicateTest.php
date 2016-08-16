@@ -28,7 +28,7 @@ class MoreThanPredicateTest extends AggregatorTest
         
         $this->assertAggregationResult([
             'type' => 'more_than_predicate',
-            'label' => 'more subjects than 2',
+            'label' => 'more than 2',
             'data' => false,
         ]);
         
@@ -36,7 +36,7 @@ class MoreThanPredicateTest extends AggregatorTest
         
         $this->assertAggregationResult([
             'type' => 'more_than_predicate',
-            'label' => 'more subjects than 2',
+            'label' => 'more than 2',
             'data' => true,
         ]);
     }
@@ -52,13 +52,13 @@ class MoreThanPredicateTest extends AggregatorTest
         
         $this->assertAggregationResult([
             'type' => 'more_than_predicate',
-            'label' => 'more subjects than 2',
+            'label' => 'more than 2',
             'data' => false,
         ]);
         
         $this->assertAggregationResultForClone([
             'type' => 'more_than_predicate',
-            'label' => 'more subjects than 2',
+            'label' => 'more than 2',
             'data' => true,
         ]);
     }
@@ -66,7 +66,7 @@ class MoreThanPredicateTest extends AggregatorTest
     public function testPresentingAsXml()
     {
         $this->assertAggregationResultXml('
-            <more_than_predicate label="more subjects than 2">0</more_than_predicate>
+            <more_than_predicate label="more than 2">0</more_than_predicate>
         ');
     }
 }
