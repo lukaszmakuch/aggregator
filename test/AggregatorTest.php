@@ -55,7 +55,7 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
     /**
      * @var XmlPresenter
      */
-    private $xmlPresenter;
+    protected $xmlPresenter;
 
     protected function setUp()
     {
@@ -131,7 +131,7 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    private function buildLabelGenerator()
+    protected function buildLabelGenerator()
     {
         $propertyReaderToTextConverter = new ClassBasedTextGenerator();
         $propertyReaderToTextConverter->addTextualRepresentationOf(

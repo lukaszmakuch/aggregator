@@ -217,6 +217,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
         $this->cloneAggregator();
         $this->aggregator->aggregate(new Cat(['color' => 'blue', 'name' => 'Jim']));
         $this->aggregator->aggregate(new Cat(['color' => 'dark blue', 'name' => 'Tim']));
+        
         $this->assertAggregationResultXml('
             <hierarchy label="hierarchy">
                 <hierarchy_node label="blue">
@@ -234,11 +235,44 @@ class HierarchicalAggregatorTest extends AggregatorTest
                 </hierarchy_node>
             </hierarchy>
         ');
+        
+        $this->assertFlatHierarchy('
+            <hierarchy>
+                <node label="blue" parent_label="" depth="0">
+                    <list label="list">Jim, Tim</list>
+                </node>
+                <node label="dark blue" parent_label="blue" depth="1">
+                    <list label="list">Tim</list>
+                </node>
+            </hierarchy>
+        ');
     }
     
     public function testExceptionIfSubjectsBelongsToUnknownNode()
     {
         $this->setExpectedExceptionRegExp(UnableToAggregate::class);
         $this->aggregator->aggregate(new Cat(['color' => 'not included in the hierarchy description']));
+    }
+    
+    private function assertFlatHierarchy($xml)
+    {
+        $this->changeHierarchyRendererToFlat();
+        $this->assertAggregationResultXml($xml);
+    }
+    
+    private function changeHierarchyRendererToFlat()
+    {
+        $this->xmlPresenter =
+            (new XmlPresenter\Builder\DefaultXmlPresenterBuilder())
+            ->registerActualPresenter(
+                HierarchicalAggregator::class, 
+                new XmlPresenter\Impl\FlatHierarchyPresenter()
+            )
+            ->registerDependency(
+                LabelGenerator\LabelingVisitorUser::class,
+                $this->buildLabelGenerator()
+            )
+            ->build()
+        ;
     }
 }
