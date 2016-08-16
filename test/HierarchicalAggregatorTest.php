@@ -254,6 +254,27 @@ class HierarchicalAggregatorTest extends AggregatorTest
         $this->aggregator->aggregate(new Cat(['color' => 'not included in the hierarchy description']));
     }
     
+    public function testNodeEquality()
+    {
+        $this->assertTrue((new Node("n1", [
+            new Node("n1.1"),
+            new Node("n1.2")
+        ]))->equals(new Node("n1", [
+            new Node("n1.1"),
+            new Node("n1.2")
+        ])));
+    }
+    
+    public function testNodeInequality()
+    {
+        $this->assertFalse((new Node("n1", [
+            new Node("n1.1"),
+            new Node("n1.2")
+        ]))->equals(new Node("n1", [
+            new Node("n1.1"),
+        ])));
+    }
+    
     private function assertFlatHierarchy($xml)
     {
         $this->changeHierarchyRendererToFlat();

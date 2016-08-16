@@ -46,4 +46,31 @@ class Node
     {
         return $this->children;
     }
+    
+    /**
+     * @param \lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\Node $anotherNode
+     * @return boolean
+     */
+    public function equals(Node $anotherNode)
+    {
+        if ($this->name != $anotherNode->name) {
+            return false;
+        }
+        
+        /* @var $expectedNodes Node */
+        $expectedNodes = array_values($this->children);
+        $actualNodes = array_values($anotherNode->children);
+        
+        if (count($expectedNodes) != count($actualNodes)) {
+            return false;
+        }
+        
+        for ($nodeIndex = 0; $nodeIndex < count($expectedNodes); $nodeIndex++) {
+            if (!$expectedNodes[$nodeIndex]->equals($actualNodes[$nodeIndex])) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
 }
