@@ -72,4 +72,12 @@ class ConditionalAggregatorTest extends AggregatorTest
         ]);
         
     }
+    
+    public function testPresentingAsXml()
+    {
+        $this->aggregator->aggregate(new Cat(['name' => 'Tom']));
+        $this->assertAggregationResultXml("
+            <list label=\"list\">Tom</list>
+        ");
+    }
 }

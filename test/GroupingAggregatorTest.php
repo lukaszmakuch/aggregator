@@ -106,4 +106,21 @@ class GroupingAggregatorTest extends AggregatorTest
             ],
         ]);
     }
+    
+    public function testPresentingAsXml()
+    {
+        $this->aggregator->aggregate(new Cat(['name' => 'Henry', 'age' => 5]));
+        $this->aggregator->aggregate(new Cat(['name' => 'Jim', 'age' => 1]));
+        
+        $this->assertAggregationResultXml("
+            <group label=\"grouped by age\">
+                <subjects_with_common_properties label=\"age 5\">
+                    <list label=\"list\">Henry</list>
+                </subjects_with_common_properties>
+                <subjects_with_common_properties label=\"age 1\">
+                    <list label=\"list\">Jim</list>
+                </subjects_with_common_properties>
+            </group>
+        ");
+    }
 }

@@ -39,7 +39,7 @@ class MoreThan implements PredicateAggregator
     }
     
     /**
-     * @return int this predicate evaluates to true 
+     * @return int this predicate evaluates to true
      * when more subjects than this value are taken into account
      */
     public function getThreshold()

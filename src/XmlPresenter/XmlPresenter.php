@@ -7,23 +7,23 @@
  * @license MIT http://opensource.org/licenses/MIT
  */
 
-namespace lukaszmakuch\Aggregator\LabelGenerator;
+namespace lukaszmakuch\Aggregator\XmlPresenter;
 
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\AggregatorVisitor;
-use lukaszmakuch\Aggregator\LabelGenerator\Exception\UnableToGenerateLabel;
+use lukaszmakuch\Aggregator\XmlPresenter\Exception\UnableToCreateXml;
 
 /**
- * Generates labels for aggregators.
+ * Returns an xml representation of an aggregator.
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-interface LabelingVisitor extends AggregatorVisitor
+interface XmlPresenter extends AggregatorVisitor
 {
     /**
      * @param Aggregator $a
-     * @return String
-     * @throws UnableToGenerateLabel
+     * @return String xml representation
+     * @throws UnableToCreateXml
      */
     public function visit(Aggregator $a);
 }

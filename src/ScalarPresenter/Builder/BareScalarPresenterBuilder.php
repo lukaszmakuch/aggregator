@@ -10,6 +10,7 @@
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder;
 
 use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
+use lukaszmakuch\Aggregator\LabelGenerator\NullLabelingVisitor;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\Exception\UnableToBuild;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
@@ -22,7 +23,6 @@ use lukaszmakuch\PropertySetter\SimplePropertySetter;
 use lukaszmakuch\PropertySetter\TargetSpecifier\PickByClass;
 use lukaszmakuch\PropertySetter\ValueSource\UseDirectly;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
-use lukaszmakuch\TextGenerator\NULLTextGenerator;
 
 /**
  * Without any additional method calls,
@@ -54,7 +54,7 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
      */
     public function __construct()
     {
-        $this->labelingVisitor = new LabelingVisitor(NULLTextGenerator::getInstance());
+        $this->labelingVisitor = new NullLabelingVisitor();
         $this->aggregatorTextualTypeGenerator = new ClassBasedTextGenerator();
     }
 

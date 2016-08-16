@@ -17,12 +17,15 @@ use lukaszmakuch\Aggregator\Cat\OlderThan;
 use lukaszmakuch\Aggregator\Cat\OlderThanRenderer;
 use lukaszmakuch\Aggregator\Exception\VisitorException;
 use lukaszmakuch\Aggregator\LabelGenerator\Builder\DefaultLabelGeneratorBuilder;
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitorUser;
 use lukaszmakuch\Aggregator\LabelGenerator\PropertyReaderToTextConverterUser;
 use lukaszmakuch\Aggregator\LabelGenerator\PropertyToTextConverterUser;
 use lukaszmakuch\Aggregator\LabelGenerator\RequirementToTextConverterUser;
 use lukaszmakuch\Aggregator\LabelGenerator\SubjectProjectorToTextConverterUser;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\DefaultScalarPresenterBuilder;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
+use lukaszmakuch\Aggregator\XmlPresenter\Builder\DefaultXmlPresenterBuilder;
+use lukaszmakuch\Aggregator\XmlPresenter\XmlPresenter;
 use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
 use lukaszmakuch\TextGenerator\ClassBasedTextGeneratorProxy;
 use PHPUnit_Framework_TestCase;
@@ -47,13 +50,27 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
     /**
      * @var ScalarPresenter\PresentingVisitor
      */
-    private $presentingVisitor;
+    private $scalarPresentingVisitor;
+    
+    /**
+     * @var XmlPresenter
+     */
+    private $xmlPresenter;
 
     protected function setUp()
     {
-        $this->presentingVisitor = (new DefaultScalarPresenterBuilder())
+        $this->scalarPresentingVisitor = (new DefaultScalarPresenterBuilder())
             ->setLabelingVisitor($this->buildLabelGenerator())
             ->build();
+        
+        $this->xmlPresenter =
+            (new DefaultXmlPresenterBuilder())
+            ->registerDependency(
+                LabelingVisitorUser::class,
+                $this->buildLabelGenerator()
+            )
+            ->build()
+        ;
     }
     
     /**
@@ -87,6 +104,20 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * Asserts that the aggregation result for the main aggregator matches the expected XML.
+     *
+     * @param String $expectedResultOfAggregationAsXml
+     * @throws VisitorException
+     */
+    protected function assertAggregationResultXml($expectedResultOfAggregationAsXml)
+    {
+        $this->assertXmlStringEqualsXmlString(
+            $expectedResultOfAggregationAsXml,
+            $this->aggregator->accept($this->xmlPresenter)
+        );
+    }
+    
+    /**
      * Asserts that the aggregation result for the given aggregator matches the given result.
      *
      * @param mixed $expectedResultOfAggregation
@@ -96,7 +127,7 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
     {
         $this->assertSame(
             $expectedResultOfAggregation,
-            $a->accept($this->presentingVisitor)
+            $a->accept($this->scalarPresentingVisitor)
         );
     }
 

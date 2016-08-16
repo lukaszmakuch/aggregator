@@ -46,6 +46,15 @@ class CounterTest extends AggregatorTest
         ]);
     }
     
+    public function testPresentingAsXml()
+    {
+        $this->aggregator->aggregate(new Cat());
+        
+        $this->assertAggregationResultXml("
+            <counter label=\"count\">1</counter>
+        ");
+    }
+    
     public function testCloning()
     {
         $this->aggregator->aggregate(new Cat());

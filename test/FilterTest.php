@@ -77,4 +77,14 @@ class FilterTest extends AggregatorTest
         ]);
         
     }
+    
+    public function testPresentingAsXml()
+    {
+        $this->aggregator->aggregate(new Cat(['name' => 'Tom', 'age' => 5]));
+        $this->assertAggregationResultXml("
+            <filter label=\"older than 3\">
+                <list label=\"list\">Tom</list>
+            </filter>
+        ");
+    }
 }

@@ -63,7 +63,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
             'label' => "hierarchy",
             'data' => [
                 'type' => 'hierarchy_node',
-                'label' => 'node:all',
+                'label' => 'all',
                 'data' => [
                     'own' => [
                         'type' => 'list',
@@ -73,7 +73,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
                     'children' => [
                         [
                             'type' => 'hierarchy_node',
-                            'label' => 'node:dark',
+                            'label' => 'dark',
                             'data' => [
                                 'own' => [
                                     'type' => 'list',
@@ -83,7 +83,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
                                 'children' => [
                                     [
                                         'type' => 'hierarchy_node',
-                                        'label' => 'node:black',
+                                        'label' => 'black',
                                         'data' => [
                                             'own' => [
                                                 'type' => 'list',
@@ -95,7 +95,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
                                     ],
                                     [
                                         'type' => 'hierarchy_node',
-                                        'label' => 'node:brown',
+                                        'label' => 'brown',
                                         'data' => [
                                             'own' => [
                                                 'type' => 'list',
@@ -110,7 +110,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
                         ],
                         [
                             'type' => 'hierarchy_node',
-                            'label' => 'node:favorite',
+                            'label' => 'favorite',
                             'data' => [
                                 'own' => [
                                     'type' => 'list',
@@ -120,7 +120,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
                                 'children' => [
                                     [
                                         'type' => 'hierarchy_node',
-                                        'label' => 'node:black',
+                                        'label' => 'black',
                                         'data' => [
                                             'own' => [
                                                 'type' => 'list',
@@ -130,7 +130,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
                                             'children' => [
                                                 [
                                                     'type' => 'hierarchy_node',
-                                                    'label' => 'node:black',
+                                                    'label' => 'black',
                                                     'data' => [
                                                         'own' => [
                                                             'type' => 'list',
@@ -172,7 +172,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
             'label' => "hierarchy",
             'data' => [
                 'type' => 'hierarchy_node',
-                'label' => 'node:black',
+                'label' => 'black',
                 'data' => [
                     'own' => [
                         'type' => 'list',
@@ -189,7 +189,7 @@ class HierarchicalAggregatorTest extends AggregatorTest
             'label' => "hierarchy",
             'data' => [
                 'type' => 'hierarchy_node',
-                'label' => 'node:black',
+                'label' => 'black',
                 'data' => [
                     'own' => [
                         'type' => 'list',
@@ -200,6 +200,40 @@ class HierarchicalAggregatorTest extends AggregatorTest
                 ],
             ],
         ]);
+    }
+    
+    public function testPresentingAsXml()
+    {
+        $this->aggregator = new HierarchicalAggregator(
+            new ColorReader(),
+            new Node("blue", [
+                new Node("dark blue")
+            ]),
+            new ListAggregator(
+                new NameReader(),
+                ", "
+            )
+        );
+        $this->cloneAggregator();
+        $this->aggregator->aggregate(new Cat(['color' => 'blue', 'name' => 'Jim']));
+        $this->aggregator->aggregate(new Cat(['color' => 'dark blue', 'name' => 'Tim']));
+        $this->assertAggregationResultXml('
+            <hierarchy label="hierarchy">
+                <hierarchy_node label="blue">
+                    <value>
+                        <list label="list">Jim, Tim</list>
+                    </value>
+                    <children>
+                        <hierarchy_node label="dark blue">
+                            <value>
+                                <list label="list">Tim</list>
+                            </value>
+                            <children/>
+                        </hierarchy_node>
+                    </children>
+                </hierarchy_node>
+            </hierarchy>
+        ');
     }
     
     public function testExceptionIfSubjectsBelongsToUnknownNode()

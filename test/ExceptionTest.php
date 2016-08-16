@@ -36,41 +36,67 @@ class UnsupportedAggregator implements Aggregator
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-abstract class ExceptionTest extends PHPUnit_Framework_TestCase
+class ExceptionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var AggregatorVisitor
      */
-    private $presentingVisitor;
+    private $scalarPresenter;
+    
+    /**
+     * @var XmlPresenter\XmlPresenter
+     */
+    private $xmlPresenter;
     
     protected function setUp()
     {
-        $this->presentingVisitor = (new DefaultScalarPresenterBuilder())
+        $this->scalarPresenter = (new DefaultScalarPresenterBuilder())
             ->setLabelingVisitor((new DefaultLabelGeneratorBuilder())->build())
             ->build();
+        $this->xmlPresenter = (new XmlPresenter\Builder\DefaultXmlPresenterBuilder())->build();
     }
     
-    public function testUnableToVisitAggregatorToPresentIt()
+    public function testUnableToVisitForScalar()
     {
         $this->setExpectedExceptionRegExp(UnableToPresentByVisitor::class);
-        $this->presentingVisitor->visit(new UnsupportedAggregator());
+        $this->scalarPresenter->visit(new UnsupportedAggregator());
     }
     
-    public function testUnableToAcceptVisitorToPresentAggregator()
+    public function testUnableToAcceptForScalar()
     {
         $this->setExpectedExceptionRegExp(UnableToPresentByVisitor::class);
-        $this->presentingVisitor->visit(new UnsupportedAggregator());
+        (new UnsupportedAggregator())->accept($this->scalarPresenter);
+    }
+    
+    public function testUnableToVisitForXml()
+    {
+        $this->setExpectedExceptionRegExp(XmlPresenter\Exception\UnableToCreateXml::class);
+        $this->xmlPresenter->visit(new UnsupportedAggregator());
+    }
+    
+    public function testUnableToAcceptForXml()
+    {
+        $this->setExpectedExceptionRegExp(XmlPresenter\Exception\UnableToCreateXml::class);
+        (new UnsupportedAggregator())->accept($this->xmlPresenter);
     }
 
-    public function testUnableToVisitAggregatorToGenerateLabel()
+    public function testUnableToVisitForLabel()
     {
         $this->setExpectedExceptionRegExp(UnableToGenerateLabel::class);
         $this->buildLabelGenerator()->visit(new UnsupportedAggregator());
     }
 
-    public function testUnableToAcceptVisitorToGenerateLabel()
+    public function testUnableToAcceptForLabel()
     {
         $this->setExpectedExceptionRegExp(UnableToGenerateLabel::class);
         (new UnsupportedAggregator())->accept($this->buildLabelGenerator());
+    }
+    
+    /**
+     * @return ScalarPresenter\Impl\LabelingPresenter
+     */
+    private function buildLabelGenerator()
+    {
+        return (new LabelGenerator\Builder\BareLabelGeneratorBuilder())->build();
     }
 }

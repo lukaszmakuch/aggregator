@@ -27,6 +27,6 @@ class HierarchyNodeAggregatorLabelGenerator extends ObjectToTextConverter
     protected function getTextBasedOnObject($object)
     {
         /* @var $object NodeAggregator */
-        return "node:" . $object->getNodeName();
+        return $object->getNodeName();
     }
 }

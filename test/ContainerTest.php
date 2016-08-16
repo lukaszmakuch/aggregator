@@ -79,4 +79,14 @@ class ContainerTest extends AggregatorTest
             ],
         ]);
     }
+    public function testPresentingAsXml()
+    {
+        $this->aggregator->aggregate(new Cat(['name' => 'Tom']));
+        $this->assertAggregationResultXml("
+            <container label=\"\">
+                <list label=\"list\">Tom</list>
+                <counter label=\"count\">1</counter>
+            </container>
+        ");
+    }
 }

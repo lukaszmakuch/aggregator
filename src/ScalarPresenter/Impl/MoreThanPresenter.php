@@ -14,12 +14,12 @@ use lukaszmakuch\Aggregator\Impl\Counter\MoreThan;
 
 /**
  * Presents "more than" predicate.
- * 
+ *
  * Example output:
  * <pre>
  *     true
  * </pre>
- * 
+ *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
 class MoreThanPresenter extends ScalarPresenterTpl
