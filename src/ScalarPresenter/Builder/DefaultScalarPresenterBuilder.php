@@ -18,6 +18,7 @@ use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\NodeAggregator;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
+use lukaszmakuch\Aggregator\Impl\Percentage\Percentage;
 use lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator;
 use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\BareScalarPresenterBuilder;
@@ -33,6 +34,7 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchicalAggregatorPresenter
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchyNodeAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\MoreThanPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\PercentagePresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ProjectionPresenter;
 
 /**
@@ -101,6 +103,11 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
                 MoreThan::class,
                 new MoreThanPresenter(),
                 "more_than_predicate"
+            ))
+            ->registerExtension(new ExtensionImpl(
+                Percentage::class,
+                new PercentagePresenter(),
+                "percentage"
             ))
         ;
     }

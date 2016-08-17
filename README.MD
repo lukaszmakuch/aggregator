@@ -52,6 +52,11 @@ There are few basic aggregators built-in
 
 Counts all given subjects.
 
+#### Percentage
+*lukaszmakuch\Aggregator\Impl\Percentage\Percentage*
+
+Calculates a percentage value of subjects that meet some requirement.
+
 #### ListAggregator
 *lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator*
 

@@ -18,6 +18,7 @@ use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\NodeAggregator;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
+use lukaszmakuch\Aggregator\Impl\Percentage\Percentage;
 use lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\ContainerPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\CounterPresenter;
@@ -26,6 +27,7 @@ use lukaszmakuch\Aggregator\XmlPresenter\Impl\GroupPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\HierarchyNodePresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\HierarchyPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\ListPresenter;
+use lukaszmakuch\Aggregator\XmlPresenter\Impl\PercentagePresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\PredicatePresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\ProjectionPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\SubjectsWithCommonPropertiesPresenter;
@@ -87,6 +89,10 @@ class DefaultXmlPresenterBuilder implements XmlPresenterBuilder
             ->registerActualPresenter(
                 ProjectionAggregator::class,
                 new ProjectionPresenter()
+            )
+            ->registerActualPresenter(
+                Percentage::class,
+                new PercentagePresenter()
             )
         ;
     }
