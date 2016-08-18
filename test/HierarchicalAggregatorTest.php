@@ -244,10 +244,10 @@ class HierarchicalAggregatorTest extends AggregatorTest
         
         $this->assertFlatHierarchy('
             <hierarchy>
-                <node label="blue" parent_label="" depth="0">
+                <node label="blue" parent_label="" depth="0" has_children="1">
                     <list>Jim, Tim</list>
                 </node>
-                <node label="dark blue" parent_label="blue" depth="1">
+                <node label="dark blue" parent_label="blue" depth="1" has_children="0">
                     <list>Tim</list>
                 </node>
             </hierarchy>
@@ -275,10 +275,10 @@ class HierarchicalAggregatorTest extends AggregatorTest
         
         $this->assertFlatHierarchy('
             <hierarchy>
-                <node label="blue" parent_label="" depth="0">
+                <node label="blue" parent_label="" depth="0" has_children="1">
                     <counter>2</counter>
                 </node>
-                <node label="dark blue" parent_label="blue" depth="1">
+                <node label="dark blue" parent_label="blue" depth="1" has_children="0">
                     <list>Tim</list>
                 </node>
             </hierarchy>

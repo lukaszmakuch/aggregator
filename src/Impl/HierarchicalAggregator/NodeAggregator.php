@@ -61,6 +61,14 @@ class NodeAggregator implements Aggregator
     }
     
     /**
+     * @return boolean true if this aggregator has any children
+     */
+    public function hasChildren()
+    {
+        return !empty($this->children);
+    }
+    
+    /**
      * @return Aggregator used to aggregate all subjects of that node
      */
     public function getActualAggregator()

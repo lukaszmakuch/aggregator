@@ -61,6 +61,7 @@ class FlatHierarchyPresenter extends PresenterTpl
         $node = $destination->ownerDocument->createElement("node");
         $this->setLabelAttribute($node, $nodeAggregator);
         $node->setAttribute("parent_label", $parentHierarchyNodeLabel);
+        $node->setAttribute("has_children", (int)$nodeAggregator->hasChildren());
         $node->setAttribute("depth", $depth);
         $node->appendChild($this->getDOMNodeOf($nodeAggregator->getActualAggregator(), $destination));
         $destination->appendChild($node);
