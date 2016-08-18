@@ -73,4 +73,12 @@ class Node
         
         return true;
     }
+    
+    /**
+     * @return boolean true if this node has no children
+     */
+    public function isLeaf()
+    {
+        return empty($this->children);
+    }
 }

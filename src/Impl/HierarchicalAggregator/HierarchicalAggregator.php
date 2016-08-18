@@ -23,7 +23,7 @@ use lukaszmakuch\Aggregator\Exception\UnableToAggregate;
  */
 class HierarchicalAggregator implements Aggregator
 {
-    private $levelAggregatorPrototype;
+    private $nodeAggregatorFactory;
     private $nodeAggregator;
     private $nodeReader;
     
@@ -39,15 +39,15 @@ class HierarchicalAggregator implements Aggregator
     /**
      * @param NodeReader $nodeReader reads the name of a node each subjet belongs to
      * @param Node $hierarchyDescription parent-children relationships of every possible node
-     * @param Aggregator $levelAggregatorPrototype its clones are used to aggregate subjects on every level
+     * @param NodeAggregatorFactory $naf
      */
     public function __construct(
         NodeReader $nodeReader,
         Node $hierarchyDescription,
-        Aggregator $levelAggregatorPrototype
+        NodeAggregatorFactory $naf
     ) {
         $this->nodeReader = $nodeReader;
-        $this->levelAggregatorPrototype = $levelAggregatorPrototype;
+        $this->nodeAggregatorFactory = $naf;
         $this->nodeAggregator = $this->buildAggregatorOfNodes($hierarchyDescription);
         $this->groupAggregatorsByPathEndpoint(
             $this->nodeAggregator->getNodeName(),
@@ -102,7 +102,7 @@ class HierarchicalAggregator implements Aggregator
             array_map(function (Node $childNode) {
                 return $this->buildAggregatorOfNodes($childNode);
             }, $hierarchyDescription->getChildren()),
-            clone $this->levelAggregatorPrototype
+            $this->nodeAggregatorFactory->buildAggregatorFor($hierarchyDescription)
         );
     }
     

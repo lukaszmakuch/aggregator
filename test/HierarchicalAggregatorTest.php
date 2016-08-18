@@ -13,10 +13,16 @@ use lukaszmakuch\Aggregator\AggregatorTest;
 use lukaszmakuch\Aggregator\Cat\Cat;
 use lukaszmakuch\Aggregator\Cat\ColorReader;
 use lukaszmakuch\Aggregator\Cat\NameReader;
+use lukaszmakuch\Aggregator\Exception\UnableToAggregate;
+use lukaszmakuch\Aggregator\Impl\Counter\Counter;
+use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\CloningFactory;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
+use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\LeafAwareFactory;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\Node;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
-use lukaszmakuch\Aggregator\Exception\UnableToAggregate;
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitorUser;
+use lukaszmakuch\Aggregator\XmlPresenter\Builder\DefaultXmlPresenterBuilder;
+use lukaszmakuch\Aggregator\XmlPresenter\Impl\FlatHierarchyPresenter;
 
 class HierarchicalAggregatorTest extends AggregatorTest
 {
@@ -40,11 +46,11 @@ class HierarchicalAggregatorTest extends AggregatorTest
                     ])
                 ])
             ]),
-            //aggregator used on each level
-            new ListAggregator(
+            //factory of aggregators used on each level
+            new CloningFactory(new ListAggregator(
                 new NameReader(),
                 ", "
-            )
+            ))
         );
     }
     
@@ -158,10 +164,10 @@ class HierarchicalAggregatorTest extends AggregatorTest
         $this->aggregator = new HierarchicalAggregator(
             new ColorReader(),
             new Node("black"),
-            new ListAggregator(
+            new CloningFactory(new ListAggregator(
                 new NameReader(),
                 ", "
-            )
+            ))
         );
         $this->cloneAggregator();
         $this->aggregator->aggregate(new Cat(['color' => 'black', 'name' => 'Jim']));
@@ -209,10 +215,10 @@ class HierarchicalAggregatorTest extends AggregatorTest
             new Node("blue", [
                 new Node("dark blue")
             ]),
-            new ListAggregator(
+            new CloningFactory(new ListAggregator(
                 new NameReader(),
                 ", "
-            )
+            ))
         );
         $this->cloneAggregator();
         $this->aggregator->aggregate(new Cat(['color' => 'blue', 'name' => 'Jim']));
@@ -240,6 +246,37 @@ class HierarchicalAggregatorTest extends AggregatorTest
             <hierarchy>
                 <node label="blue" parent_label="" depth="0">
                     <list>Jim, Tim</list>
+                </node>
+                <node label="dark blue" parent_label="blue" depth="1">
+                    <list>Tim</list>
+                </node>
+            </hierarchy>
+        ');
+    }
+    
+    public function testLeafAwareNodeAggregatorFactory()
+    {
+        $this->aggregator = new HierarchicalAggregator(
+            new ColorReader(),
+            new Node("blue", [
+                new Node("dark blue")
+            ]),
+            new LeafAwareFactory(
+                new Counter(),
+                new ListAggregator(
+                    new NameReader(),
+                    ", "
+                )
+            )
+        );
+        
+        $this->aggregator->aggregate(new Cat(['color' => 'blue', 'name' => 'Jim']));
+        $this->aggregator->aggregate(new Cat(['color' => 'dark blue', 'name' => 'Tim']));
+        
+        $this->assertFlatHierarchy('
+            <hierarchy>
+                <node label="blue" parent_label="" depth="0">
+                    <counter>2</counter>
                 </node>
                 <node label="dark blue" parent_label="blue" depth="1">
                     <list>Tim</list>
@@ -284,13 +321,13 @@ class HierarchicalAggregatorTest extends AggregatorTest
     private function changeHierarchyRendererToFlat()
     {
         $this->xmlPresenter =
-            (new XmlPresenter\Builder\DefaultXmlPresenterBuilder())
+            (new DefaultXmlPresenterBuilder())
             ->registerActualPresenter(
                 HierarchicalAggregator::class,
-                new XmlPresenter\Impl\FlatHierarchyPresenter()
+                new FlatHierarchyPresenter()
             )
             ->registerDependency(
-                LabelGenerator\LabelingVisitorUser::class,
+                LabelingVisitorUser::class,
                 $this->buildLabelGenerator()
             )
             ->build()
