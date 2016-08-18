@@ -22,18 +22,16 @@ use lukaszmakuch\Aggregator\PredicateAggregator;
 class PredicatePresenter extends PresenterTpl
 {
     private $tagName;
-    private $addLabel;
     
     /**
      *
      * @param String $tagName
      * @param boolean $addLabel if true, then a label attribute is added to the tag
      */
-    public function __construct($tagName, $addLabel = true)
+    public function __construct($tagName)
     {
         parent::__construct();
         $this->tagName = $tagName;
-        $this->addLabel = $addLabel;
     }
 
     protected function getClassOfSupportedAggregators()
@@ -48,11 +46,6 @@ class PredicatePresenter extends PresenterTpl
 
     protected function putDataHeldByAggregator(Aggregator $a, DOMElement $destination)
     {
-        /* @var $a PredicateAggregator */
-        if ($this->addLabel) {
-            $this->setLabelAttribute($destination, $a);
-        }
-        
         $destination->appendChild(new DOMText((int)$a->isTrue()));
     }
 }
