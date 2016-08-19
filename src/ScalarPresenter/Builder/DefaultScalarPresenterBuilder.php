@@ -17,6 +17,7 @@ use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithComm
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\NodeAggregator;
+use lukaszmakuch\Aggregator\Impl\Limit\Limit;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\Impl\Percentage\Percentage;
 use lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator;
@@ -32,6 +33,7 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Impl\FilterPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\GroupingAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchicalAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\HierarchyNodeAggregatorPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LimitPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\MoreThanPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\PercentagePresenter;
@@ -108,6 +110,11 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
                 Percentage::class,
                 new PercentagePresenter(),
                 "percentage"
+            ))
+            ->registerExtension(new ExtensionImpl(
+                Limit::class,
+                new LimitPresenter(),
+                "limit"
             ))
         ;
     }

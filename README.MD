@@ -52,6 +52,16 @@ There are few basic aggregators built-in
 
 Counts all given subjects.
 
+#### Limit
+*lukaszmakuch\Aggregator\Impl\Limit\Limit*
+
+Limits the number of aggregated subjects. It is visible for visitors.
+
+#### TransparentLimit
+*lukaszmakuch\Aggregator\Impl\Limit\TransparentLimit*
+
+Limits the number of aggregated subjects. It is invisible for visitors.
+
 #### Percentage
 *lukaszmakuch\Aggregator\Impl\Percentage\Percentage*
 

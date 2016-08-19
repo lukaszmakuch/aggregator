@@ -17,6 +17,7 @@ use lukaszmakuch\Aggregator\Impl\GroupingAggregator\AggregatorOfSubjectsWithComm
 use lukaszmakuch\Aggregator\Impl\GroupingAggregator\GroupingAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\HierarchicalAggregator;
 use lukaszmakuch\Aggregator\Impl\HierarchicalAggregator\NodeAggregator;
+use lukaszmakuch\Aggregator\Impl\Limit\Limit;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\Impl\Percentage\Percentage;
 use lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator;
@@ -28,6 +29,7 @@ use lukaszmakuch\Aggregator\LabelGenerator\FilterLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\GroupingAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\HierarchicalAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\HierarchyNodeAggregatorLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\LimitLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\MoreThanLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\PercentageLabelGenerator;
@@ -98,6 +100,10 @@ class DefaultLabelGeneratorBuilder implements LabelGeneratorBuilder
             ->registerLabelGeneratorPrototype(
                 Percentage::class,
                 new PercentageLabelGenerator()
+            )
+            ->registerLabelGeneratorPrototype(
+                Limit::class,
+                new LimitLabelGenerator()
             )
         ;
     }
