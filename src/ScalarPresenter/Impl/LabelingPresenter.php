@@ -11,6 +11,8 @@ namespace lukaszmakuch\Aggregator\ScalarPresenter\Impl;
 
 use lukaszmakuch\Aggregator\Aggregator;
 use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitorUser;
+use lukaszmakuch\Aggregator\LabelGenerator\NullLabelingVisitor;
 use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToConvert;
 use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToPresent;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
@@ -22,7 +24,7 @@ use lukaszmakuch\TextGenerator\TextGenerator;
  *
  * @author Łukasz Makuch <kontakt@lukaszmakuch.pl>
  */
-class LabelingPresenter implements ScalarPresenter
+class LabelingPresenter implements ScalarPresenter, LabelingVisitorUser
 {
     private $actualPresenter;
     private $labelingVisitor;
@@ -38,15 +40,19 @@ class LabelingPresenter implements ScalarPresenter
      */
     public function __construct(
         ScalarPresenter $actualPresenter,
-        LabelingVisitor $labelingVisitor,
         TextGenerator $aggregatorTextualTypeObtainer
     ) {
         $this->actualPresenter = $actualPresenter;
-        $this->labelingVisitor = $labelingVisitor;
+        $this->labelingVisitor = new NullLabelingVisitor();
         $this->aggregatorTextualTypeObtainer = $aggregatorTextualTypeObtainer;
     }
+    
+    public function setLabelingPresenter(LabelingVisitor $v)
+    {
+        $this->labelingVisitor = $v;
+    }
 
-    /**
+        /**
      * @param Aggregator $aggregator
      * @return array like
      * <pre>

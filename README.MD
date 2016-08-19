@@ -72,6 +72,11 @@ Calculates a percentage value of subjects that meet some requirement.
 
 Generates a list of text representations of subjects separated with some given delimiter.
 
+#### PropertyList
+*lukaszmakuch\Aggregator\Impl\PropertyList\PropertyList*
+
+List of properties of aggregated subjects. Uses a PropertyReader to read them.
+
 #### Filter
 *lukaszmakuch\Aggregator\Impl\Filter\Filter*
 
@@ -130,7 +135,10 @@ Generates a representation of the given aggregator as a scalar value or an array
 Because of the complex nature of possible aggregator composites, there's a builder that makes it easier to get a scalar presenter that fits your needs.
 ```php
 $presentingVisitor = (new DefaultScalarPresenterBuilder())
-    ->setLabelGenerator($labelGenerator)
+    ->registerDependency(
+        LabelingVisitorUser::class,
+        $labelingVisitor
+    )
     ->registerExtension(new ExtensionImpl(
         CustomAggregator::class,
         new CustomAggregatorPresenter(),

@@ -36,6 +36,7 @@ abstract class ScalarPresenterTpl implements ScalarPresenter
      *
      * @return mixed the given aggregator converted to a scalar or an array
      * of scalars
+     * @throws UnableToPresent
      */
     abstract protected function convertToScalarImpl(Aggregator $aggregator);
     

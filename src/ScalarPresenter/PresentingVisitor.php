@@ -39,7 +39,7 @@ class PresentingVisitor implements AggregatorVisitor
         try {
             return $this->scalarPresenter->convertToScalar($a);
         } catch (UnableToPresent $e) {
-            throw new UnableToPresentByVisitor();
+            throw new UnableToPresentByVisitor($e->getMessage());
         }
     }
 }

@@ -21,6 +21,7 @@ use lukaszmakuch\Aggregator\Impl\Limit\Limit;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\Impl\Percentage\Percentage;
 use lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator;
+use lukaszmakuch\Aggregator\Impl\PropertyList\PropertyList;
 use lukaszmakuch\Aggregator\LabelGenerator\AggregatorOfSubjectsWithCommonPropertiesLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\Builder\BareLabelGeneratorBuilder;
 use lukaszmakuch\Aggregator\LabelGenerator\Builder\LabelGeneratorBuilder;
@@ -34,6 +35,7 @@ use lukaszmakuch\Aggregator\LabelGenerator\ListAggregatorLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\MoreThanLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\PercentageLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ProjectionLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\PropertyListLabelGenerator;
 use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\TextGenerator\TextGenerator;
 
@@ -104,6 +106,10 @@ class DefaultLabelGeneratorBuilder implements LabelGeneratorBuilder
             ->registerLabelGeneratorPrototype(
                 Limit::class,
                 new LimitLabelGenerator()
+            )
+            ->registerLabelGeneratorPrototype(
+                PropertyList::class,
+                new PropertyListLabelGenerator()
             )
         ;
     }

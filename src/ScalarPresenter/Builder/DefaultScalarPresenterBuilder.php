@@ -38,6 +38,8 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\MoreThanPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\PercentagePresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ProjectionPresenter;
+use lukaszmakuch\Aggregator\Impl\PropertyList\PropertyList;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\PropertyListPresenter;
 
 /**
  * Adds support of built-in aggregators.
@@ -116,6 +118,11 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
                 new LimitPresenter(),
                 "limit"
             ))
+            ->registerExtension(new ExtensionImpl(
+                PropertyList::class,
+                new PropertyListPresenter(),
+                "properties"
+            ))
         ;
     }
 
@@ -124,10 +131,12 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
         $this->bareBuilder->registerExtension($ext);
         return $this;
     }
-
-    public function setLabelingVisitor(LabelingVisitor $labelGenerator)
-    {
-        $this->bareBuilder->setLabelingVisitor($labelGenerator);
+    
+    public function registerDependency(
+        $classOfDependentObjects,
+        $dependency
+    ) {
+        $this->bareBuilder->registerDependency($classOfDependentObjects, $dependency);
         return $this;
     }
 

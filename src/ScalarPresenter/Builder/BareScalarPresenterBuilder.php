@@ -9,16 +9,16 @@
 
 namespace lukaszmakuch\Aggregator\ScalarPresenter\Builder;
 
-use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
-use lukaszmakuch\Aggregator\LabelGenerator\NullLabelingVisitor;
-use lukaszmakuch\Aggregator\ScalarPresenter\Builder\Exception\UnableToBuild;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ScalarPresenterProxy;
 use lukaszmakuch\Aggregator\ScalarPresenter\PresentingVisitor;
+use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\ScalarPresenterUser;
-use lukaszmakuch\PropertySetter\Exception\UnableToSetProperty;
+use lukaszmakuch\Aggregator\XmlPresenter\XmlPresenter;
+use lukaszmakuch\PropertySetter\ChainOfPropertySetters;
 use lukaszmakuch\PropertySetter\SettingStrategy\CallOnlyMethodAsSetter;
-use lukaszmakuch\PropertySetter\SilentPropertySetter;
+use lukaszmakuch\PropertySetter\SilentChainOfPropertySetters;
+use lukaszmakuch\PropertySetter\SimpleChainOfPropertySetters;
 use lukaszmakuch\PropertySetter\SimplePropertySetter;
 use lukaszmakuch\PropertySetter\TargetSpecifier\PickByClass;
 use lukaszmakuch\PropertySetter\ValueSource\UseDirectly;
@@ -35,26 +35,18 @@ use lukaszmakuch\TextGenerator\ClassBasedTextGenerator;
 class BareScalarPresenterBuilder implements ScalarPresenterBuilder
 {
     /**
-     * @var LabelingVisitor
-     */
-    private $labelingVisitor;
-
-    /**
      * @var ClassBasedTextGenerator
      */
     private $aggregatorTextualTypeGenerator;
     
-    /**
-     * @var array like String (class of supported aggregators) => ScalarPresenter
-     */
-    private $presenterProtoByAggregatorClass = [];
+    private $dependenciesByClassOfDependentObject = [];
+    private $prototypesOfPresentsByClassOfSupportedAggregators = [];
     
     /**
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function __construct()
     {
-        $this->labelingVisitor = new NullLabelingVisitor();
         $this->aggregatorTextualTypeGenerator = new ClassBasedTextGenerator();
     }
 
@@ -64,13 +56,14 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
             $ext->getClassOfSupportedAggregators(),
             $ext->getPresenterTypeAsText()
         );
-        $this->presenterProtoByAggregatorClass[$ext->getClassOfSupportedAggregators()] = $ext->getScalarPresenter();
+        $this->prototypesOfPresentsByClassOfSupportedAggregators[$ext->getClassOfSupportedAggregators()] = $ext->getScalarPresenter();
         return $this;
     }
     
-    public function setLabelingVisitor(LabelingVisitor $labelingVisitor)
+    public function registerDependency($classOfDependentObjects, $dependency)
     {
-        $this->labelingVisitor = $labelingVisitor;
+        $this->dependenciesByClassOfDependentObject[$classOfDependentObjects] = $dependency;
+        return $this;
     }
 
     public function build()
@@ -78,27 +71,80 @@ class BareScalarPresenterBuilder implements ScalarPresenterBuilder
         $presenter = new ScalarPresenterProxy();
         $labeledPresenter = new LabelingPresenter(
             $presenter,
-            $this->labelingVisitor,
             $this->aggregatorTextualTypeGenerator
         );
-        $dependencySetter = new SilentPropertySetter(new SimplePropertySetter(
-            new PickByClass(ScalarPresenterUser::class),
-            new CallOnlyMethodAsSetter(ScalarPresenterUser::class),
-            new UseDirectly($labeledPresenter)
-        ));
-        try {
-            foreach ($this->presenterProtoByAggregatorClass as $supportedAggClass => $presenterPrototype) {
-                $actualPresenter = clone $presenterPrototype;
-                $dependencySetter->setPropertiesOf($actualPresenter);
-                $presenter->registerActualPresenter(
-                    $supportedAggClass,
-                    $actualPresenter
-                );
-            }
-            
-            return new PresentingVisitor($labeledPresenter);
-        } catch (UnableToSetProperty $e) {
-            throw new UnableToBuild();
+        
+        $dependencySetter = $this->buildDependencySetter();
+        $this->saveInDependencySetter(
+            $dependencySetter,
+            ScalarPresenterUser::class,
+            $labeledPresenter
+        );
+        $this->putRegisteredDependenciesInDependencySetter($dependencySetter);
+        
+        foreach ($this->prototypesOfPresentsByClassOfSupportedAggregators as $class => $presenterProto) {
+            $presenter->registerActualPresenter(
+                $class,
+                $this->buildPresenter($presenterProto, $dependencySetter)
+            );
         }
+
+        $dependencySetter->setPropertiesOf($labeledPresenter);
+        return new PresentingVisitor($labeledPresenter);
+    }
+    
+    
+    /**
+     * @return ChainOfPropertySetters
+     */
+    private function buildDependencySetter()
+    {
+        return new SilentChainOfPropertySetters(
+            new SimpleChainOfPropertySetters()
+        );
+    }
+    
+    /**
+     * @param ChainOfPropertySetters $ds
+     * @param String $classOfDependentObjects
+     * @param mixed $dependency
+     *
+     * @return null
+     */
+    private function saveInDependencySetter(
+        ChainOfPropertySetters $ds,
+        $classOfDependentObjects,
+        $dependency
+    ) {
+        $ds->add(new SimplePropertySetter(
+            new PickByClass($classOfDependentObjects),
+            new CallOnlyMethodAsSetter($classOfDependentObjects),
+            new UseDirectly($dependency)
+        ));
+    }
+    
+    /**
+     * Adds all what has been registered by calling the registerDependency method
+     * to the given ChainOfPropertySetters.
+     * @param ChainOfPropertySetters $ds
+     * @return null
+     */
+    private function putRegisteredDependenciesInDependencySetter(ChainOfPropertySetters $ds)
+    {
+        foreach ($this->dependenciesByClassOfDependentObject as $dependentClass => $dependency) {
+            $this->saveInDependencySetter($ds, $dependentClass, $dependency);
+        }
+    }
+    
+    /**
+     * @param ScalarPresenter $proto
+     * @param ChainOfPropertySetters $ds dependency setter
+     * @return XmlPresenter ready to use, with set dependencies
+     */
+    private function buildPresenter(ScalarPresenter $proto, ChainOfPropertySetters $ds)
+    {
+        $presenter = clone $proto;
+        $ds->setPropertiesOf($presenter);
+        return $presenter;
     }
 }

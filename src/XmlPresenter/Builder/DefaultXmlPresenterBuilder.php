@@ -34,6 +34,8 @@ use lukaszmakuch\Aggregator\XmlPresenter\Impl\PercentagePresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\ProjectionPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\Impl\SubjectsWithCommonPropertiesPresenter;
 use lukaszmakuch\Aggregator\XmlPresenter\XmlPresenter;
+use lukaszmakuch\Aggregator\Impl\PropertyList\PropertyList;
+use lukaszmakuch\Aggregator\XmlPresenter\Impl\PropertyListPresenter;
 
 /**
  * Builds a presenter that already supports all built-in aggregators.
@@ -99,6 +101,10 @@ class DefaultXmlPresenterBuilder implements XmlPresenterBuilder
             ->registerActualPresenter(
                 Limit::class,
                 new LimitPresenter()
+            )
+            ->registerActualPresenter(
+                PropertyList::class,
+                new PropertyListPresenter()
             )
         ;
     }

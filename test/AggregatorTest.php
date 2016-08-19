@@ -50,7 +50,7 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
     /**
      * @var ScalarPresenter\PresentingVisitor
      */
-    private $scalarPresentingVisitor;
+    protected $scalarPresentingVisitor;
     
     /**
      * @var XmlPresenter
@@ -60,11 +60,34 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->scalarPresentingVisitor = (new DefaultScalarPresenterBuilder())
-            ->setLabelingVisitor($this->buildLabelGenerator())
+            ->registerDependency(
+                LabelingVisitorUser::class,
+                $this->buildLabelGenerator()
+            )
+            ->registerDependency(
+                PropertyReaderToTextConverterUser::class,
+                $this->buildPropertyReaderToTextConverter()
+            )
+            ->registerDependency(
+                PropertyToTextConverterUser::class,
+                $this->buildPropertyToTextConverter()
+            )
             ->build();
         
         $this->xmlPresenter =
             (new DefaultXmlPresenterBuilder())
+            ->registerDependency(
+                LabelingVisitorUser::class,
+                $this->buildLabelGenerator()
+            )
+            ->registerDependency(
+                PropertyReaderToTextConverterUser::class,
+                $this->buildPropertyReaderToTextConverter()
+            )
+            ->registerDependency(
+                PropertyToTextConverterUser::class,
+                $this->buildPropertyToTextConverter()
+            )
             ->registerDependency(
                 LabelingVisitorUser::class,
                 $this->buildLabelGenerator()
@@ -130,51 +153,79 @@ abstract class AggregatorTest extends PHPUnit_Framework_TestCase
             $a->accept($this->scalarPresentingVisitor)
         );
     }
-
+    
     protected function buildLabelGenerator()
     {
-        $propertyReaderToTextConverter = new ClassBasedTextGenerator();
-        $propertyReaderToTextConverter->addTextualRepresentationOf(
-            AgeReader::class,
-            "age"
-        );
-
-        $propertyToTextConverter = new ClassBasedTextGeneratorProxy();
-        $propertyToTextConverter->registerActualGenerator(
-            Age::class,
-            new AgeToTextConverter()
-        );
-
-        $requirementToTextConverter = new ClassBasedTextGeneratorProxy();
-        $requirementToTextConverter->registerActualGenerator(
-            OlderThan::class,
-            new OlderThanRenderer()
-        );
-        
-        $subjectProjectorToTextConverter = new ClassBasedTextGenerator();
-        $subjectProjectorToTextConverter->addTextualRepresentationOf(
-            NameLetterByLetter::class,
-            "name-letter-by-letter"
-        );
-
         return (new DefaultLabelGeneratorBuilder())
             ->registerDependency(
                 PropertyReaderToTextConverterUser::class,
-                $propertyReaderToTextConverter
-            )
-            ->registerDependency(
-                RequirementToTextConverterUser::class,
-                $requirementToTextConverter
+                $this->buildPropertyReaderToTextConverter()
             )
             ->registerDependency(
                 PropertyToTextConverterUser::class,
-                $propertyToTextConverter
+                $this->buildPropertyToTextConverter()
+            )
+            ->registerDependency(
+                RequirementToTextConverterUser::class,
+                $this->buildRequirementToTextConverter()
             )
             ->registerDependency(
                 SubjectProjectorToTextConverterUser::class,
-                $subjectProjectorToTextConverter
+                $this->buildSubjectProjectorToTextConverter()
             )
             ->build()
         ;
+    }
+    
+    /**
+     * @return \lukaszmakuch\TextGenerator\TextGenerator
+     */
+    protected function buildPropertyReaderToTextConverter()
+    {
+        $c = new ClassBasedTextGenerator();
+        $c->addTextualRepresentationOf(
+            AgeReader::class,
+            "age"
+        );
+        return $c;
+    }
+    
+    /**
+     * @return \lukaszmakuch\TextGenerator\TextGenerator
+     */
+    protected function buildPropertyToTextConverter()
+    {
+        $c = new ClassBasedTextGeneratorProxy();
+        $c->registerActualGenerator(
+            Age::class,
+            new AgeToTextConverter()
+        );
+        return $c;
+    }
+    
+    /**
+     * @return \lukaszmakuch\TextGenerator\TextGenerator
+     */
+    protected function buildRequirementToTextConverter()
+    {
+        $c = new ClassBasedTextGeneratorProxy();
+        $c->registerActualGenerator(
+            OlderThan::class,
+            new OlderThanRenderer()
+        );
+        return $c;
+    }
+    
+    /**
+     * @return \lukaszmakuch\TextGenerator\TextGenerator
+     */
+    protected function buildSubjectProjectorToTextConverter()
+    {
+        $c = new ClassBasedTextGenerator();
+        $c->addTextualRepresentationOf(
+            NameLetterByLetter::class,
+            "name-letter-by-letter"
+        );
+        return $c;
     }
 }

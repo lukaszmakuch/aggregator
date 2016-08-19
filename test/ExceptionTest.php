@@ -9,10 +9,16 @@
 
 namespace lukaszmakuch\Aggregator;
 
+use lukaszmakuch\Aggregator\LabelGenerator\Builder\BareLabelGeneratorBuilder;
 use lukaszmakuch\Aggregator\LabelGenerator\Builder\DefaultLabelGeneratorBuilder;
 use lukaszmakuch\Aggregator\LabelGenerator\Exception\UnableToGenerateLabel;
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitorUser;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\DefaultScalarPresenterBuilder;
 use lukaszmakuch\Aggregator\ScalarPresenter\Exception\UnableToPresentByVisitor;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\LabelingPresenter;
+use lukaszmakuch\Aggregator\XmlPresenter\Builder\DefaultXmlPresenterBuilder;
+use lukaszmakuch\Aggregator\XmlPresenter\Exception\UnableToCreateXml;
+use lukaszmakuch\Aggregator\XmlPresenter\XmlPresenter;
 use PHPUnit_Framework_TestCase;
 
 class UnsupportedAggregator implements Aggregator
@@ -44,16 +50,19 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     private $scalarPresenter;
     
     /**
-     * @var XmlPresenter\XmlPresenter
+     * @var XmlPresenter
      */
     private $xmlPresenter;
     
     protected function setUp()
     {
         $this->scalarPresenter = (new DefaultScalarPresenterBuilder())
-            ->setLabelingVisitor((new DefaultLabelGeneratorBuilder())->build())
+            ->registerDependency(
+                LabelingVisitorUser::class,
+                (new DefaultLabelGeneratorBuilder())->build()
+            )
             ->build();
-        $this->xmlPresenter = (new XmlPresenter\Builder\DefaultXmlPresenterBuilder())->build();
+        $this->xmlPresenter = (new DefaultXmlPresenterBuilder())->build();
     }
     
     public function testUnableToVisitForScalar()
@@ -70,13 +79,13 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     
     public function testUnableToVisitForXml()
     {
-        $this->setExpectedExceptionRegExp(XmlPresenter\Exception\UnableToCreateXml::class);
+        $this->setExpectedExceptionRegExp(UnableToCreateXml::class);
         $this->xmlPresenter->visit(new UnsupportedAggregator());
     }
     
     public function testUnableToAcceptForXml()
     {
-        $this->setExpectedExceptionRegExp(XmlPresenter\Exception\UnableToCreateXml::class);
+        $this->setExpectedExceptionRegExp(UnableToCreateXml::class);
         (new UnsupportedAggregator())->accept($this->xmlPresenter);
     }
 
@@ -93,10 +102,10 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * @return ScalarPresenter\Impl\LabelingPresenter
+     * @return LabelingPresenter
      */
     private function buildLabelGenerator()
     {
-        return (new LabelGenerator\Builder\BareLabelGeneratorBuilder())->build();
+        return (new BareLabelGeneratorBuilder())->build();
     }
 }
