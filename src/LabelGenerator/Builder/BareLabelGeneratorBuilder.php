@@ -9,8 +9,8 @@
 
 namespace lukaszmakuch\Aggregator\LabelGenerator\Builder;
 
+use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitorUser;
 use lukaszmakuch\Aggregator\LabelGenerator\TextGeneratorBasedLabelingVisitor;
-use lukaszmakuch\PropertySetter\PropertySetter;
 use lukaszmakuch\PropertySetter\SettingStrategy\CallOnlyMethodAsSetter;
 use lukaszmakuch\PropertySetter\SilentChainOfPropertySetters;
 use lukaszmakuch\PropertySetter\SimpleChainOfPropertySetters;
@@ -38,16 +38,9 @@ class BareLabelGeneratorBuilder implements LabelGeneratorBuilder
     private $genProtoByClassOfSupportedAgg = [];
     
     /**
-     * @var PropertySetter
+     * @var array like [String (class of of dependent object) => mixed some dependency]
      */
-    private $dependencySetter;
-    
-    public function __construct()
-    {
-        $this->dependencySetter = new SilentChainOfPropertySetters(
-            new SimpleChainOfPropertySetters()
-        );
-    }
+    private $dependencyByDependentClass = [];
     
     public function registerLabelGeneratorPrototype(
         $classOfSupportedAggregators,
@@ -61,26 +54,38 @@ class BareLabelGeneratorBuilder implements LabelGeneratorBuilder
         $classOfDependentLabelGenerator,
         $dependency
     ) {
-        $this->dependencySetter->add(new SimplePropertySetter(
-            new PickByClass($classOfDependentLabelGenerator),
-            new CallOnlyMethodAsSetter($classOfDependentLabelGenerator),
-            new UseDirectly($dependency)
-        ));
+        $this->dependencyByDependentClass[$classOfDependentLabelGenerator] = $dependency;
         return $this;
     }
 
     public function build()
     {
-        $labelGenerator = new ClassBasedTextGeneratorProxy();
+        $dispatcher = new ClassBasedTextGeneratorProxy();
+        $labelingVisitor = new TextGeneratorBasedLabelingVisitor($dispatcher);
+        
+        $dependencySetter = new SilentChainOfPropertySetters(new SimpleChainOfPropertySetters());
+        $dependencySetter->add(new SimplePropertySetter(
+            new PickByClass(LabelingVisitorUser::class),
+            new CallOnlyMethodAsSetter(LabelingVisitorUser::class),
+            new UseDirectly($labelingVisitor)
+        ));
+        foreach ($this->dependencyByDependentClass as $c => $d) {
+            $dependencySetter->add(new SimplePropertySetter(
+                new PickByClass($c),
+                new CallOnlyMethodAsSetter($c),
+                new UseDirectly($d)
+            ));
+        }
+        
         foreach ($this->genProtoByClassOfSupportedAgg as $supportedAggClass => $genProto) {
             $actualGenerator = clone $genProto;
-            $this->dependencySetter->setPropertiesOf($actualGenerator);
-            $labelGenerator->registerActualGenerator(
+            $dependencySetter->setPropertiesOf($actualGenerator);
+            $dispatcher->registerActualGenerator(
                 $supportedAggClass,
                 $actualGenerator
             );
         }
 
-        return new TextGeneratorBasedLabelingVisitor($labelGenerator);
+        return $labelingVisitor;
     }
 }

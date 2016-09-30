@@ -56,7 +56,7 @@ class PercentageTest extends AggregatorTest
         ]);
     }
 
-    public function testCalculatingper()
+    public function testCalculation()
     {
         $this->aggregator->aggregate(new Cat(['age' => 5]));
         $this->aggregator->aggregate(new Cat(['age' => 2]));

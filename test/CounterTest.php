@@ -24,6 +24,7 @@ class CounterTest extends AggregatorTest
         parent::setUp();
         $this->aggregator = new Counter();
     }
+    
     public function testZeroIfNothingPassed()
     {
         $this->assertAggregationResult([

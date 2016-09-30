@@ -21,7 +21,8 @@ use lukaszmakuch\Aggregator\Impl\Limit\Limit;
 use lukaszmakuch\Aggregator\Impl\ListAggregator\ListAggregator;
 use lukaszmakuch\Aggregator\Impl\Percentage\Percentage;
 use lukaszmakuch\Aggregator\Impl\Projection\ProjectionAggregator;
-use lukaszmakuch\Aggregator\LabelGenerator\LabelingVisitor;
+use lukaszmakuch\Aggregator\Impl\PropertyList\PropertyList;
+use lukaszmakuch\Aggregator\LabelGenerator\WithCustomLabel;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\BareScalarPresenterBuilder;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ExtensionImpl;
 use lukaszmakuch\Aggregator\ScalarPresenter\Builder\ScalarPresenterBuilder;
@@ -38,8 +39,8 @@ use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ListAggregatorPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\MoreThanPresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\PercentagePresenter;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\ProjectionPresenter;
-use lukaszmakuch\Aggregator\Impl\PropertyList\PropertyList;
 use lukaszmakuch\Aggregator\ScalarPresenter\Impl\PropertyListPresenter;
+use lukaszmakuch\Aggregator\ScalarPresenter\Impl\WithCustomLabelPresenter;
 
 /**
  * Adds support of built-in aggregators.
@@ -122,6 +123,11 @@ class DefaultScalarPresenterBuilder implements ScalarPresenterBuilder
                 PropertyList::class,
                 new PropertyListPresenter(),
                 "properties"
+            ))
+            ->registerExtension(new ExtensionImpl(
+                WithCustomLabel::class,
+                new WithCustomLabelPresenter(),
+                "with_custom_label"
             ))
         ;
     }

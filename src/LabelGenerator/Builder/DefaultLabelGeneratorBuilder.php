@@ -36,6 +36,8 @@ use lukaszmakuch\Aggregator\LabelGenerator\MoreThanLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\PercentageLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\ProjectionLabelGenerator;
 use lukaszmakuch\Aggregator\LabelGenerator\PropertyListLabelGenerator;
+use lukaszmakuch\Aggregator\LabelGenerator\WithCustomLabel;
+use lukaszmakuch\Aggregator\LabelGenerator\WithCustomLabelLabelGenerator;
 use lukaszmakuch\TextGenerator\NULLTextGenerator;
 use lukaszmakuch\TextGenerator\TextGenerator;
 
@@ -111,7 +113,10 @@ class DefaultLabelGeneratorBuilder implements LabelGeneratorBuilder
                 PropertyList::class,
                 new PropertyListLabelGenerator()
             )
-        ;
+            ->registerLabelGeneratorPrototype(
+                WithCustomLabel::class, 
+                new WithCustomLabelLabelGenerator()
+            );
     }
 
     public function registerDependency($classOfDependentLabelGenerator, $dependency)

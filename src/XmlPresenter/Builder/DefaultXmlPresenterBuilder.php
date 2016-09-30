@@ -59,6 +59,10 @@ class DefaultXmlPresenterBuilder implements XmlPresenterBuilder
                 new CounterPresenter()
             )
             ->registerActualPresenter(
+                \lukaszmakuch\Aggregator\LabelGenerator\WithCustomLabel::class,
+                new \lukaszmakuch\Aggregator\XmlPresenter\Impl\WithCustomLabelPresenter()
+            )
+            ->registerActualPresenter(
                 ListAggregator::class,
                 new ListPresenter()
             )
